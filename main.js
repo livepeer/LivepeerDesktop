@@ -11,6 +11,8 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+global.sharedObj = {ffmpegProc: null};
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({

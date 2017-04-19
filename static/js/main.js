@@ -5,6 +5,7 @@
 'use strict';
 
 var electron = require('electron');
+var remote = electron.remote;
 var shell = require('shelljs');
 var request = require('request');
 var dialog = electron.remote.dialog;
@@ -41,7 +42,7 @@ function start() {
       then(gotStream).catch(handleError);
 
 
-  var broadcastProc;
+  // var broadcastProc;
   broadcastButton.addEventListener('click', function() {
     if (!shell.which('ffmpeg')) {
         shell.echo('Sorry, this script requires ffmpeg');
@@ -58,7 +59,9 @@ function start() {
       var strmID = JSON.parse(body)["streamID"]
       var ffmpegCmd = "ffmpeg -f avfoundation -framerate 30 -pixel_format uyvy422 -i \"0:0\" -vcodec libx264 -tune zerolatency -b 900k -x264-params keyint=60:min-keyint=60 -f flv rtmp://localhost:"+rtmpPort+"/stream/"+strmID;
 
-      broadcastProc = shell.exec(ffmpegCmd, {async:true});
+      var broadcastProc = shell.exec(ffmpegCmd, {async:true});
+      console.log(broadcastProc);
+      remote.getGlobal('sharedObj').ffmpegProc = broadcastProc;
       broadcastProc.stdout.on('data', function(data) {
         console.log("Data---");
         console.log(data);
@@ -70,19 +73,24 @@ function start() {
         console.log(data);
         return;
       })
+
+      refreshButtons();
     });
 
-    broadcastButton.style.display="none";
-    stopButton.style.display="";
     setTimeout(refreshLocalStreams, 2000);
   })
 
   stopButton.addEventListener('click', function() {
-    broadcastProc.kill('SIGINT');
+    var ffmpegProc = remote.getGlobal('sharedObj').ffmpegProc;
+    if (ffmpegProc == null) {
+      dialog.showMessageBox({ message: "Cannot find FFMpeg broadcasting process", buttons: ["OK"] });
+    } else {
+      console.log(ffmpegProc);
+      process.kill(ffmpegProc.pid, 'SIGINT');
+      remote.getGlobal('sharedObj').ffmpegProc = null;
+    }
+    refreshButtons();
     setTimeout(refreshLocalStreams, 1500);
-
-    broadcastButton.style.display="";
-    stopButton.style.display="none";
   })
 
   refreshButton.addEventListener('click', function() {
@@ -98,6 +106,16 @@ function handleError(error) {
   console.log('navigator.getUserMedia error: ', error);
 }
 
+function refreshButtons() {
+  if (remote.getGlobal('sharedObj').ffmpegProc == null) {
+    broadcastButton.style.display="";
+    stopButton.style.display="none";
+  } else {
+    broadcastButton.style.display="none";
+    stopButton.style.display="";
+  }
+}
+
 function refreshLocalStreams() {
   while (streamsList.firstChild) {
       streamsList.removeChild(streamsList.firstChild);
@@ -111,6 +129,7 @@ function refreshLocalStreams() {
     }
 
     var streams = JSON.parse(body);
+    streams.splice(0, 0, {"source": "local", "streamID":"camera", "format":""});
     // console.log(streams);
     streams.forEach(function(s, i) {
       var li = document.createElement("li");
@@ -125,7 +144,7 @@ function refreshLocalStreams() {
       var img = document.createElement("img");
       if (s["format"] == "rtmp") {
         img.setAttribute("src", "static/img/rtmp.png");
-      } else {
+      } else if (s["format"] == "hls") {
         img.setAttribute("src", "static/img/hls.png");
       }
       imgSp.appendChild(img)
