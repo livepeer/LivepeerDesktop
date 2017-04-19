@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+  * Livepeer Main Page
+-->
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description" content="Livepeer">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta itemprop="description" content="Livepeer Main">
+  <meta itemprop="name" content="WebRTC code samples">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta id="theme-color" name="theme-color" content="#ffffff">
+
+  <base target="_blank">
+
+  <title>Livepeer</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="static/css/main.css">
+
+  <style>
+    div.select {
+      display: inline-block;
+      margin: 0 0 1em 0;
+    }
+    p.small {
+      font-size: 0.7em;
+    }
+    label {
+      width: 12em;
+      display: inline-block;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <p style="width:60px; float:left">Streams</p>
+          <span id="refresh" class="glyphicon glyphicon-refresh" style="margin-top:2px; float:left"></span>
+        </div>
+        <!-- <button id="refresh" type="button" class="btn btn-default">Refresh</button> -->
+
+        <ul id="streams" class="list-group"><li class="list-group-item"><span class="streamSource">Local</span><span class="imgWrap"><img src="static/img/hls.png"></span><p class="small">7df934b5d545829ffcd7e70d5fdde1a796466be0cabc0fbdc52a48ebee418331a69c6845ef00db946b80a99d2f48b4aed5ad7fe76dd25d21f4b987c70a9e6be1_48</p></li></ul>
+      </div>
+
+      <div class="col-sm-8">
+
+        <p>Livepeer</p>
+        <button id="broadcast" type="button" class="btn btn-primary">Broadcast</button>
+        <button id="stop" type="button" class="btn btn-danger" style="display:none">STOP</button>
+        <video id="video" style="margin-top: 20px" autoplay></video>
+
+        <p class="small"><b>Note:</b> If you hear a reverb sound your microphone is picking up the output of your speakers/headset, lower the volume and/or move the microphone further away from your speakers/headset.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="static/js/main.js"></script>
+
+</body>
+</html>
