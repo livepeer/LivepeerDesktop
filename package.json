@@ -1,21 +1,17 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "LivepeerDesktop",
+  "version": "0.0.1",
+  "description": "Livepeer Desktop App",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/livepeer/LivepeerDesktop",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Live Streaming",
+    "Blockchain"
   ],
   "author": "GitHub",
-  "license": "CC0-1.0",
   "dependencies": {
     "shelljs": "~0.7.7"
   },
