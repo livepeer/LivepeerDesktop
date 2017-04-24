@@ -10,39 +10,57 @@ var shell = require('shelljs');
 var request = require('request');
 var dialog = electron.remote.dialog;
 
-
-var videoElement = document.querySelector('video');
+var videoElement;
 var refreshButton = document.querySelector('span#refresh');
 var broadcastButton = document.querySelector('button#broadcast');
 var stopButton = document.querySelector('button#stop');
-var streamsList = document.querySelector('ul#streams');
-var rtmpPort = "1936"
-var httpPort = "8936"
+var streamsList = document.querySelector('div#streams');
+var rtmpPort = "1935";
+var httpPort = "8935";
+var activeVideo = getURLParam("src", "local");
+var hls;
+
+function getURLParam(sParam, defaultValue) {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++) {
+    var sParameterName = sURLVariables[i].split('=');
+    if (sParameterName[0] == sParam) {
+      return "undefined" == sParameterName[1] ? undefined : "false" == sParameterName[1] ? false : sParameterName[1];
+    }
+  }
+  return defaultValue;
+}
 
 function gotStream(stream) {
   window.stream = stream; // make stream available to console
+  var videoElement = document.querySelector('video');
   videoElement.srcObject = stream;
   // Refresh button list in case labels have become available
   return navigator.mediaDevices.enumerateDevices();
 }
 
 function start() {
-  if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
-      track.stop();
+  $("span#add").click(function() {
+    $("#new-stream-div").toggle();
+  });
+
+  $("button#new-stream-button").click(function() {
+    var strmID = $("input#new-stream-id").val();
+    // console.log("New stream: " + strmID);
+    request("http://localhost:"+httpPort+"/stream/"+strmID+".m3u8", function(err, res, body) {
+      if (err != null) {
+        console.log(err)
+        dialog.showMessageBox({ message: "Having problem connecting to Livepeer.  Make sure your local node is running.", buttons: ["OK"] });
+        return;
+      }
+      // console.log(body);
     });
-  }
 
-  var constraints = {
-    audio: true,
-    video: true
-  }
+    
+    setTimeout(refreshLocalStreams, 3000);
+  });
 
-  navigator.mediaDevices.getUserMedia(constraints).
-      then(gotStream).catch(handleError);
-
-
-  // var broadcastProc;
   broadcastButton.addEventListener('click', function() {
     if (!shell.which('ffmpeg')) {
         shell.echo('Sorry, this script requires ffmpeg');
@@ -69,8 +87,8 @@ function start() {
       });
 
       broadcastProc.stderr.on('data', function(data) {
-        console.log("Error!!!");
-        console.log(data);
+        // console.log("Error!!!");
+        // console.log(data);
         return;
       })
 
@@ -94,33 +112,38 @@ function start() {
   })
 
   refreshButton.addEventListener('click', function() {
+    remote.getCurrentWindow().reload();
+
     refreshLocalStreams();
   })
 
   refreshLocalStreams();
+  refreshButtons();
+  loadVideo();
 }
 
-start();
 
 function handleError(error) {
   console.log('navigator.getUserMedia error: ', error);
 }
 
 function refreshButtons() {
-  if (remote.getGlobal('sharedObj').ffmpegProc == null) {
-    broadcastButton.style.display="";
-    stopButton.style.display="none";
+  if (activeVideo == 'local') {
+    if (remote.getGlobal('sharedObj').ffmpegProc == null) {
+      broadcastButton.style.display="";
+      stopButton.style.display="none";
+    } else {
+      broadcastButton.style.display="none";
+      stopButton.style.display="";
+    }
   } else {
     broadcastButton.style.display="none";
-    stopButton.style.display="";
+    stopButton.style.display="none";
   }
 }
 
 function refreshLocalStreams() {
-  while (streamsList.firstChild) {
-      streamsList.removeChild(streamsList.firstChild);
-  }
-
+  console.log("refreshing local streams");
   request("http://localhost:"+httpPort+"/localStreams", function(err, res, body) {
     if (err != null) {
       console.log(err)
@@ -128,39 +151,136 @@ function refreshLocalStreams() {
       return;
     }
 
+    while (streamsList.firstChild) {
+        streamsList.removeChild(streamsList.firstChild);
+    }
+
     var streams = JSON.parse(body);
-    streams.splice(0, 0, {"source": "local", "streamID":"camera", "format":""});
+    streams.splice(0, 0, {"source": "local", "streamID":"local", "format":"local"});
+    streams.splice(0, 0, {"source": "remote (big bunny)", "streamID":"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8", "format":"hls"});
     // console.log(streams);
     streams.forEach(function(s, i) {
-      var li = document.createElement("li");
-      li.className = "list-group-item";
-
-      var sp = document.createElement("span");
-      sp.className = "streamSource";
-      sp.appendChild(document.createTextNode(s["source"]))
-
-      var imgSp = document.createElement("span");
-      imgSp.className = "imgWrap";
-      var img = document.createElement("img");
+      var li;
       if (s["format"] == "rtmp") {
-        img.setAttribute("src", "static/img/rtmp.png");
-      } else if (s["format"] == "hls") {
-        img.setAttribute("src", "static/img/hls.png");
+        li = '<button class="list-group-item list-group-item-action disabled"><div><span class="streamSource" style="margin-left:0">${source}</span><span class="imgWrap"><img src="static/img/${format}.png"></span></div><p class="small">${streamID}</p></button>'
+        li = li.replace("${source}", s["source"]);
+        li = li.replace("${format}", s["format"]);
+        li = li.replace("${streamID}", s["streamID"]);
+      } else {
+        if (activeVideo == s["streamID"]) {
+          li = '<button class="list-group-item list-group-item-action active" onclick="streamClicked(this)"><div><span class="streamSource" style="margin-left:0">${source}</span><span class="imgWrap"><img src="static/img/${format}.png"></span></div><p class="small">${streamID}</p></button>'
+        } else {
+          li = '<button class="list-group-item list-group-item-action" onclick="streamClicked(this)"><div><span class="streamSource" style="margin-left:0">${source}</span><span class="imgWrap"><img src="static/img/${format}.png"></span></div><p class="small">${streamID}</p></button>'
+        }
+        li = li.replace("${source}", s["source"]);
+        li = li.replace("${format}", s["format"]);
+        li = li.replace("${streamID}", s["streamID"]);
       }
-      imgSp.appendChild(img)
+      // console.log("li:" + li);
 
-      var p = document.createElement("p");
-      p.className="small";
-      p.appendChild(document.createTextNode(s["streamID"]));
-
-      li.appendChild(sp);
-      li.appendChild(imgSp);
-      li.appendChild(p);
-
-      // var item = "<li class=\"list-group-item\">"+s["streamID"]+"</li>";
-      streamsList.appendChild(li);
-    })
+      $("div#streams").append(li);
+    });
   });
-
-
 }
+
+function loadVideo() {
+  if (window.stream) {
+    window.stream.getTracks().forEach(function(track) {
+      track.stop();
+    });
+  }
+
+  // if (remote.getGlobal('sharedObj').activeVideo == 'local') { //Load local camera stream
+  if (activeVideo == 'local') { //Load local camera stream
+    console.log("loading local video"); 
+    var constraints = {
+      audio: true,
+      video: true
+    }
+
+    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
+
+  // } else if (remote.getGlobal('sharedObj').activeVideo != null) { //Load hls stream
+  } else if (activeVideo != null) { //Load hls stream
+    if (Hls.isSupported()) {
+
+      if (hls) {
+        console.log("destroying hls");
+        hls.destroy();
+        if(hls.bufferTimer) {
+          clearInterval(hls.bufferTimer);
+          hls.bufferTimer = undefined;
+        }
+        hls = null;
+      }
+
+      videoElement = document.getElementById('video');
+      // console.log("found livepeerVideo div");
+
+      if (!hls) {
+        console.log("creating hls");
+        hls = new Hls({debug:false, enableWorker : true});
+      }
+
+
+      var videoURL = 'http://localhost:' + httpPort + '/stream/' + activeVideo + '.m3u8';
+      if (activeVideo == "http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8") {
+        videoURL = "http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8";
+      }
+
+      console.log("loading video: " + videoURL);
+      hls.loadSource(videoURL);
+      hls.attachMedia(videoElement);
+      hls.on(Hls.Events.MEDIA_DETACHED,function() {
+        console.log("media detached");
+      });      
+      hls.on(Hls.Events.MANIFEST_PARSED,function() {
+        console.log("playing video");
+        videoElement.play();
+      });
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        var errorType = data.type;
+        var errorDetails = data.details;
+        var errorFatal = data.fatal;
+        console.log("HLS Error: " + errorType + ", " + errorDetails + ", " + errorFatal);
+
+        if (data.fatal) {
+          switch(data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+          // try to recover network error
+            console.log("fatal network error encountered, try to recover");
+            hls.startLoad();
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            console.log("fatal media error encountered, try to recover");
+            hls.recoverMediaError();
+            break;
+          default:
+          // cannot recover
+            hls.destroy();
+            break;
+          }
+        }
+      });
+
+    } else {
+      dialog.showMessageBox({ message: "HLS is not supported.  This is likely an error in Livepeer.", buttons: ["OK"] });
+    }
+  } else {
+      dialog.showMessageBox({ message: "No stream id is loaded.", buttons: ["OK"] });
+  }
+}
+
+function streamClicked(button) {
+  var strmID = $(button).find("p.small").text();
+  console.log("streamClicked:" + strmID);
+  window.location.href="index.html?src="+strmID
+  // if (remote.getGlobal('sharedObj').activeVideo != strmID) {
+  //   remote.getGlobal('sharedObj').activeVideo = strmID;
+  //   refreshLocalStreams();
+  //   loadVideo();
+  //   refreshButtons();
+  // } 
+}
+
+start();
