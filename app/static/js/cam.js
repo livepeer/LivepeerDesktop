@@ -69,17 +69,7 @@ function webcamPrep(){
 }
 
 function playVideo(){
-
     videoIndex = videoIndex % videoSourceLength;
-    // console.log('current video source :',videoSource[videoIndex]);
-    // const constraints = {
-    //     audio: false,
-    //     video: {
-    //         mandatory: {
-    //             sourceId:videoSource[videoIndex].id
-    //         }
-    //     }
-    // }
 
     var constraints = {
       audio: true,
@@ -131,12 +121,6 @@ function gotStream(stream) {
 }
 
 function stopBroadcastProc() {
-    // var ffmpegProc = remote.getGlobal('sharedObj').ffmpegProc;
-    // if (ffmpegProc != null) {
-    //   console.log(ffmpegProc);
-    //   process.kill(ffmpegProc.pid, 'SIGINT');
-    //   remote.getGlobal('sharedObj').ffmpegProc = null;
-    // }
     ipcRenderer.send('stopFFMpeg', '');
 }
 
@@ -188,9 +172,15 @@ function start() {
     refreshButtons();
   })
 
-  // loadCamVideo();
   webcamPrep();
-  // playVideo();
+
+  setInterval(
+    function() {
+        request("http://localhost:"+httpPort+"/peersCount", function(err, res, body) {
+            var count = JSON.parse(body)["count"]
+            $("#peers-count").text("Peers: " + count);
+        })
+    }, 3000);
 }
 
 start();

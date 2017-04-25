@@ -55,6 +55,10 @@
       opacity: 1;
     }
 
+    #peers-count {
+      float:right;
+      margin-top: -75px
+    }
   </style>
 
 
@@ -64,6 +68,7 @@
   <div class="container">
     <div class="row">
       <p><h1 class="text-center">Livepeer</h1></p>
+      <h1 id="peers-count">Peers: 0</h1>
 
       <div class="col-sm-6" onclick="window.location.href='cam.html'">
         <div class="centered">
@@ -85,5 +90,8 @@
       </div>
     </div>
   </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  <script src="static/js/index.js"></script>
 </body>
 </html>

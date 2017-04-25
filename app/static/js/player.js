@@ -22,12 +22,17 @@ function start() {
         dialog.showMessageBox({ message: "Having problem connecting to Livepeer.  Make sure your local node is running.", buttons: ["OK"] });
         return;
       }
-      // console.log(body);
       loadNetworkVideo(strmID);
     });
-
-    // setTimeout(refreshLocalStreams, 3000);
   });
+
+  setInterval(
+    function() {
+        request("http://localhost:"+httpPort+"/peersCount", function(err, res, body) {
+            var count = JSON.parse(body)["count"]
+            $("#peers-count").text("Peers: " + count);
+        })
+    }, 3000);
 }
 
 function loadNetworkVideo(activeVideo) {
