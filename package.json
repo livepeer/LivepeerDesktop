@@ -2,20 +2,33 @@
   "name": "LivepeerDesktop",
   "version": "0.0.1",
   "description": "Livepeer Desktop App",
-  "main": "main.js",
   "scripts": {
-    "start": "electron ."
-  },
-  "repository": "https://github.com/livepeer/LivepeerDesktop",
-  "keywords": [
-    "Live Streaming",
-    "Blockchain"
-  ],
-  "author": "GitHub",
-  "dependencies": {
-    "shelljs": "~0.7.7"
+    "postinstall": "install-app-deps",
+    "start": "electron ./app --enable-logging",
+    "dev": "NODE_ENV='development' npm run start",
+    "dist": "build"
+  },  
+  "main": "./app/main.js",
+  "build": {
+    "appId": "org.livepeer.desktop",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
   },
   "devDependencies": {
-    "electron": "~1.6.2"
+    "electron": "~1.3.15",
+    "electron-builder": "^17.1.1",
+    "electron-prebuilt": "~1.3.15"
   }
 }

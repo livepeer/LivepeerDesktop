@@ -1,0 +1,280 @@
+16:29:22:0058 Starting Livepeer
+16:29:22:0238 Found the account 0xeb625f590892c42ee626677fe5ff053cffc98b9e
+Unlocking swarm account 0xeb625f590892c42ee626677fe5ff053cffc98b9e [1/3]
+!! Unsupported terminal, password will be echoed.
+Passphrase: 
+
+16:29:24:0219 ERROR: logging before flag.Parse: I0425 16:29:24.217899   15127 config.go:65] Config: RTMP Port: 1935
+
+16:29:24:0220 I0425 16:29:24.220069 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/node/node.go:176] instance: livepeer/v1.5.6-unstable/darwin/go1.8.1
+
+16:29:24:0229 I0425 16:29:24.229033 github.com/livepeer/go-livepeer/livepeer/streaming/streamer.go:210] Setting up new streamer with self address: 8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f
+
+16:29:24:0241 I0425 16:29:24.241189 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/p2p/server.go:340] Starting Server
+
+16:29:26:0354 I0425 16:29:26.354574 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/p2p/discover/udp.go:227] Listening, enode://5954d649151b2c6d531d167d814b1913e48c693aee8597cc06b75c0c55a438f3a7b8be85ddc1357084541805dfde251c3a34046a0eed41b34ec6dfc908d7244c@[::]:30399
+
+16:29:26:0355 I0425 16:29:26.355059 github.com/livepeer/go-livepeer/livepeer/livepeer.go:199] Starting Swarm service
+
+16:29:26:0355 I0425 16:29:26.355229 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/p2p/server.go:608] Listening on [::]:30399
+
+16:29:26:0356 I0425 16:29:26.356167 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/swarm/network/kademlia/kaddb.go:341] loaded kaddb with 2 nodes from /Users/erictang/Library/Ethereum/livepeernet/livepeer/bzz-eb625f590892c42ee626677fe5ff053cffc98b9e/bzz-peers.json
+
+16:29:26:0356 I0425 16:29:26.356195 github.com/livepeer/go-livepeer/livepeer/livepeer.go:205] Swarm network started on bzz address: 8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f
+I0425 16:29:26.356337 github.com/livepeer/go-livepeer/livepeer/livepeer.go:216] Livepeer.go: RTMPport: 1935
+
+16:29:26:0357 I0425 16:29:26.356720 github.com/livepeer/go-livepeer/livepeer/api/http/server.go:88] Swarm HTTP proxy started on localhost::8500
+
+16:29:26:0357 ERROR: logging before flag.Parse: I0425 16:29:26.357222   15127 lpms.go:55] Starting HTTP Server at :8935
+
+16:29:26:0358 Serving static files from:  &{static}
+
+16:29:26:0360 ERROR: logging before flag.Parse: I0425 16:29:26.357739   15127 lpms.go:51] Starting LPMS Server at ::1935
+
+16:29:26:0361 I0425 16:29:26.361014 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/node/node.go:341] IPC endpoint opened: /Users/erictang/Library/Ethereum/livepeernet/bzzd.ipc
+
+16:29:26:0447 I0425 16:29:26.446905 github.com/livepeer/go-livepeer/livepeer/network/protocol.go:624] Peer 75d1eef8 is capable (0/326326)
+
+16:29:26:0447 adding new peer:  enode://5639b23de156e605eac5e169a44917767d3776f938a96bbdd0e26ef40235bc23b9c219d55ec3bbe84b4461659142e2f991fd994847ecb5179ca2c53db864ec0e@52.14.16.38:30399?discport=0
+
+16:29:26:0448 I0425 16:29:26.447049 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/swarm/network/kademlia/kademlia.go:120] =========================================================================
+Tue Apr 25 20:29:26 UTC 2017 KΛÐΞMLIΛ hive: queen's address: 8d30dd
+population: 0 (2), proxLimit: 0, proxSize: 0
+MaxProx: 8, ProxBinSize: 2, BucketSize: 4
+============ PROX LIMIT: 0 ==========================================
+000  0                             |  2  0 75d1ee 163931
+001  0                             |  0  0
+002  0                             |  0  0
+003  0                             |  0  0
+004  0                             |  0  0
+005  0                             |  0  0
+006  0                             |  0  0
+007  0                             |  0  0
+008  0                             |  0  0
+=========================================================================
+I0425 16:29:26.447657 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/swarm/network/kademlia/kaddb.go:96] found record <75d1eef89246adb0ae0bc6a8970d54c4461e3e0da636fb8510f971da41c52330> in kaddb
+I0425 16:29:26.447681 github.com/livepeer/go-livepeer/livepeer/network/protocol.go:624] Peer 16393158 is capable (0/326326)
+
+16:29:26:0448 adding new peer:  enode://fb4c232eb8ed424d513b3a9df229fe003629420f62041381ff5b560c0b69ad4e4c977cc475391295217a7e4b324d8303922989aa699956201f79412ec38247f0@52.14.103.190:30399?discport=0
+
+16:29:26:0449 I0425 16:29:26.448170 github.com/livepeer/go-livepeer/livepeer/network/protocol.go:631] syncronisation request sent with address: 00000000-00000000, index: 0-0, session started at: 0, last seen at: 0, latest key: 00000000
+I0425 16:29:26.447709 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/swarm/network/kademlia/kademlia.go:120] =========================================================================
+Tue Apr 25 20:29:26 UTC 2017 KΛÐΞMLIΛ hive: queen's address: 8d30dd
+population: 1 (2), proxLimit: 0, proxSize: 1
+MaxProx: 8, ProxBinSize: 2, BucketSize: 4
+============ PROX LIMIT: 0 ==========================================
+000  1 75d1ee                      |  2  0 75d1ee 163931
+001  0                             |  0  0
+002  0                             |  0  0
+003  0                             |  0  0
+004  0                             |  0  0
+005  0                             |  0  0
+006  0                             |  0  0
+007  0                             |  0  0
+008  0                             |  0  0
+=========================================================================
+I0425 16:29:26.448444 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/swarm/network/kademlia/kaddb.go:96] found record <1639315896609daca2da29eaf9390f7d378ee10e9b2cd46f808146315413006b> in kaddb
+I0425 16:29:26.448745 github.com/livepeer/go-livepeer/livepeer/network/protocol.go:631] syncronisation request sent with address: 00000000-00000000, index: 0-0, session started at: 0, last seen at: 0, latest key: 00000000
+
+16:29:26:0450 I0425 16:29:26.450456 github.com/livepeer/go-livepeer/livepeer/network/syncer.go:212] syncer started: address: 00000000-00000000, index: 0-0, session started at: 0, last seen at: 0, latest key: 00000000
+
+16:29:26:0467 I0425 16:29:26.467401 github.com/livepeer/go-livepeer/livepeer/network/syncer.go:212] syncer started: address: 00000000-00000000, index: 0-0, session started at: 0, last seen at: 0, latest key: 00000000
+
+16:29:32:0189 I0425 16:29:32.189592 github.com/livepeer/go-livepeer/mediaserver/mediaserver.go:180] Created Stream: %v[123 34 115 116 114 101 97 109 73 68 34 58 34 56 100 51 48 100 100 50 100 49 100 52 100 101 100 48 52 50 100 55 98 100 102 100 49 54 53 48 54 102 100 54 52 51 48 52 52 56 99 100 57 48 55 100 48 49 57 49 49 102 101 53 53 53 101 51 98 100 57 102 54 52 53 54 102 98 53 98 101 49 50 102 56 57 55 101 51 101 49 51 55 54 49 48 55 53 100 50 52 51 101 98 99 48 54 57 50 51 51 48 100 102 52 54 57 52 48 49 52 101 97 102 97 101 97 53 50 100 100 48 57 48 55 48 52 55 98 57 102 34 125]
+
+16:29:32:0336 ffmpeg version 3.3-tessus Copyright (c) 2000-2017 the FFmpeg developers
+  built with Apple LLVM version 8.0.0 (clang-800.0.42.1)
+  configuration: --cc=/usr/bin/clang --prefix=/opt/ffmpeg --extra-version=tessus --enable-avisynth --enable-fontconfig --enable-gpl --enable-libass --enable-libbluray --enable-libfreetype --enable-libgsm --enable-libmodplug --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopus --enable-libschroedinger --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libvidstab --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libx264 --enable-libx265 --enable-libxavs --enable-libxvid --enable-libzmq --enable-libzvbi --enable-version3 --disable-ffplay --disable-indev=qtkit
+
+16:29:32:0338   libavutil      55. 58.100 / 55. 58.100
+  libavcodec     57. 89.100 / 57. 89.100
+  libavformat    57. 71.100 / 57. 71.100
+  libavdevice    57.  6.100 / 57.  6.100
+  libavfilter     6. 82.100 /  6. 82.100
+  libswscale      4.  6.100 /  4.  6.100
+  libswresample   2.  7.100 /  2.  7.100
+  libpostproc    54.  5.100 / 54.  5.100
+
+16:29:33:0829 Input #0, avfoundation, from '0:0':
+  Duration: N/A, start: 16504.969728, bitrate: N/A
+    Stream #0:0: Video: rawvideo (UYVY / 0x59565955), uyvy422, 320x240, 30 tbr, 1000k tbn, 1000k tbc
+    Stream #0:1: Audio: pcm_f32le, 44100 Hz, stereo, flt, 2822 kb/s
+16:29:33:0829 
+Please use -b:a or -b:v, -b is ambiguous
+
+16:29:33:0835 ERROR: logging before flag.Parse: I0425 16:29:33.835542   15127 listener.go:34] RTMP server got upstream
+
+16:29:33:0836 I0425 16:29:33.835708 github.com/livepeer/go-livepeer/mediaserver/mediaserver.go:109] RTMP streamID is 8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456fb5be12f897e3e13761075d243ebc0692330df4694014eafaea52dd0907047b9f
+I0425 16:29:33.835724 github.com/livepeer/go-livepeer/mediaserver/mediaserver.go:110] HLS streamID is 8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6
+ERROR: logging before flag.Parse: I0425 16:29:33.835752   15127 listener.go:48] Got RTMP Stream: 8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456fb5be12f897e3e13761075d243ebc0692330df4694014eafaea52dd0907047b9f
+ERROR: logging before flag.Parse: I0425 16:29:33.835765   15127 listener.go:52] Writing RTMP to stream
+
+16:29:33:0836 Stream mapping:
+  Stream #0:0 -> #0:0 (rawvideo (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (pcm_f32le (native) -> mp3 (libmp3lame))
+Press [q] to stop, [?] for help
+
+16:29:33:0840 ERROR: logging before flag.Parse: I0425 16:29:33.839826   15127 video_segmenter.go:90] Ffmpeg path: /Users/erictang/Code/Blockchain/Livepeer/LivepeerDesktop/app/node_modules/ffmpeg
+
+16:29:33:0871 No pixel format specified, yuv422p for H.264 encoding chosen.
+Use -pix_fmt yuv420p for compatibility with outdated media players.
+
+16:29:33:0880 [libx264 @ 0x7fa2e508f400] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 AVX2 LZCNT BMI2
+
+16:29:33:0888 [libx264 @ 0x7fa2e508f400] profile High 4:2:2, level 1.3, 4:2:2 8-bit
+
+16:29:33:0889 [libx264 @ 0x7fa2e508f400] 264 - core 148 - H.264/MPEG-4 AVC codec - Copyleft 2003-2016 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=3 lookahead_threads=3 sliced_threads=1 slices=3 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=2 keyint=60 keyint_min=31 scenecut=40 intra_refresh=0 rc=abr mbtree=0 bitrate=900 ratetol=1.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, flv, to 'rtmp://localhost:1935/stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456fb5be12f897e3e13761075d243ebc0692330df4694014eafaea52dd0907047b9f':
+  Metadata:
+    encoder         : Lavf57.71.100
+    Stream #0:0: Video: h264 (libx264) ([7][0][0][0] / 0x0007), yuv422p, 320x240, q=-1--1, 900 kb/s, 30 fps, 1k tbn, 30 tbc
+    Metadata:
+      encoder         : Lavc57.89.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/900000 buffer size: 0 vbv_delay: -1
+    Stream #0:1: Audio: mp3 (libmp3lame) ([2][0][0][0] / 0x0002), 44100 Hz, stereo, fltp
+    Metadata:
+      encoder         : Lavc57.89.100 libmp3lame
+
+16:29:33:0911 ERROR: logging before flag.Parse: I0425 16:29:33.910666   15127 player.go:28] LPMS got RTMP request @ rtmp://localhost:1935/stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456fb5be12f897e3e13761075d243ebc0692330df4694014eafaea52dd0907047b9f
+I0425 16:29:33.910751 github.com/livepeer/go-livepeer/mediaserver/mediaserver.go:127] Got req: %!(EXTRA string=/stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456fb5be12f897e3e13761075d243ebc0692330df4694014eafaea52dd0907047b9f)
+
+16:29:34:0336 frame=   28 fps=0.0 q=18.0 size=     108kB time=00:00:01.40 bitrate= 632.5kbits/s speed= 2.8x    
+16:29:34:0859 frame=   43 fps= 42 q=16.0 size=     163kB time=00:00:01.90 bitrate= 703.0kbits/s speed=1.87x    
+16:29:35:0369 frame=   59 fps= 39 q=16.0 size=     223kB time=00:00:02.43 bitrate= 750.4kbits/s speed= 1.6x    
+16:29:35:0872 frame=   74 fps= 36 q=20.0 size=     332kB time=00:00:02.93 bitrate= 926.5kbits/s speed=1.44x    
+16:29:36:0395 frame=   89 fps= 35 q=20.0 size=     406kB time=00:00:03.43 bitrate= 968.7kbits/s speed=1.35x    
+16:29:36:0891 frame=  104 fps= 34 q=20.0 size=     461kB time=00:00:03.93 bitrate= 960.6kbits/s speed=1.29x    
+16:29:37:0403 frame=  120 fps= 34 q=19.0 size=     527kB time=00:00:04.46 bitrate= 965.9kbits/s speed=1.26x    
+16:29:37:0905 frame=  135 fps= 33 q=19.0 size=     600kB time=00:00:04.96 bitrate= 989.4kbits/s speed=1.22x    
+16:29:38:0412 frame=  150 fps= 33 q=18.0 size=     650kB time=00:00:05.46 bitrate= 974.1kbits/s speed= 1.2x    
+16:29:38:0916 frame=  165 fps= 32 q=20.0 size=     707kB time=00:00:05.96 bitrate= 970.8kbits/s speed=1.17x    
+16:29:39:0440 frame=  181 fps= 32 q=16.0 size=     779kB time=00:00:06.50 bitrate= 982.1kbits/s speed=1.16x    
+16:29:39:0944 frame=  196 fps= 32 q=18.0 size=     849kB time=00:00:07.00 bitrate= 992.9kbits/s speed=1.15x    
+16:29:40:0441 frame=  211 fps= 32 q=18.0 size=     902kB time=00:00:07.50 bitrate= 985.5kbits/s speed=1.14x    
+16:29:40:0959 frame=  225 fps= 32 q=19.0 size=     950kB time=00:00:07.96 bitrate= 976.9kbits/s speed=1.12x    
+16:29:41:0447 frame=  241 fps= 32 q=16.0 size=    1030kB time=00:00:08.50 bitrate= 993.0kbits/s speed=1.12x    
+16:29:41:0969 frame=  256 fps= 32 q=18.0 size=    1107kB time=00:00:09.00 bitrate=1007.1kbits/s speed=1.11x    
+16:29:42:0479 frame=  272 fps= 32 q=18.0 size=    1158kB time=00:00:09.53 bitrate= 995.1kbits/s speed= 1.1x    
+16:29:42:0983 frame=  287 fps= 31 q=17.0 size=    1211kB time=00:00:10.03 bitrate= 988.8kbits/s speed= 1.1x    
+16:29:43:0492 frame=  301 fps= 31 q=15.0 size=    1255kB time=00:00:10.53 bitrate= 976.0kbits/s speed=1.09x    
+16:29:44:0008 frame=  317 fps= 31 q=17.0 size=    1333kB time=00:00:11.06 bitrate= 986.6kbits/s speed=1.09x    
+16:29:44:0510 frame=  332 fps= 31 q=17.0 size=    1386kB time=00:00:11.56 bitrate= 981.9kbits/s speed=1.08x    
+16:29:45:0011 frame=  347 fps= 31 q=17.0 size=    1446kB time=00:00:12.06 bitrate= 981.8kbits/s speed=1.08x    
+16:29:45:0497 ERROR: logging before flag.Parse: I0425 16:29:45.496828   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6.m3u8
+
+16:29:45:0497 I0425 16:29:45.497010 github.com/livepeer/go-livepeer/mediaserver/mediaserver.go:68] Creating new HLS buffer
+ERROR: logging before flag.Parse: I0425 16:29:45.497068   15127 player.go:68] Before waitAndPopPlaylist: 2017-04-25 16:29:45.497063504 -0400 EDT
+
+16:29:45:0518 frame=  362 fps= 31 q=21.0 size=    1505kB time=00:00:12.56 bitrate= 980.8kbits/s speed=1.08x    
+16:29:46:0017 frame=  377 fps= 31 q=17.0 size=    1579kB time=00:00:13.06 bitrate= 989.6kbits/s speed=1.07x    
+16:29:46:0519 frame=  392 fps= 31 q=17.0 size=    1638kB time=00:00:13.56 bitrate= 989.2kbits/s speed=1.07x    
+16:29:47:0038 frame=  407 fps= 31 q=17.0 size=    1704kB time=00:00:14.06 bitrate= 992.3kbits/s speed=1.07x    
+16:29:47:0501 ERROR: logging before flag.Parse: I0425 16:29:47.500813   15127 player.go:71] After waitAndPopPlaylist: 2017-04-25 16:29:47.500803353 -0400 EDT
+
+16:29:47:0507 ERROR: logging before flag.Parse: I0425 16:29:47.506360   15127 player.go:95] Done writing playlist.......
+
+16:29:47:0540 ERROR: logging before flag.Parse: I0425 16:29:47.540262   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6.m3u8
+ERROR: logging before flag.Parse: I0425 16:29:47.540367   15127 player.go:68] Before waitAndPopPlaylist: 2017-04-25 16:29:47.540361767 -0400 EDT
+
+16:29:47:0551 frame=  422 fps= 31 q=21.0 size=    1765kB time=00:00:14.56 bitrate= 992.4kbits/s speed=1.06x    
+16:29:48:0064 frame=  438 fps= 31 q=17.0 size=    1840kB time=00:00:15.10 bitrate= 998.3kbits/s speed=1.06x    
+16:29:48:0543 ERROR: logging before flag.Parse: I0425 16:29:48.541547   15127 player.go:71] After waitAndPopPlaylist: 2017-04-25 16:29:48.541533935 -0400 EDT
+ERROR: logging before flag.Parse: I0425 16:29:48.541677   15127 player.go:95] Done writing playlist.......
+
+16:29:48:0554 ERROR: logging before flag.Parse: I0425 16:29:48.553952   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6.m3u8
+ERROR: logging before flag.Parse: I0425 16:29:48.554031   15127 player.go:68] Before waitAndPopPlaylist: 2017-04-25 16:29:48.554026491 -0400 EDT
+
+16:29:48:0556 frame=  453 fps= 31 q=17.0 size=    1902kB time=00:00:15.60 bitrate= 998.6kbits/s speed=1.06x    
+16:29:48:0564 ERROR: logging before flag.Parse: I0425 16:29:48.564051   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6_4.ts
+
+16:29:48:0693 ERROR: logging before flag.Parse: I0425 16:29:48.692743   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6_5.ts
+
+16:29:48:0799 ERROR: logging before flag.Parse: I0425 16:29:48.799115   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6_6.ts
+
+16:29:49:0071 frame=  468 fps= 31 q=17.0 size=    1967kB time=00:00:16.10 bitrate=1000.9kbits/s speed=1.06x    
+16:29:49:0580 frame=  484 fps= 31 q=19.0 size=    2024kB time=00:00:16.63 bitrate= 996.9kbits/s speed=1.06x    
+16:29:50:0082 frame=  499 fps= 31 q=17.0 size=    2100kB time=00:00:17.13 bitrate=1004.2kbits/s speed=1.06x    
+16:29:50:0559 ERROR: logging before flag.Parse: I0425 16:29:50.559554   15127 player.go:71] After waitAndPopPlaylist: 2017-04-25 16:29:50.559539961 -0400 EDT
+
+16:29:50:0560 ERROR: logging before flag.Parse: I0425 16:29:50.559745   15127 player.go:95] Done writing playlist.......
+
+16:29:50:0563 ERROR: logging before flag.Parse: I0425 16:29:50.562981   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6_7.ts
+
+16:29:50:0586 frame=  514 fps= 31 q=17.0 size=    2163kB time=00:00:17.63 bitrate=1005.0kbits/s speed=1.05x    
+16:29:51:0102 frame=  529 fps= 31 q=17.0 size=    2228kB time=00:00:18.13 bitrate=1006.7kbits/s speed=1.05x    
+16:29:51:0564 ERROR: logging before flag.Parse: I0425 16:29:51.564022   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6.m3u8
+ERROR: logging before flag.Parse: I0425 16:29:51.564106   15127 player.go:68] Before waitAndPopPlaylist: 2017-04-25 16:29:51.564101433 -0400 EDT
+
+16:29:51:0602 frame=  544 fps= 31 q=19.0 size=    2310kB time=00:00:18.63 bitrate=1015.5kbits/s speed=1.05x    
+16:29:52:0122 frame=  560 fps= 31 q=17.0 size=    2361kB time=00:00:19.16 bitrate=1008.9kbits/s speed=1.05x    
+16:29:52:0568 ERROR: logging before flag.Parse: I0425 16:29:52.568150   15127 player.go:71] After waitAndPopPlaylist: 2017-04-25 16:29:52.568128795 -0400 EDT
+
+16:29:52:0568 ERROR: logging before flag.Parse: I0425 16:29:52.568268   15127 player.go:95] Done writing playlist.......
+
+16:29:52:0571 ERROR: logging before flag.Parse: I0425 16:29:52.571157   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6_8.ts
+
+16:29:52:0633 frame=  574 fps= 31 q=17.0 size=    2421kB time=00:00:19.63 bitrate=1010.3kbits/s speed=1.04x    
+16:29:53:0146 frame=  590 fps= 31 q=17.0 size=    2485kB time=00:00:20.16 bitrate=1009.5kbits/s speed=1.04x    
+16:29:53:0571 ERROR: logging before flag.Parse: I0425 16:29:53.571129   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6.m3u8
+ERROR: logging before flag.Parse: I0425 16:29:53.571196   15127 player.go:68] Before waitAndPopPlaylist: 2017-04-25 16:29:53.571192989 -0400 EDT
+
+16:29:53:0637 frame=  605 fps= 31 q=18.0 size=    2565kB time=00:00:20.66 bitrate=1016.8kbits/s speed=1.04x    
+16:29:54:0158 frame=  621 fps= 31 q=17.0 size=    2624kB time=00:00:21.20 bitrate=1013.8kbits/s speed=1.04x    
+16:29:54:0574 ERROR: logging before flag.Parse: I0425 16:29:54.574470   15127 player.go:71] After waitAndPopPlaylist: 2017-04-25 16:29:54.574457089 -0400 EDT
+ERROR: logging before flag.Parse: I0425 16:29:54.574606   15127 player.go:95] Done writing playlist.......
+
+16:29:54:0577 ERROR: logging before flag.Parse: I0425 16:29:54.577766   15127 player.go:52] LPMS got HTTP request @ /stream/8d30dd2d1d4ded042d7bdfd16506fd6430448cd907d01911fe555e3bd9f6456f84abde008b6a7bda8906f0448a02c00f9abfc5bfd4fc243d3fbed33dcd46a9b6_9.ts
+
+16:29:54:0661 frame=  636 fps= 31 q=17.0 size=    2685kB time=00:00:21.70 bitrate=1013.4kbits/s speed=1.04x    
+16:29:55:0179 frame=  651 fps= 31 q=17.0 size=    2748kB time=00:00:22.20 bitrate=1014.1kbits/s speed=1.04x    
+16:29:55:0676 frame=  666 fps= 31 q=17.0 size=    2826kB time=00:00:22.70 bitrate=1019.7kbits/s speed=1.04x    
+16:29:56:0188 frame=  682 fps= 31 q=18.0 size=    2883kB time=00:00:23.23 bitrate=1016.6kbits/s speed=1.04x    
+16:29:56:0692 frame=  697 fps= 30 q=18.0 size=    2948kB time=00:00:23.73 bitrate=1017.7kbits/s speed=1.04x    
+16:29:57:0204 frame=  712 fps= 30 q=17.0 size=    3007kB time=00:00:24.23 bitrate=1016.5kbits/s speed=1.04x    
+16:29:57:0723 frame=  728 fps= 30 q=17.0 size=    3088kB time=00:00:24.76 bitrate=1021.3kbits/s speed=1.04x    
+16:29:58:0227 frame=  743 fps= 30 q=17.0 size=    3146kB time=00:00:25.26 bitrate=1020.0kbits/s speed=1.04x    
+16:29:58:0731 frame=  758 fps= 30 q=17.0 size=    3208kB time=00:00:25.76 bitrate=1019.9kbits/s speed=1.04x    
+16:29:59:0230 frame=  773 fps= 30 q=17.0 size=    3268kB time=00:00:26.26 bitrate=1019.3kbits/s speed=1.03x    
+16:29:59:0511 I0425 16:29:59.511386 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/errs/errors.go:86] [BZZ] ERROR: NetworkId mismatch: 4 (!= 326326)
+
+16:29:59:0753 frame=  788 fps= 30 q=17.0 size=    3345kB time=00:00:26.76 bitrate=1023.6kbits/s speed=1.03x    
+16:29:59:0778 I0425 16:29:59.776899 github.com/livepeer/go-livepeer/vendor/github.com/ethereum/go-ethereum/errs/errors.go:86] [BZZ] ERROR: NetworkId mismatch: 3 (!= 326326)
+
+16:30:00:0258 frame=  804 fps= 30 q=17.0 size=    3407kB time=00:00:27.30 bitrate=1022.2kbits/s speed=1.03x    
+16:30:00:0763 frame=  819 fps= 30 q=17.0 size=    3472kB time=00:00:27.80 bitrate=1023.2kbits/s speed=1.03x    
+16:30:01:0262 frame=  834 fps= 30 q=17.0 size=    3535kB time=00:00:28.30 bitrate=1023.2kbits/s speed=1.03x    
+16:30:01:0765 frame=  849 fps= 30 q=17.0 size=    3611kB time=00:00:28.80 bitrate=1027.0kbits/s speed=1.03x    
+16:30:02:0285 frame=  864 fps= 30 q=17.0 size=    3675kB time=00:00:29.30 bitrate=1027.4kbits/s speed=1.03x    
+16:30:02:0782 frame=  879 fps= 30 q=17.0 size=    3735kB time=00:00:29.80 bitrate=1026.8kbits/s speed=1.03x    
+16:30:02:0915 Killing pid: 15138
+16:30:02:0922 [flv @ 0x7fa2e6047e00] Failed to update header with correct duration.
+[flv @ 0x7fa2e6047e00] Failed to update header with correct filesize.
+frame=  883 fps= 30 q=17.0 Lsize=    3760kB time=00:00:29.99 bitrate=1027.0kbits/s speed=1.03x    
+video:3265kB audio:458kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.990511%
+
+16:30:02:0925 I0425 16:30:02.924811 github.com/livepeer/go-livepeer/mediaserver/mediaserver.go:119] Finish Stream - canceling stream (need to implement handler for Done())
+ERROR: logging before flag.Parse: I0425 16:30:02.924847   15127 listener.go:59] Final stream length: 3
+
+16:30:02:0925 ERROR: logging before flag.Parse: E0425 16:30:02.925065   15127 listener.go:60] Got error writing RTMP: EOF
+
+16:30:02:0935 [libx264 @ 0x7fa2e508f400] frame I:15    Avg QP:16.26  size: 25199
+[libx264 @ 0x7fa2e508f400] frame P:868   Avg QP:18.82  size:  3416
+[libx264 @ 0x7fa2e508f400] mb I  I16..4:  4.3% 43.0% 52.8%
+[libx264 @ 0x7fa2e508f400] mb P  I16..4:  0.0%  0.2%  0.0%  P16..4: 56.7% 16.3% 16.3%  0.0%  0.0%    skip:10.5%
+[libx264 @ 0x7fa2e508f400] final ratefactor: 17.30
+[libx264 @ 0x7fa2e508f400] 8x8 transform intra:48.1% inter:49.4%
+[libx264 @ 0x7fa2e508f400] coded y,uvDC,uvAC intra: 94.7% 97.3% 96.7% inter: 34.6% 85.3% 56.9%
+[libx264 @ 0x7fa2e508f400] i16 v,h,dc,p: 11% 24% 20% 46%
+[libx264 @ 0x7fa2e508f400] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 14% 20% 15%  8%  8%  7%  8%  7% 14%
+[libx264 @ 0x7fa2e508f400] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 21% 14% 11%  6% 10%  9%  8%  9% 12%
+[libx264 @ 0x7fa2e508f400] i8c dc,h,v,p: 76%  4% 13%  7%
+[libx264 @ 0x7fa2e508f400] Weighted P-Frames: Y:2.6% UV:2.3%
+[libx264 @ 0x7fa2e508f400] ref P L0: 82.8%  5.9%  7.9%  3.3%  0.0%
+[libx264 @ 0x7fa2e508f400] kb/s:908.69
+
+16:30:02:0995 Exiting normally, received signal 2.
+
+16:30:03:0010 ERROR: logging before flag.Parse: I0425 16:30:03.010487   15127 video_segmenter.go:191] ctx.Done()!!!
+ERROR: logging before flag.Parse: E0425 16:30:03.010519   15127 listener.go:85] Got error polling playlist: context canceled
+

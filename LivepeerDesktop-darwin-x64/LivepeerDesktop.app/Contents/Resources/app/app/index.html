@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+  * Livepeer Main Page
+-->
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description" content="Livepeer">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta itemprop="description" content="Livepeer Main">
+  <meta itemprop="name" content="WebRTC code samples">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta id="theme-color" name="theme-color" content="#ffffff">
+
+  <base target="_blank">
+
+  <title>Livepeer</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="static/css/main.css">
+
+  <style>
+    .centered{
+      /*float: none;*/
+      display:block;
+      margin: 100px auto 0 auto;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      transition: .5s ease;
+      background-color: #000;
+    }
+
+    .text {
+      color: white;
+      font-size: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+    }    
+
+    .centered:hover .overlay {
+      opacity: 1;
+    }
+
+  </style>
+
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <p><h1 class="text-center">Livepeer</h1></p>
+
+      <div class="col-sm-6" onclick="window.location.href='cam.html'">
+        <div class="centered">
+          <img class="centered" src="static/img/broadcast-icon.png">
+          <h4 class="text-center">Livepeer Broadcaster</h4>
+          <div class="overlay">
+            <h1 class="text">Click to Broadcast Webcam</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6" onclick="window.location.href='player.html'">
+        <div class="centered">
+          <img class="centered" src="static/img/play-icon.png">
+          <h4 class="text-center">Livepeer Stream Viewer</h4>
+          <div class="overlay">
+            <h1 class="text">Play Video Via Stream ID</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
