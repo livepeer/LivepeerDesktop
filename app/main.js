@@ -4,14 +4,10 @@ const {remote, app, ipcMain, Menu, BrowserWindow, dialog} = require('electron')
 const logger = require('./logger');
 var log = require('electron-log');
 var fs = require('fs');
-// Module to create native browser window.
-// const BrowserWindow = electron.BrowserWindow
-// const Menu = electron.menu
-var shell = require('shelljs');
+const spawn = require('child_process').spawn;
 
 const path = require('path')
 const url = require('url')
-// const ipc = require('ipc')
 
 var request = require('request');
 var rtmpPort = "1935";
@@ -22,6 +18,27 @@ var httpPort = "8935";
 let mainWindow
 
 global.sharedObj = {ffmpegProc: null, livepeerProc: null};
+
+function setLogging() {
+  // Same as for console transport 
+  log.transports.file.level = 'info';
+  log.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
+  
+  // Set approximate maximum log size in bytes. When it exceeds, 
+  // the archived log will be saved as the log.old.log file 
+  log.transports.file.maxSize = 5 * 1024 * 1024;
+  
+  // Write to this file, must be set before first logging 
+  log.transports.file.file = __dirname + '/log.txt';
+  
+  // fs.createWriteStream options, must be set before first logging 
+  log.transports.file.streamConfig = { flags: 'w' };
+  
+  // set existed file stream 
+  log.transports.file.stream = fs.createWriteStream(__dirname + '/log.txt');
+
+  log.transports.file.appName = 'LivepeerDesktop';
+}
 
 function createWindow () {
   // Create the browser window.
@@ -79,26 +96,6 @@ function reload() {
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
-
-  // Same as for console transport 
-  // log.transports.file.level = 'warn';
-  // log.transports.file.level = 'info';
-  // log.transports.console.level = false;
-  // log.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
-  
-  // Set approximate maximum log size in bytes. When it exceeds, 
-  // the archived log will be saved as the log.old.log file 
-  // log.transports.file.maxSize = 5 * 1024 * 1024;
-  
-  // Write to this file, must be set before first logging 
-  // log.transports.file.file = app.getPath('userData') + '/log.txt';
-  
-  // fs.createWriteStream options, must be set before first logging 
-  // log.transports.file.streamConfig = { flags: 'w' };
-  
-  // set existed file stream 
-  // log.transports.file.stream = fs.createWriteStream('log.txt');
-
   startLivepeer()
 }
 
@@ -111,11 +108,12 @@ app.on('ready', createWindow)
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
+  log.info("All windows closed.  Shutting down FFMpeg and Livepeer...")
   stopFFMpeg()
   stopLivepeer()
-  if (process.platform !== 'darwin') {
+  // if (process.platform !== 'darwin') {
     app.quit()
-  }
+  // }
 })
 
 app.on('activate', function () {
@@ -126,18 +124,20 @@ app.on('activate', function () {
   }
 })
 
-ipcMain.on('startFFMpeg', (event, ffmpegCmd) => {
-  var broadcastProc = shell.exec(ffmpegCmd, {async:true});
+ipcMain.on('startFFMpeg', (event, rtmpStrmID) => {
+  console.log("Starting FFMpeg for: " + rtmpStrmID)
+  var appRootDir = require('app-root-dir').get();
+
+  var broadcastProc = spawn(appRootDir+"/node_modules/ffmpeg/ffmpeg", ["-f",  "avfoundation", "-framerate", "30", "-pixel_format", "uyvy422", "-i", "0:0", "-vcodec", "libx264", "-tune", "zerolatency", "-b", "900k", "-x264-params", "keyint=60:min-keyint=60", "-f", "flv", "rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID])
   global.sharedObj.ffmpegProc = broadcastProc;
   broadcastProc.stdout.on('data', function(data) {
-    // console.log("Data---");
-    log.info(data);
+    log.info(`stdout: ${data}`);
     return;
   });
 
   broadcastProc.stderr.on('data', function(data) {
     //Don't do anything here, because ffmpeg mistakenly outputs everything to stderr
-    log.info(data)
+    log.info(`stderr: ${data}`);
     return;
   })
 })
@@ -157,20 +157,23 @@ function stopFFMpeg() {
 
 function startLivepeer() {
   log.info("Starting Livepeer")
+  
   if (global.sharedObj.livepeerProc == null) {
     var appRootDir = require('app-root-dir').get();
     var livepeerPath = appRootDir+'/node_modules/livepeer/livepeer --ffmpegPath ' + appRootDir + '/node_modules/ffmpeg' + ' < ' + appRootDir + '/node_modules/livepeer/enters.txt';
-    var livepeerProc = shell.exec(livepeerPath, {async:true});
+    var livepeerProc = spawn(appRootDir+"/node_modules/livepeer/livepeer", ["--ffmpegPath", appRootDir+"/node_modules/ffmpeg"])
+    livepeerProc.stdin.write("\n\n\n\n\n")
     global.sharedObj.livepeerProc = livepeerProc;
-
-    livepeerProc.stdout.on('data', function(data) {
-      log.info(data);
-      return;
+    livepeerProc.stdout.on('data', (data) => {
+      log.info(`stdout: ${data}`);
     });
 
-    livepeerProc.stderr.on('data', function(data) {
-      log.info(data);
-      return;
+    livepeerProc.stderr.on('data', (data) => {
+      log.info(`stderr: ${data}`);
+    });
+
+    livepeerProc.on('close', (code) => {
+      log.info(`child process exited with code ${code}`);
     });
 
     // request("http://localhost:"+httpPort+"/localStreams", function(err, res, body) {
@@ -187,7 +190,10 @@ function stopLivepeer() {
   log.info("Stopping Livepeer")
   var livepeerProc = global.sharedObj.livepeerProc
   if (livepeerProc != null) {
-    process.kill(livepeerProc.pid, "SIGINT");
-    global.sharedObj.livepeerPath = null;
+    log.info("Sending SIGTERM to " + livepeerProc.pid)
+    global.sharedObj.livepeerProc.kill()
+    global.sharedObj.livepeerProc = null;
   }
 }
+
+setLogging()

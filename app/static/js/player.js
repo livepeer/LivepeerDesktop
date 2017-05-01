@@ -29,8 +29,12 @@ function start() {
   setInterval(
     function() {
         request("http://localhost:"+httpPort+"/peersCount", function(err, res, body) {
-            var count = JSON.parse(body)["count"]
-            $("#peers-count").text("Peers: " + count);
+          if (err != null) {
+            console.log("Connecting to local livepeer node...")
+            return
+          }
+          var count = JSON.parse(body)["count"]
+          $("#peers-count").text("Peers: " + count);
         })
     }, 3000);
 }

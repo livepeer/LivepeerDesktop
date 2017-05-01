@@ -46,8 +46,6 @@ function hasGetUserMedia(){
 }
 
 function webcamPrep(){
-    // MediaStreamTrack.getSources(
-    // console.log("webcamPrep")
     navigator.mediaDevices.enumerateDevices().then(
         function(sourceInfos){
           // console.log(sourceInfos);
@@ -72,7 +70,7 @@ function playVideo(){
     videoIndex = videoIndex % videoSourceLength;
 
     var constraints = {
-      audio: true,
+      audio: false,
       video: true
     }
 
@@ -145,6 +143,7 @@ function fillStreamID() {
 
 function start() {
   broadcastButton.addEventListener('click', function() {
+    $("#stream-id").val("");
 
     request("http://localhost:"+httpPort+"/createStream", function(err, res, body) {
       if (err != null) {
@@ -160,7 +159,8 @@ function start() {
       var appRootDir = require('app-root-dir').get();
       var ffmpegpath = appRootDir+'/node_modules/ffmpeg/ffmpeg';
       var ffmpegCmd = ffmpegpath + " -f avfoundation -framerate 30 -pixel_format uyvy422 -i \"0:0\" -vcodec libx264 -tune zerolatency -b 900k -x264-params keyint=60:min-keyint=60 -f flv rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID;
-      ipcRenderer.send('startFFMpeg', ffmpegCmd)
+      // ipcRenderer.send('startFFMpeg', ffmpegCmd)
+      ipcRenderer.send('startFFMpeg', rtmpStrmID)
 
       setTimeout(fillStreamID, 1500);
       refreshButtons();
@@ -177,8 +177,12 @@ function start() {
   setInterval(
     function() {
         request("http://localhost:"+httpPort+"/peersCount", function(err, res, body) {
-            var count = JSON.parse(body)["count"]
-            $("#peers-count").text("Peers: " + count);
+          if (err != null) {
+            console.log("Connecting to local livepeer node...")
+            return
+          }
+          var count = JSON.parse(body)["count"]
+          $("#peers-count").text("Peers: " + count);
         })
     }, 3000);
 }
