@@ -153,13 +153,6 @@ function start() {
       }
 
       var rtmpStrmID = JSON.parse(body)["streamID"]
-
-      // var ffmpegCmd = "ffmpeg -f avfoundation -framerate 30 -pixel_format uyvy422 -i \"0:0\" -vcodec libx264 -tune zerolatency -b 900k -x264-params keyint=60:min-keyint=60 -f flv rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID;
-
-      var appRootDir = require('app-root-dir').get();
-      var ffmpegpath = appRootDir+'/node_modules/ffmpeg/ffmpeg';
-      var ffmpegCmd = ffmpegpath + " -f avfoundation -framerate 30 -pixel_format uyvy422 -i \"0:0\" -vcodec libx264 -tune zerolatency -b 900k -x264-params keyint=60:min-keyint=60 -f flv rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID;
-      // ipcRenderer.send('startFFMpeg', ffmpegCmd)
       ipcRenderer.send('startFFMpeg', rtmpStrmID)
 
       setTimeout(fillStreamID, 1500);

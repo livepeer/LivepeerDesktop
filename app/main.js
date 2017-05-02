@@ -5,6 +5,7 @@ const logger = require('./logger');
 var log = require('electron-log');
 var fs = require('fs');
 const spawn = require('child_process').spawn;
+var rimraf = require('rimraf');
 
 const path = require('path')
 const url = require('url')
@@ -128,7 +129,8 @@ ipcMain.on('startFFMpeg', (event, rtmpStrmID) => {
   console.log("Starting FFMpeg for: " + rtmpStrmID)
   var appRootDir = require('app-root-dir').get();
 
-  var broadcastProc = spawn(appRootDir+"/node_modules/ffmpeg/ffmpeg", ["-f",  "avfoundation", "-framerate", "30", "-pixel_format", "uyvy422", "-i", "0:0", "-vcodec", "libx264", "-tune", "zerolatency", "-b", "900k", "-x264-params", "keyint=60:min-keyint=60", "-f", "flv", "rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID])
+ 	//ffmpeg -f avfoundation -framerate 30 -pixel_format uyvy422 -i "0:0" -vcodec libx264 -tune zerolatency -b 900k -x264-params keyint=60:min-keyint=60 -acodec libfdk_aac -ac 1 -b:a 96k -f flv rtmp://localhost:1935/
+  var broadcastProc = spawn(appRootDir+"/node_modules/ffmpeg/ffmpeg", ["-f",  "avfoundation", "-framerate", "30", "-pixel_format", "uyvy422", "-i", "0:0", "-vcodec", "libx264", "-tune", "zerolatency", "-b", "900k", "-x264-params", "keyint=60:min-keyint=60", "-acodec", "libfdk_aac", "-ac", "1", "-b:a", "96k", "-f", "flv", "rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID])
   global.sharedObj.ffmpegProc = broadcastProc;
   broadcastProc.stdout.on('data', function(data) {
     log.info(`stdout: ${data}`);
@@ -157,6 +159,8 @@ function stopFFMpeg() {
 
 function startLivepeer() {
   log.info("Starting Livepeer")
+
+  rimraf("~/Library/Ethereum/livepeernet", function() { log.info("Removed livepeer dir")})
   
   if (global.sharedObj.livepeerProc == null) {
     var appRootDir = require('app-root-dir').get();

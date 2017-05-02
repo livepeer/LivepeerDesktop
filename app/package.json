@@ -15,7 +15,8 @@
   "dependencies": {
     "app-root-dir": "^1.0.2",
     "shelljs": "~0.7.7",
-    "electron-log": "~2.2.2"
+    "electron-log": "~2.2.2",
+    "rimraf": "~2.6.1"
   },
   "devDependencies": {
     "electron": "~1.6.2"
