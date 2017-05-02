@@ -4,6 +4,7 @@ var request = require('request');
 var httpPort = 8935
 
 function start() {
+  $("#loadModal").modal("show")
   setInterval(
     function() {
         request("http://localhost:"+httpPort+"/peersCount", function(err, res, body) {
@@ -13,6 +14,7 @@ function start() {
           }
           var count = JSON.parse(body)["count"]
           $("#peers-count").text("Peers: " + count);
+          $("#loadModal").modal("hide")
         })
     }, 3000);
 }
