@@ -71,7 +71,18 @@ function playVideo(){
 
     var constraints = {
       audio: false,
-      video: true
+      video: true,
+      mandatory: {
+        width: { min: 640 },
+        height: { min: 480 }
+      },
+      optional: [
+        { width: 650 },
+        { width: { min: 650 }},
+        { frameRate: 60 },
+        { width: { max: 800 }},
+        { facingMode: "user" }
+      ]
     }
 
     navigator.webkitGetUserMedia(
@@ -91,24 +102,6 @@ function successCallback(stream){
     video.src = window.URL.createObjectURL(stream);
 }
 
-
-function loadCamVideo() {
-  if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
-      console.log("stopping track: ", track);
-      track.stop();
-    });
-  }
-
-  var constraints = {
-    audio: true,
-    video: true
-  }
-
-  // navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
-  navigator.webkitGetUserMedia(constraints, successCallback, errorCallback);
-}
-
 function gotStream(stream) {
   window.stream = stream; // make stream available to console
   var ve = document.querySelector('video#cam-video');
@@ -126,6 +119,7 @@ function fillStreamID() {
   request("http://localhost:"+httpPort+"/localStreams", function(err, res, body) {
     if (err != null) {
       dialog.showMessageBox({ message: "Having problem getting stream ID.  Make sure your local node is running.", buttons: ["OK"] });
+      return
     }
 
     var streams = JSON.parse(body);
@@ -136,6 +130,12 @@ function fillStreamID() {
         hlsStrmID = s["streamID"];
       }
     })
+
+    if (hlsStrmID == null) {
+      console.log("Re-fetching streamID...")
+      setTimeout(fillStreamID, 1000)
+      return
+    }
 
     $("#stream-id").val(hlsStrmID);
   }); 
@@ -155,7 +155,7 @@ function start() {
       var rtmpStrmID = JSON.parse(body)["streamID"]
       ipcRenderer.send('startFFMpeg', rtmpStrmID)
 
-      setTimeout(fillStreamID, 1500);
+      setTimeout(fillStreamID, 1000);
       refreshButtons();
     });
   })
