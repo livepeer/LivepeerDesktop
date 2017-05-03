@@ -1,5 +1,6 @@
 'use strict';
 
+const {remote, ipcRenderer} = require('electron');
 var request = require('request');
 var httpPort = 8935
 
@@ -17,6 +18,10 @@ function start() {
           $("#loadModal").modal("hide")
         })
     }, 3000);
+}
+
+function reportBug() {
+  ipcRenderer.send('sendBugReport', "")
 }
 
 start()

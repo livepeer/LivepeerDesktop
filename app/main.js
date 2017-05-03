@@ -36,7 +36,7 @@ function setLogging() {
   log.transports.file.streamConfig = { flags: 'w' };
   
   // set existed file stream 
-  log.transports.file.stream = fs.createWriteStream(__dirname + '/log.txt');
+  log.transports.file.stream = fs.createWriteStream(__dirname + '/log.txt', {'flags': 'a'});
 
   log.transports.file.appName = 'LivepeerDesktop';
 }
@@ -130,7 +130,7 @@ ipcMain.on('startFFMpeg', (event, rtmpStrmID) => {
   var appRootDir = require('app-root-dir').get();
 
  	//ffmpeg -f avfoundation -framerate 30 -pixel_format uyvy422 -i "0:0" -vcodec libx264 -tune zerolatency -b 900k -x264-params keyint=60:min-keyint=60 -acodec libfdk_aac -ac 1 -b:a 96k -f flv rtmp://localhost:1935/
-  var broadcastProc = spawn(appRootDir+"/node_modules/ffmpeg/ffmpeg", ["-f",  "avfoundation", "-framerate", "30", "-pixel_format", "uyvy422", "-i", "0:0", "-vcodec", "libx264", "-tune", "zerolatency", "-b", "900k", "-x264-params", "keyint=60:min-keyint=60", "-acodec", "libfdk_aac", "-ac", "1", "-b:a", "96k", "-f", "flv", "rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID])
+  var broadcastProc = spawn(appRootDir+"/node_modules/ffmpeg/ffmpeg", ["-f",  "avfoundation", "-framerate", "30", "-pixel_format", "uyvy422", "-i", "0:0", "-vcodec", "libx264", "-tune", "zerolatency", "-b", "900k", "-x264-params", "keyint=60:min-keyint=60", "-acodec", "aac", "-ac", "1", "-b:a", "96k", "-f", "flv", "rtmp://localhost:"+rtmpPort+"/stream/"+rtmpStrmID])
   global.sharedObj.ffmpegProc = broadcastProc;
   broadcastProc.stdout.on('data', function(data) {
     log.info(`stdout: ${data}`);
@@ -146,6 +146,10 @@ ipcMain.on('startFFMpeg', (event, rtmpStrmID) => {
 
 ipcMain.on('stopFFMpeg', (event, arg) => {
   stopFFMpeg()
+})
+
+ipcMain.on('sendBugReport', (event, arg) => {
+  sendBugReport()
 })
 
 function stopFFMpeg() {
@@ -198,6 +202,49 @@ function stopLivepeer() {
     global.sharedObj.livepeerProc.kill()
     global.sharedObj.livepeerProc = null;
   }
+}
+
+function sendBugReport() {
+  log.info("Sending logfile to Livepeer")
+
+  var api_key = 'key-b3ca6551d733367cdb89b04ee6b51f08';
+  var domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
+  var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+  var
+      // Local ip address that we're trying to calculate
+      address
+      // Provides a few basic operating-system related utility functions (built-in)
+      ,os = require('os')
+      // Network interfaces
+      ,ifaces = os.networkInterfaces();
+
+  for (var dev in ifaces) {
+    // ... and find the one that matches the criteria
+    var iface = ifaces[dev].filter(function(details) {
+        return details.family === 'IPv4' && details.internal === false;
+    });
+    if(iface.length > 0) address = iface[0].address;
+  }
+
+  fs.readFile( __dirname + '/log.txt', function (err, data) {
+    if (err) {
+      throw err; 
+    }
+
+    var res = {
+      from: 'Bug Reporter ' + address + ' <user@sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org>',
+      to: 'eric@livepeer.org',
+      subject: 'Sending Bug Report',
+      text: data.toString()
+    };
+
+    mailgun.messages().send(res, function (error, body) {
+      log.info(body);
+    });
+  })
+
+  
 }
 
 setLogging()
