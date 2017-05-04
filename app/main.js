@@ -228,7 +228,7 @@ function stopLivepeer() {
 }
 
 function resetLivepeer(sender) {
-  dialog.showMessageBox({message: "Deleting Livepeer datadir"})
+  log.info("ResetLivepeer - Deleting Livepeer datadir")
 
   rimraf(homeDir+"/Livepeer/livepeernet/", function() { log.info("Removed livepeer dir")})
   shell.mkdir('-p', homeDir+"/Livepeer/livepeernet/");
