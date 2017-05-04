@@ -7,7 +7,7 @@ Desktop Application For Livepeer.  This application connects to the [Livepeer To
 
 If you are using OSX, you can simply [download a zipfile](https://s3.amazonaws.com/livepeer/LivepeerDesktop.zip).
 
-### Running with Node/Electron
+#### Running with Node/Electron
 
 To start the node, use:
 
@@ -21,7 +21,13 @@ npm install
 npm start
 ```
 
-### Building from scratch
+Some caveats about the project - there are 2 binary dependencies: livepeer and ffmpeg.  Electron doesn't make it easy to distribute 3rd part binaries, so we are using a hack following [this example](http://stackoverflow.com/questions/38361996/how-can-i-bundle-a-precompiled-binary-with-electron)
+
+To list out the steps -
+* Create `app/node_modules/ffmpeg` and `app/node_modules/livepeer`.  
+* Place `livepeer` and `enters.txt` inside `app/node_modules/livepeer`, `ffmpeg` inside `app/node_modules/ffmepg`
+
+#### Packaging for OSX
 
 You can also build it from scratch by using:
 
