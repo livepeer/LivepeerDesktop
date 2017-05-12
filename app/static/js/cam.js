@@ -138,12 +138,14 @@ function fillStreamID() {
     }
 
     $("#stream-id").val(hlsStrmID);
+    $("#video-link").val("https://s3.amazonaws.com/livepeer/webplayer/player.html?strmID="+hlsStrmID+".m3u8");
   }); 
 }
 
 function start() {
   broadcastButton.addEventListener('click', function() {
-    $("#stream-id").val("");
+    $("#stream-id").val("")
+    $("#video-link").val("")
 
     request("http://localhost:"+httpPort+"/createStream", function(err, res, body) {
       if (err != null) {
