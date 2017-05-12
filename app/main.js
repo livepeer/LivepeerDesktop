@@ -14,7 +14,8 @@ var rtmpPort = "1935";
 var httpPort = "8935";
 
 var homeDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
-var frameConfig = [{"framerate":15, "keyint": 30}, {"framerate": 30, "keyint": 60}, {"framerate":60, "keyint": 120}]
+// var frameConfig = [{"framerate":15, "keyint": 30}, {"framerate": 30, "keyint": 60}, {"framerate":60, "keyint": 120}]
+var frameConfig = [{"framerate":15, "keyint": 75}, {"framerate": 30, "keyint": 150}, {"framerate":60, "keyint": 300}]
 var userStopFFmpeg = false
 var shell = require('shelljs');
 
