@@ -138,7 +138,7 @@ function fillStreamID() {
     }
 
     $("#stream-id").val(hlsStrmID);
-    $("#video-link").val("https://s3.amazonaws.com/livepeer/webplayer/player.html?strmID="+hlsStrmID+".m3u8");
+    $("#video-link").val("https://s3.amazonaws.com/livepeer/webplayer/player.html?strmID="+hlsStrmID);
   }); 
 }
 
