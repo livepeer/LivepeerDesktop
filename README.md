@@ -25,7 +25,7 @@ Some caveats about the project - there are 2 binary dependencies: livepeer and f
 
 To list out the steps -
 * Create `app/node_modules/ffmpeg` and `app/node_modules/livepeer`.  
-* Place `livepeer` and `enters.txt` inside `app/node_modules/livepeer`, `ffmpeg` inside `app/node_modules/ffmepg`
+* Place `livepeer` and `enters.txt` inside `app/node_modules/livepeer`, `ffmpeg` inside `app/node_modules/ffmpeg`
 
 #### Packaging for OSX
 
