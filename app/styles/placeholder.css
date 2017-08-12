@@ -1,0 +1,47 @@
+.Placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 2.4em;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.Placeholder-logo {
+    @extend .flexCenter;
+    transform: rotate(-80deg);
+}
+
+.Placeholder-logo svg {
+    width: 100px;
+    height: 100px;
+    transform: scale(1.8) rotate(80deg);
+}
+
+.Placeholder-logo svg path { fill: $blue }
+
+.Placeholder-tagline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.Placeholder-text {
+    font-weight: 300;
+    font-size: 1.5em;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.Placeholder-text-sub {
+    margin: 0;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: .48em;
+    display: none;
+}

@@ -1,0 +1,1157 @@
+/*
+  LivePeer main styling
+*/
+
+/* Imports */
+
+/*
+  Styling Variables ✏️
+  ----
+  - Stylesheet Partial, for inclusion where common variables are needed
+  - If a window needs to overwrite variables, it should be done in that window's stylesheet
+*/
+
+/* Colors */
+
+/* Typography */
+
+/* Backgrounds */
+
+/* Typography */
+
+/* Borders */
+
+/* height */
+
+/*
+  Helper classes
+  ----
+  - A collection of classes that can be reused to accomplish the same effect on any element
+*/
+
+/* Allow element to be held down to drag the current window */
+
+.webkit-drag, .window-header {
+  -webkit-app-region: drag;
+  cursor: -webkit-grab;
+}
+
+.a-width--full { width: 100%; }
+
+/* Hide element */
+
+.hidden { display: none !important; }
+
+/* Make current element a circle */
+
+.circle, .toggler__broadcaster { border-radius: 50%; }
+
+.breakWord {
+    word-wrap: break-word;
+}
+
+.note { opacity: .8 }
+
+.note b { color: #FF6159 }
+
+code {
+    margin: 20px 0;
+    background: #04050A;
+    color: #FFF;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+/* Make child vertical and horizontal centered */
+
+.flexCenter, .Placeholder-logo, .toggler__wrapper, .toggler__broadcaster, .toggler__player, [class*='toggler__player-button'], .control-actions, .control-action, .control-action > *, .control-action > * > [class*='-icon'] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.flexColumnCenter, .notifier-list, .controls-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.txt {
+    -webkit-app-region: none !important;
+  -webkit-user-select: none !important;
+  cursor: default !important;
+}
+
+/*
+  Animations classes
+  ----
+  - A collection of animations that can be reused to accomplish the same effect on any element
+*/
+
+@-webkit-keyframes pulse {
+  0% {
+      opacity: 1
+  }
+  100% {
+      opacity: .4
+  }
+}
+
+@-webkit-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+/* Set base colour and font stack */
+
+body {
+  color: #FFF;
+  font-family: 'Lato';
+  overflow: hidden;
+  letter-spacing: -.010rem;
+  border-radius: 5px;
+  overflow: hidden;
+  font-size: 16px;
+  margin: 0;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.row {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.col {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.content {
+  background-color: #04050A;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.grayed { filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feColorMatrix type="matrix" color-interpolation-filters="sRGB" values="0.2126 0.7152 0.0722 0 0 0.2126 0.7152 0.0722 0 0 0.2126 0.7152 0.0722 0 0 0 0 0 1 0" /></filter></svg>#filter'); -webkit-filter: grayscale(100%); filter: grayscale(100%); }
+
+a {
+    text-decoration: underline;
+}
+
+.Placeholder {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    font-size: 2.4em;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.Placeholder-logo {
+    -webkit-transform: rotate(-80deg);
+            transform: rotate(-80deg);
+}
+
+.Placeholder-logo svg {
+    width: 100px;
+    height: 100px;
+    -webkit-transform: scale(1.8) rotate(80deg);
+            transform: scale(1.8) rotate(80deg);
+}
+
+.Placeholder-logo svg path { fill: #6159FF }
+
+.Placeholder-tagline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    z-index: 1;
+}
+
+.Placeholder-text {
+    font-weight: 300;
+    font-size: 1.5em;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.Placeholder-text-sub {
+    margin: 0;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: .48em;
+    display: none;
+}
+
+.window__controls {
+  height: 28px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.window__controls a svg { -webkit-transition: all .3s ease; transition: all .3s ease }
+
+.window__controls:hover a svg .hidden { display: inherit !important }
+
+/*
+  Window Header Component
+  ----
+  - Use for any window header
+  - Can be changed into light version with `.is-light` class
+*/
+
+.window-header {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    font-size: 1em;
+    -webkit-app-region: drag;
+    cursor: -webkit-grab;
+}
+
+.window-header ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    list-style: none;
+    -webkit-transition: opacity .12s ease-in-out, -webkit-transform .12s ease-in-out;
+    transition: opacity .12s ease-in-out, -webkit-transform .12s ease-in-out;
+    transition: transform .12s ease-in-out, opacity .12s ease-in-out;
+    transition: transform .12s ease-in-out, opacity .12s ease-in-out, -webkit-transform .12s ease-in-out;
+    will-change: transform, opacity;
+    border-radius: 5px 5px 0 0;
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+    padding: 0;
+    margin: 0;
+
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 60px;
+    -webkit-user-select: none !important;
+
+}
+
+.window-header:hover ul {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+}
+
+/* CONTROLS */
+
+.window-header .window__controls {
+    position: absolute;
+    left: 10px
+}
+
+.window-header .window__controls a {
+    width: 14px;
+    height: 14px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    background: rgba(256, 256, 256, .1);
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.window-header .window__controls a svg {
+    width: 14px;
+    height: 14px;
+}
+
+/*
+  Window Header Component
+  ----
+  - Use for any window header
+  - Can be changed into light version with `.is-light` class
+*/
+
+.window-footer {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    font-size: 1em;
+    /*@extend .webkit-drag;
+    -webkit-app-region: drag;
+    cursor: -webkit-grab;*/
+    pointer-events: none
+}
+
+.window-footer ul {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    list-style: none;
+
+    padding: 0;
+    margin: 0;
+
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 100px;
+    -webkit-user-select: none !important;
+}
+
+.window-footer:not(.window-footer__visible) {
+    opacity: 0;
+    -webkit-transform: translateY(10px);
+            transform: translateY(10px);
+}
+
+.window-footer:hover ul {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+}
+
+/* CONTROLS */
+
+.window-footer .window__controls {
+    margin-left: auto;
+}
+
+.window-footer .window__controls button {
+    width: 110px;
+    height: 110px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    border-radius: 50%;
+    -webkit-transform: scale(.5);
+            transform: scale(.5);
+    pointer-events: all;
+}
+
+.window-footer .window__controls button svg {
+    width: 110px;
+    height: 110px;
+}
+
+.window-footer .window__controls button:hover svg {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+    fill: #FFF;
+    opacity: .8;
+}
+
+.loader {
+    position: relative;
+    padding-bottom: 5vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    z-index: 2000;
+    pointer-events: none;
+    font-size: 1.4em
+}
+
+.loader::before {
+    content:" ";
+    background: url(./static/circles.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 300px;
+    height: 80px;
+    background-size: 60px;
+    border-radius: 50%;
+}
+
+.loader ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    list-style: none;
+    -webkit-animation: pulse 2s ease-in-out infinite alternate;
+            animation: pulse 2s ease-in-out infinite alternate;
+
+}
+
+/*
+  Notifier Styling Component ✏️
+
+*/
+
+.notifier {
+    position: absolute;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100vw;
+    padding: 5vh 20px;
+    left: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.notifier-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.notifier-title-icon {
+    opacity: .05;
+    position: absolute;
+    -webkit-transform: scale(10);
+            transform: scale(10);
+}
+
+.notifier-title-icon svg {
+    width: 200px;
+    height: 150px;
+}
+
+.notifier-title-text {
+    font-size: 2.8em;
+    font-weight: 200;
+    margin: 0 0 .5em 0;
+}
+
+.notifier button {
+    pointer-events: all;
+}
+
+.notifier-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.notifier-list li {
+    text-align: center;
+}
+
+.notifier-list-close {
+    width: 200px;
+    background: #04050A;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 30px;
+}
+
+/* animation state */
+
+.notifier {
+    bottom: -100vh;
+    -webkit-transition: all .32s ease-in-out;
+    transition: all .32s ease-in-out;
+    will-change: all;
+}
+
+.notifier.notifier-error {
+    bottom: 0;
+    background: #F33C3C;
+    -webkit-box-shadow: 0px 0px 100px 100px #F33C3C;
+            box-shadow: 0px 0px 100px 100px #F33C3C;
+    color: #FFF
+}
+
+/*
+  Input Styling Component ✏️
+  ----
+  - Stylesheet Partial, for inclusion where inputs are used
+  - Any extensions to input styling should go in this file
+*/
+
+input, [contenteditable=true] {
+    font-family: 'Lato';
+    font-size: inherit;
+    outline: none;
+    border: 0;
+    color: #FFF;
+    /* Ensure focus on inputs doesn't allow app dragging */
+    -webkit-app-region: no-drag;
+}
+
+[contenteditable=true] { max-width: 100% }
+
+[contenteditable=true] + button { display: none !important }
+
+[contenteditable=true]:not(:empty) + button { display: -webkit-box !important; display: -ms-flexbox !important; display: flex !important }
+
+[contenteditable=true]:empty::before {
+  content: attr(data-tooltip);
+  max-width: inherit;
+  word-wrap: break-word;
+}
+
+[contenteditable=true]:focus:empty::before {
+    opacity: .1;
+    content: attr(placeholder);
+}
+
+/*
+  Input Styling Component ✏️
+  ----
+  - Stylesheet Partial, for inclusion where inputs are used
+  - Any extensions to input styling should go in this file
+*/
+
+button {
+    font-family: 'Lato';
+    font-size: inherit;
+    outline: none;
+    background: transparent;
+    border: none;
+    color: inherit;
+    color: #FFF;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button, button svg {
+    -webkit-transition: all .12s ease-in-out;
+    transition: all .12s ease-in-out;
+    will-change: all;
+}
+
+button svg { fill: #FFF }
+
+button:hover { -webkit-transform: scale(1.05); transform: scale(1.05) }
+
+button:hover:active { -webkit-transform: scale(.99); transform: scale(.99) }
+
+button:hover svg { fill: #6159FF }
+
+button.withBorder {
+    border: 1px solid #6159FF;
+    padding: 5px 10px 5px 5px;
+    border-radius: 3px;
+}
+
+button.withBorder:hover {
+    border-color: transparent
+}
+
+button.withBorder-light {
+    border-color: #04050A
+}
+
+button.withBorder-light svg { fill: #04050A }
+
+button.withBorder-light:hover svg { fill: #04050A }
+
+.Clipboard, .Openexternal {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: .8em;
+}
+
+button svg {
+    width: 22px;
+    height: 22px;
+}
+
+.Openexternal-icon { margin-right: 5px }
+
+/*
+  Label Styling Component ✏️
+  ----
+  - Super small, but styles the labels
+*/
+
+.fieldset {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.legend {
+    width: 100%;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: .5em;
+}
+
+.legend > * { margin-right: 10px }
+
+.legend u {
+    text-decoration: none;
+    border-bottom: 2px solid #6159FF;
+}
+
+/*
+  Progress Styling Component ✏️
+  ----
+*/
+
+.c-progress {
+  -webkit-appearance: none;
+  height: 4px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  -webkit-transition: .12s ease-in-out;
+  transition: .12s ease-in-out;
+}
+
+.c-progress::-webkit-progress-bar { background-color: #D7D7D7; }
+
+.c-progress::-webkit-progress-value {
+    background-image: -webkit-gradient(linear, left top, right top, from(#9300FF), color-stop(49%, #5272E2), color-stop(98%, #05E6B5));
+    background-image: linear-gradient(90deg, #9300FF 0%, #5272E2 49%, #05E6B5 98%);
+    -webkit-box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .1);
+            box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .1);
+    border-radius: 4px;
+  }
+
+.c-progress__transparent::-webkit-progress-bar { background-color: rgba(255, 255, 255, .2); }
+
+.toggler__wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    max-width: 100%;
+    pointer-events: none;
+    -webkit-transition: all .12s ease-in-out;
+    transition: all .12s ease-in-out;
+    will-change: all;
+}
+
+.toggler__wrapper > * { pointer-events: all }
+
+.toggler__broadcaster {
+    min-width: 143px;
+    min-height: 143px;
+    -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, .05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .05);
+    color: #FFF;
+    font-weight: 600;
+    font-size: 1.8em;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    background: #F33C3C;
+    overflow: hidden;
+
+}
+
+.toggler__broadcaster:hover svg { fill: #FFF }
+
+.toggler__broadcaster i, .toggler__broadcaster i svg {
+    overflow: hidden;
+    border-radius: 4px;
+    height: 54px;
+    width: 54px;
+}
+
+.toggler__player {
+    position: relative; /*cancel*/
+    height: 50px;
+    margin-top: 30px;
+    max-width: 400px;
+}
+
+.toggler__player_ID {
+    max-width: 400px;
+    font-size: 1.2em;
+}
+
+[class*='toggler__player-button'] {
+    height: 100%;
+    margin-left: 10px;
+    display: none;
+}
+
+.toggler__player-button-cancel {
+    /*keep input centered*/
+    margin-left: -30px;
+    margin-right: 10px;
+}
+
+.toggler__player-button-icon {
+    margin: 5px 0 0 5px;
+}
+
+.toggler__broadcaster {
+    text-transform: uppercase;
+}
+
+.toggler__broadcaster_recording-label {
+    -webkit-transition: all .12s ease-in-out;
+    transition: all .12s ease-in-out;
+    will-change: all;
+    opacity: 0;
+    width: 0px;
+    margin-right: 10px;
+    display: none;
+}
+
+/* states */
+
+.toggler__wrapper-playerFocused .toggler__broadcaster { display: none }
+
+.toggler__wrapper-playerFocused .toggler__player {
+    margin-bottom: 20px;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+
+.toggler__wrapper-playerFocused [class*='toggler__player-button'] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-animation: fadeInFromNone 0.5s ease-out;
+            animation: fadeInFromNone 0.5s ease-out;
+}
+
+.app.recording .toggler__player  { display: none }
+
+/* labels states */
+
+.app.recording .toggler__broadcaster-label, .app:not(.recording) .toggler__timer, .app:not(.recording) .toggler__broadcaster i, .app.recording .toggler__inputID  { display: none }
+
+.app.playing .toggler__wrapper {
+    opacity: 0;
+}
+
+.controls-container, .control-container { width: 100% }
+
+.control-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 80px;
+    width: 100%;
+}
+
+.control-action {
+    margin: 0 10px;
+}
+
+.control-action > * {
+    background: transparent;
+    line-height: 1;
+    font-size: 1em;
+}
+
+.control-action > label { margin-right: 5px }
+
+.control-action > * > [class*='-icon'] {
+    margin-right: 5px;
+}
+
+.control-action > * > [class*='-icon'] svg {
+    width: 30px;
+    height: 30px;
+}
+
+.control-action-item__counter-icon svg { fill: #FFF }
+
+.control-action-item__stop-icon svg {
+    border-radius: 4px;
+    fill: #F33C3C !important 
+}
+
+.control-action-item__timer-label {
+    color: #6159FF;
+    -webkit-animation: pulse 1.8s ease-in-out infinite alternate;
+            animation: pulse 1.8s ease-in-out infinite alternate;
+}
+
+.control-action-item__timer-label svg { fill: #6159FF }
+
+.video-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transition: opacity .12s ease-in-out, -webkit-transform .12s ease-in-out;
+    transition: opacity .12s ease-in-out, -webkit-transform .12s ease-in-out;
+    transition: transform .12s ease-in-out, opacity .12s ease-in-out;
+    transition: transform .12s ease-in-out, opacity .12s ease-in-out, -webkit-transform .12s ease-in-out;
+    will-change: transform, opacity, filter;
+    z-index: -1;
+    overflow: auto;
+}
+
+.app.loading .video-wrapper, .app.waiting .video-wrapper {
+    position: absolute;
+    opacity: .5;
+    filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="15" /></filter></svg>#filter');
+    -webkit-filter: blur(15px);
+            filter: blur(15px);
+    -webkit-transform: scale(1.6);
+            transform: scale(1.6);
+    overflow: hidden;
+    pointer-events: none
+}
+
+/*recording*/
+
+/*playing*/
+
+video { min-height: 100vh }
+
+.video-js {
+    width: 100%;
+    height: 100%;
+}
+
+.vjs-control-bar { display: none !important }
+
+/*
+  Modal Styling Component ✏️
+  ----
+  - Super small, but styles the labels
+*/
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100vw;
+    padding: 0 10vw 5vh 10vw;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    background: rgba(97, 89, 255, 1);
+    -webkit-box-shadow: 0px 0px 100px 100px rgba(97, 89, 255, 1);
+            box-shadow: 0px 0px 100px 100px rgba(97, 89, 255, 1);
+}
+
+.modal-header {
+    position: absolute;
+    top: 2em;
+    right: 10vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    font-weight: bold;
+    color: #F33C3C;
+}
+
+.modal-btn-close {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    padding: 10px !important
+
+}
+
+.modal-btn-close-icon, .modal-btn-close-icon svg {
+    width: 42px;
+    height: 42px;
+    fill: #9B9AAD;
+}
+
+.modal-content {
+    width: 100%;
+    font-weight: 200;
+}
+
+.modal-content h1 {
+    font-size: 2.8em;
+    font-weight: 200;
+    margin: 0 0 .5em 0;
+}
+
+.modal-icon {
+    position: fixed;
+    -webkit-transform: scale(21);
+            transform: scale(21);
+    opacity: .04;
+    pointer-events: none
+}
+
+.modal-icon svg {
+    width: 100px;
+    height: 100px;
+    fill: #FFF;
+}
+
+/* animation state */
+
+.modal {
+    bottom: -100vh;
+    -webkit-transition: all .32s ease-in-out;
+    transition: all .32s ease-in-out;
+    will-change: all;
+}
+
+.modal.modal-open { bottom: 0 }
+
+/* Body */
+
+body {
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  background-color: #04050A;
+  font-family: Lato;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+* { -webkit-box-sizing: border-box; box-sizing: border-box }
+
+.content-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.app.content-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.app.content-container .Placeholder { -webkit-box-flex: 1; -ms-flex: 1; flex: 1 }
+
+.app.content-container .app-actions {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+    height: 280px;
+    width: 100%;
+    pointer-events: none;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(4, 4, 4, 1)));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(4, 4, 4, 1) 100%);
+}
+
+.app.content-container .app-actions > * {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    pointer-events: all;
+}
+
+.app.content-container .window-footer { z-index: 0 }
+
+/* states */
+
+.app.recording.content-container, .app.playing.content-container  { -webkit-box-pack: end; -ms-flex-pack: end; justify-content: flex-end }
+
+.app:not(.recording) .player-container { display: none }
+
+/*# sourceMappingURL=style.css.map*/
