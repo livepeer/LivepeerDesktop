@@ -6,43 +6,24 @@
     "mocha": true,
     "node": true
   },
-  "ecmaFeatures": {
-    "jsx": true
-  },
   "rules": {
-    "semi":0,
-    "consistent-return": 0,
-    "comma-dangle": 0,
+    "react/jsx-no-bind": 0,
+    "react/prefer-stateless-function": 0,
+    "comma-dangle": ["error", "never"],
     "no-use-before-define": 0,
-
-    "import/no-unresolved": [2, { "ignore": ["electron"] }],
-    "import/no-extraneous-dependencies": 0,
-
-    "react/jsx-no-bind": 2,
-    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
-    "react/prefer-stateless-function": 2,
-    "flowtype/define-flow-type": 1,
-    "flowtype/require-parameter-type": [1,{"excludeArrowFunctions": "expressionsOnly"}],
-    "flowtype/require-return-type": [1,"always",{"annotateUndefined": "never", "excludeArrowFunctions": "expressionsOnly"}],
-    "flowtype/space-after-type-colon": [1,"always"],
-    "flowtype/space-before-type-colon": [1,"never"],
-    "flowtype/type-id-match": [1,"^([A-Z][a-z0-9]+)+Type$"],
-    "flowtype/use-flow-type": 1,
-    "flowtype/valid-syntax": 1
+    "consistent-return": 0,
+    "quotes": ["error", "single", {"allowTemplateLiterals": true}],
+    "semi": 0,
+    "indent": ["error", 4],
+    "max-len": [1, 200],
+    "react/prop-types": [0],
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": [0],
+    "import/no-named-as-default": "off",
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }]
   },
   "plugins": [
-    "import",
     "react",
-    "flowtype"
-  ],
-  "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack.config.eslint.js"
-      }
-    },
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
-    }
-  }
+  ]
 }

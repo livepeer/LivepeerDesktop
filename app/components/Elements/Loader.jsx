@@ -1,42 +1,33 @@
 import React from 'react'
-import { observer, inject } from "mobx-react";
-import classNames from "classnames";
-import CONSTANTS from "../../constants";
+import { observer, inject } from 'mobx-react';
+import classNames from 'classnames';
+import CONSTANTS from '../../constants';
 
-@inject("video")
+@inject('video')
 @observer
 class Loader extends React.Component {
-	constructor(props) {
-      super(props);
-  	}
 
-	getClassState = () => {
-		const { store : loading } = this.props.video.loader;
-		return classNames({
-            'loader': true
-		})
-	}
+    getClassState = () => classNames({
+        loader: true
+    })
 
-	render() {
-		const { store : loading } = this.props.video.loader;
-		const { errors  } = this.props.video.notifier;
+    render() {
+        const { store: loading } = this.props.video.loader;
+        const { errors } = this.props.video.notifier;
 
-		if (errors.length > 0) {
-			// don't display loader when there is an error...
-			return null;
-		}
+        if (errors.length > 0) {
+            // don't display loader when there is an error...
+            return null;
+        }
 
+        const listItems = loading.map((key, i) => <li key={i}>{ CONSTANTS.loading[key] }</li>);
 
-		const listItems = loading.map((key, i) => {
-			return <li key={i}>{ CONSTANTS.loading[key] }</li>
-		});
-
-		return (
-			<div className={this.getClassState()}>
-                <ul>{ listItems }</ul>
-			</div>
-		);
-	}
+        return (
+          <div className={this.getClassState()}>
+            <ul>{ listItems }</ul>
+          </div>
+        );
+    }
 }
 
 

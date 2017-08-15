@@ -4,17 +4,17 @@ import merge from 'webpack-merge'
 import baseConfig from '../webpack.config.base'
 
 const config = merge(baseConfig, {
-  devtool: 'cheap-module-source-map',
-  debug: true,
-  entry: './app/index',
+    devtool: 'cheap-module-source-map',
+    debug: true,
+    entry: './app/index',
 
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })],
+    plugins: [
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })],
 
-  target: 'electron-renderer'
+    target: 'electron-renderer'
 })
 
 export default config

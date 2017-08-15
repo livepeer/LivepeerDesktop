@@ -5,10 +5,6 @@ import minimize from '../../static/traffic-light-minimize.svg';
 
 
 class Header extends React.Component {
-	constructor(props) {
-      super(props);
-  	}
-
     closeWindow = (event) => {
         ipcRenderer.send('close');
     }
@@ -18,18 +14,26 @@ class Header extends React.Component {
     }
 
     render() {
-		return (
-            <header className="window-header">
-                <ul>
-                    <li className="window__controls">
-                        <a onClick={(event) => this.closeWindow(event) }className="window__controls-close" dangerouslySetInnerHTML={{__html: close }}></a>
-                        <a onClick={() => this.minimizeWindow() } className="window__controls-minimize" dangerouslySetInnerHTML={{__html: minimize }}></a>
-                    </li>
-                    <li className="window__title"></li>
-                </ul>
-            </header>
-		);
-	}
+        return (
+          <header className="window-header">
+            <ul>
+              <li className="window__controls">
+                <a
+                  onClick={(event) => this.closeWindow(event)}
+                  className="window__controls-close"
+                  dangerouslySetInnerHTML={{ __html: close }}
+                />
+                <a
+                  onClick={() => this.minimizeWindow()}
+                  className="window__controls-minimize"
+                  dangerouslySetInnerHTML={{ __html: minimize }}
+                />
+              </li>
+              <li className="window__title" />
+            </ul>
+          </header>
+        );
+    }
 }
 
 export default Header

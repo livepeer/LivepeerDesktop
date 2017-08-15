@@ -26,7 +26,7 @@
     font-size: 1em;
 }
 
-.control-action > label { margin-right: 5px }
+.control-action > [class*='-label'] { margin-right: 5px }
 
 .control-action > * > [class*='-icon'] {
     @extend .flexCenter;
@@ -42,7 +42,7 @@
 
 .control-action-item__stop-icon svg {
     border-radius: 4px;
-    fill: $record !important 
+    fill: $record !important
 }
 
 .control-action-item__timer-label {

@@ -13,8 +13,8 @@ const compiler = webpack(config)
 const PORT = process.env.PORT || 3000
 
 const devMiddleware = webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-  stats: { colors: true }
+    publicPath: config.output.publicPath,
+    stats: { colors: true }
 })
 
 app.use(devMiddleware)
@@ -22,13 +22,13 @@ app.use(devMiddleware)
 app.use(webpackHotMiddleware(compiler))
 
 const server = app.listen(PORT, 'localhost', err => {
-  if (err) return console.error(err)
+    if (err) return console.error(err)
 
-  console.log(`Listening at http://localhost:${PORT}`)
+    console.log(`Listening at http://localhost:${PORT}`)
 });
 
 process.on('SIGTERM', () => {
-  console.log('Stopping dev server')
-  devMiddleware.close()
-  server.close(() => process.exit(0))
+    console.log('Stopping dev server')
+    devMiddleware.close()
+    server.close(() => process.exit(0))
 })

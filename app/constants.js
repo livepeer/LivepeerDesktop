@@ -13,10 +13,12 @@ const CONSTANTS = {
         },
         2: {
             message: 'LivePeer exited',
-            loadingKeys: [1]
+            loadingKeys: [1],
+            critical: true
         },
         3: {
-            message: 'FFMPeg Broadcast failed'
+            message: 'FFMPeg Broadcast failed',
+            critical: true
         },
         4: {
             message: 'Having problem connecting to Livepeer.  Make sure your local node is running.'
@@ -27,6 +29,6 @@ const CONSTANTS = {
         }
     },
     webURL: 'https://s3.amazonaws.com/livepeer/webplayer/player.html?strmID='
-}
+};
 
 export default CONSTANTS;

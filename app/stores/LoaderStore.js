@@ -1,29 +1,29 @@
-import { observable } from "mobx";
+import { observable } from 'mobx';
 import { ipcRenderer } from 'electron';
 
 export default class LoaderStore {
       @observable store = [2]; /* initial is video aquisition*/
 
-      constructor() {
+    constructor() {
           // listener for loading state change
-          ipcRenderer.on('loading', (e, arg) => {
-              this.updateLoading(arg);
-          });
-      }
+        ipcRenderer.on('loading', (e, arg) => {
+            this.updateLoading(arg);
+        });
+    }
 
-      updateLoading = (args) => {
-          const { type, key } = args;
-          var ghost = JSON.parse(JSON.stringify(this.store));
+    updateLoading = (args) => {
+        const { type, key } = args;
+        const ghost = JSON.parse(JSON.stringify(this.store));
 
-          if (type === 'delete') {
-               ghost.indexOf(key) > -1 && ghost.splice(ghost.indexOf(key), 1);
-          }
-          if (type === 'add') {
-              ghost.indexOf(key) === -1 && ghost.push(key);
-          }
-          if(args.peerCount) {
-              this.peerCount = args.peerCount;
-          }
-          this.store = ghost;
-      }
+        if (type === 'delete') {
+            ghost.indexOf(key) > -1 && ghost.splice(ghost.indexOf(key), 1);
+        }
+        if (type === 'add') {
+            ghost.indexOf(key) === -1 && ghost.push(key);
+        }
+        if (args.peerCount) {
+            this.peerCount = args.peerCount;
+        }
+        this.store = ghost;
+    }
 }

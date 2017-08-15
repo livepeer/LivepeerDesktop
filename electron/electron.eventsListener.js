@@ -3,29 +3,27 @@
     @return a events received in the stores
 */
 
-import {  ipcMain } from 'electron';
+import { ipcMain } from 'electron';
+import request from 'request';
 import { windowFFMpeg, windowLivepeer } from './';
 import { main } from '../config/config';
-const { httpPort } = main;
 
-import log from 'electron-log';
-import request from 'request';
+const { httpPort } = main;
 
 
 export const listener = (app, mainWindow) => {
-
     // is LP running [hacky] ?
     const checkIfRunning = setInterval(
-    function() {
-        request("http://localhost:"+httpPort+"/peersCount", function(err, res, body) {
-          if (err != null) {
-            err.code == 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
-            return
-          }
-          const peerCount = JSON.parse(body)["count"];
-          mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
+    () => {
+        request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
+            if (err != null) {
+                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
+                return
+            }
+            const peerCount = JSON.parse(body).count;
+            mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
         })
-  }, 1500);
+    }, 1500);
 
 
     /*
@@ -37,11 +35,9 @@ export const listener = (app, mainWindow) => {
         if (!fromState) {
             // create a stream, then startFFMpeg
             windowLivepeer.createStream(sender).then(({ rtmpStrmID }) => {
-            windowFFMpeg.startFFMpeg(sender, rtmpStrmID, 1);
-            windowLivepeer.getHlsStrmID(sender);
-
+                windowFFMpeg.startFFMpeg(sender, rtmpStrmID);
+                windowLivepeer.getHlsStrmID(sender);
             }).catch((err) => console.error(err));
-
         } else if (fromState) {
             windowFFMpeg.stopFFMpeg();
             event.sender.send('broadcast', 0);
@@ -53,52 +49,49 @@ export const listener = (app, mainWindow) => {
     */
     ipcMain.on('play', (event, arg) => {
         const { strmID } = arg;
-        const sender = event.sender;
         if (strmID) {
             // create a stream, then startFFMpeg
-            windowLivepeer.getVideo({ strmID }).then( ({ strmID }) => {
+            windowLivepeer.getVideo({ strmID }).then(() => {
                 const videoURL = `http://localhost:${httpPort}/stream/${strmID}.m3u8`;
                 event.sender.send('play', { videoURL });
                 /**/
             }).catch((err) => event.sender.send('notifier', err));
-
         } else if (!strmID) {
-            event.sender.send('play', {strmID:0});
+            event.sender.send('play', { strmID: 0 });
         }
     })
 
     /*
         Send bug report
     */
-    ipcMain.on('sendBugReport', (event, arg) => {
-      windowLogging.sendBugReport()
+    ipcMain.on('sendBugReport', () => {
+        // windowLogging.sendBugReport()
     })
 
     /*
         Start LivePeer
     */
-    ipcMain.on('startLivepeer', (event, arg) => {
-      windowLivepeer.startLivepeer(event.sender)
+    ipcMain.on('startLivepeer', (event) => {
+        windowLivepeer.startLivepeer(event.sender)
     })
 
     /*
         Reset LivePeer
     */
-    ipcMain.on('resetLivepeer', (event, arg) => {
-      windowLivepeer.resetLivepeer(event.sender)
+    ipcMain.on('resetLivepeer', (event) => {
+        windowLivepeer.resetLivepeer(event.sender)
     })
 
     /*
         Forward loading from the app to the LoaderStore
     */
-    ipcMain.on('loading', (event, arg) => event.sender.send("loading", arg));
-
+    ipcMain.on('loading', (event, arg) => event.sender.send('loading', arg));
 
 
     /*
         Forward notifier from the app to the LoaderStore
     */
-    ipcMain.on('notifier', (event, arg) => event.sender.send("notifier", arg));
+    ipcMain.on('notifier', (event, arg) => event.sender.send('notifier', arg));
 
 
     /*
@@ -140,5 +133,4 @@ export const listener = (app, mainWindow) => {
         clearInterval(checkIfRunning);
         mainWindow.close();
     });
-
 }

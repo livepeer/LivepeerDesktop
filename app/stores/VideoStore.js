@@ -1,8 +1,8 @@
-import { observable, action } from 'mobx'
+import { observable, action } from 'mobx';
 import { ipcRenderer } from 'electron';
-import LoaderStore from "./LoaderStore";
-import NotifierStore from "./NotifierStore";
-import { pad } from "../helpers"
+import LoaderStore from './LoaderStore';
+import NotifierStore from './NotifierStore';
+import { pad } from '../helpers';
 
 let clearTimer;
 
@@ -23,36 +23,33 @@ export default class VideoStore {
   @observable broadcasting = 0;
   @observable playing = 0;
 
-  constructor () {
+    constructor() {
+        this.notifier = new NotifierStore();
+        this.loader = new LoaderStore();
 
-      this.notifier = new NotifierStore();
-      this.loader = new LoaderStore();
+        ipcRenderer.on('broadcast', (e, { hlsStrmID }) => {
+            this.timer = hlsStrmID ? this.startTimer() : clearInterval(clearTimer);
+            this.broadcasting = hlsStrmID || 0;
 
-      ipcRenderer.on('broadcast', (e, { hlsStrmID }) => {
-          this.timer = hlsStrmID ? this.startTimer() : clearInterval(clearTimer);
-          this.broadcasting = hlsStrmID ? hlsStrmID : 0;
+            hlsStrmID && this.loader.updateLoading({ type: 'delete', key: 3 });
+        });
 
-          hlsStrmID && this.loader.updateLoading({ type: 'delete', key: 3 });
-
-      });
-
-      ipcRenderer.on('play', (e, { videoURL }) => {
-          videoURL && this.loader.updateLoading({ type: 'delete', key: 4 });
-          this.broadcasting = 0;
-          this.playing = videoURL ? videoURL : 0;
-      })
-  }
+        ipcRenderer.on('play', (e, { videoURL }) => {
+            videoURL && this.loader.updateLoading({ type: 'delete', key: 4 });
+            this.broadcasting = 0;
+            this.playing = videoURL || 0;
+        });
+    }
 
   @action startTimer = () => {
-
       const self = this;
       let sec = 0;
       this.timer = 0;
 
-     clearTimer = setInterval(() => {
-          console.log("timer interval +1s");
-          var seconds = pad(++sec%60);
-          var minutes = pad(parseInt(sec/60,10));
+      clearTimer = setInterval(() => {
+          console.log('timer interval +1s');
+          const seconds = pad(++sec % 60);
+          const minutes = pad(parseInt(sec / 60, 10));
           self.timer = `${minutes}:${seconds}`;
       }, 1000);
   }
@@ -64,18 +61,18 @@ export default class VideoStore {
       /* prevent add before delete at the same time
       which can happen on initial camera aquisition.... */
       !this.playing && !state && setTimeout(() => {
-           this.loader.updateLoading({ type: 'add', key: 2 });
-      }, 200)
+          this.loader.updateLoading({ type: 'add', key: 2 });
+      }, 200);
   }
 
   @action toggleBroadcasting = (strmID) => {
       !this.broadcasting && this.loader.updateLoading({ type: 'add', key: 3 });
-      ipcRenderer.send("broadcast", { fromState: this.broadcasting });
+      ipcRenderer.send('broadcast', { fromState: this.broadcasting });
   }
 
   @action togglePlayer = (strmID) => {
       strmID && this.loader.updateLoading({ type: 'add', key: 4 });
-      ipcRenderer.send("play", { strmID });
+      ipcRenderer.send('play', { strmID });
   }
 
   @action setVideoUrl = (url) => {

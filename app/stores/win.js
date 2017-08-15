@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx'
+import { observable, action } from 'mobx';
 import { ipcRenderer } from 'electron';
 
 export default class WinStore {
@@ -6,20 +6,20 @@ export default class WinStore {
   @observable livepeer = false;
 
 
-  constructor () {
+    constructor() {
       // keep toggle state
-      ipcRenderer.on('fullscreen-toggled', (e, arg) => {
-          this.fullscreen = arg
-      });
-  }
+        ipcRenderer.on('fullscreen-toggled', (e, arg) => {
+            this.fullscreen = arg;
+        });
+    }
 
   @action startLivePeer = () => {
       // Start livepeer
-      ipcRenderer.send("startLivepeer");
+      ipcRenderer.send('startLivepeer');
   }
 
   @action toggle = () => {
-    ipcRenderer.send('toggle-fullscreen-editor-window');
+      ipcRenderer.send('toggle-fullscreen-editor-window');
   }
 
 }

@@ -8,7 +8,6 @@
 @import '_helpers';
 @import '_animations';
 @import '_base';
-@import 'placeholder';
 @import 'components/_window-controls';
 @import 'components/_window-header';
 @import 'components/_window-footer';
@@ -16,14 +15,15 @@
 @import 'components/_notifier';
 @import 'components/_inputs';
 @import 'components/_buttons';
-@import 'components/_labels';
+@import 'components/_forms';
 @import 'components/_progress';
 @import 'components/_toggler';
+@import 'components/_placeholder';
 @import 'components/_controls';
 @import 'components/_video';
 @import 'components/_modal';
 
-/* Body */
+
 body {
   transition: all .2s ease;
   background-color: $background-primary;

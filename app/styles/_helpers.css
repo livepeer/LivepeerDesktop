@@ -35,7 +35,6 @@ code {
     padding: 10px;
 }
 
-
 /* Make child vertical and horizontal centered */
 
 .flexCenter {
@@ -53,6 +52,6 @@ code {
 
 .txt {
     -webkit-app-region: none !important;
-  -webkit-user-select: none !important;
-  cursor: default !important;
+    -webkit-user-select: none !important;
+    cursor: default !important;
 }
