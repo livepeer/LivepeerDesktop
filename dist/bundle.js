@@ -17812,7 +17812,6 @@ module.exports =
 	        key: 'render',
 	        value: function render() {
 	            var _props$video$notifier = this.props.video.notifier,
-	                errors = _props$video$notifier.errors,
 	                clearAllErrors = _props$video$notifier.clearAllErrors,
 	                refreshApp = _props$video$notifier.refreshApp;
 
@@ -18645,7 +18644,7 @@ module.exports =
 	    };
 
 	    this.refreshApp = function () {
-	        _electron.ipcRenderer.send('refresh');
+	        _electron.ipcRenderer.send('criticalRefresh');
 	    };
 
 	    // listener for loading state change

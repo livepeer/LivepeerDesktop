@@ -36,7 +36,6 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
         `rtmp://localhost:${rtmpPort}/stream/${rtmpStrmID}`];
 
     const broadcastProc = childProcess.spawn(global.ffmpegPath, FFMPeArgs);
-    log.info(`Spawn ffmpeg ~ ${FFMPeArgs.join(' ')}`);
 
     global.sharedObj.ffmpegProc = broadcastProc;
 
@@ -44,7 +43,7 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
         log.info(`An error occurred: ${err.message}`);
     });
 
-    broadcastProc.on('end', (code, signal) => {
+    broadcastProc.on('close', (code, signal) => {
         if (userStopFFmpeg) {
             return log.info(`ffmpeg - terminated by the user (stopFFMpeg)`);
         }

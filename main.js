@@ -8941,7 +8941,7 @@ module.exports =
 	
 	var _electron2 = __webpack_require__(331);
 	
-	var _electronLog = __webpack_require__(389);
+	var _electronLog = __webpack_require__(333);
 	
 	var _electronLog2 = _interopRequireDefault(_electronLog);
 	
@@ -8952,7 +8952,7 @@ module.exports =
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                           */
 	
 	// if (process.env.NODE_ENV === 'development') {
-	__webpack_require__(410)(); // eslint-disable-line global-require
+	__webpack_require__(411)(); // eslint-disable-line global-require
 	// }
 	
 	// Keep a global reference of the window object, if you don't, the window will
@@ -8967,8 +8967,8 @@ module.exports =
 	    global.livepeerPath = require('livepeer-static').path;
 	    global.ffmpegPath = require('livepeer-static').path;
 	} else {
-	    global.livepeerPath = __webpack_require__(420).path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked');
-	    global.ffmpegPath = __webpack_require__(421).path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked');
+	    global.livepeerPath = __webpack_require__(421).path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked');
+	    global.ffmpegPath = __webpack_require__(422).path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked');
 	}
 	
 	var installExtensions = function () {
@@ -8984,7 +8984,7 @@ module.exports =
 	                            break;
 	                        }
 	
-	                        installer = __webpack_require__(422); // eslint-disable-line global-require
+	                        installer = __webpack_require__(423); // eslint-disable-line global-require
 	
 	                        extensions = ['REACT_DEVELOPER_TOOLS', 'REACT_PERF'];
 	                        forceDownload = !!({"NODE_ENV":"production"}).UPGRADE_EXTENSIONS;
@@ -9179,7 +9179,7 @@ module.exports =
 	  });
 	});
 	
-	var _electron2 = __webpack_require__(388);
+	var _electron2 = __webpack_require__(405);
 	
 	Object.keys(_electron2).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -9191,7 +9191,7 @@ module.exports =
 	  });
 	});
 	
-	var _electron3 = __webpack_require__(405);
+	var _electron3 = __webpack_require__(406);
 	
 	Object.keys(_electron3).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -9203,7 +9203,7 @@ module.exports =
 	  });
 	});
 	
-	var _electron4 = __webpack_require__(408);
+	var _electron4 = __webpack_require__(409);
 	
 	Object.keys(_electron4).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -9215,7 +9215,7 @@ module.exports =
 	  });
 	});
 	
-	var _electron5 = __webpack_require__(409);
+	var _electron5 = __webpack_require__(410);
 	
 	Object.keys(_electron5).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -9234,90 +9234,102 @@ module.exports =
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
-	/*
-	    Logging
-	*/
 	
-	var fs = __webpack_require__(333);
-	var shell = __webpack_require__(334);
+	var _electronLog = __webpack_require__(333);
+	
+	var _electronLog2 = _interopRequireDefault(_electronLog);
+	
+	var _shelljs = __webpack_require__(351);
+	
+	var _shelljs2 = _interopRequireDefault(_shelljs);
+	
+	var _fs = __webpack_require__(342);
+	
+	var _fs2 = _interopRequireDefault(_fs);
+	
+	var _os = __webpack_require__(340);
+	
+	var _os2 = _interopRequireDefault(_os);
+	
+	var _config = __webpack_require__(402);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var homeDir = _config.main.homeDir; /*
+	                                        Logging
+	                                    */
+	
+	var ifaces = _os2.default.networkInterfaces();
+	var apiKey = 'key-b3ca6551d733367cdb89b04ee6b51f08';
+	var domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
+	var mailgun = __webpack_require__(404)({ apiKey: apiKey, domain: domain });
 	
 	var setLogging = function setLogging() {
-	  // Same as for console transport
-	  log.transports.file.level = 'info';
-	  log.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
+	    // Same as for console transport
+	    _electronLog2.default.transports.file.level = 'info';
+	    _electronLog2.default.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
 	
-	  // Set approximate maximum log size in bytes. When it exceeds,
-	  // the archived log will be saved as the log.old.log file
-	  log.transports.file.maxSize = 5 * 1024 * 1024;
+	    // Set approximate maximum log size in bytes. When it exceeds,
+	    // the archived log will be saved as the log.old.log file
+	    _electronLog2.default.transports.file.maxSize = 5 * 1024 * 1024;
 	
-	  // Write to this file, must be set before first logging
-	  // log.transports.file.file = __dirname + '/log.txt';
-	  log.transports.file.file = homeDir + '/Livepeer/log.txt';
+	    // Write to this file, must be set before first logging
+	    // log.transports.file.file = __dirname + '/log.txt';
+	    _electronLog2.default.transports.file.file = homeDir + '/Livepeer/log.txt';
 	
-	  // fs.createWriteStream options, must be set before first logging
-	  log.transports.file.streamConfig = { flags: 'w' };
+	    // fs.createWriteStream options, must be set before first logging
+	    _electronLog2.default.transports.file.streamConfig = { flags: 'w' };
 	
-	  // set existed file stream
-	  if (!fs.existsSync(homeDir + '/Livepeer/')) {
-	    console.log('Making Logging Dir');
-	    shell.mkdir('-p', homeDir + '/Livepeer/');
-	  }
-	  // Remove log file if it's too big
-	  if (fs.existsSync(homeDir + '/Livepeer/log.txt')) {
-	    var stats = fs.statSync(homeDir + '/Livepeer/log.txt');
-	    if (stats.size > 10 * 1000 * 1000) {
-	      shell.rm(homeDir + '/Livepeer/log.txt');
+	    // set existed file stream
+	    if (!_fs2.default.existsSync(homeDir + '/Livepeer/')) {
+	        _electronLog2.default.info('Making Logging Dir');
+	        _shelljs2.default.mkdir('-p', homeDir + '/Livepeer/');
 	    }
-	  }
-	  log.transports.file.stream = fs.createWriteStream(homeDir + '/Livepeer/log.txt', { flags: 'a' });
+	    // Remove log file
+	    if (_fs2.default.existsSync(homeDir + '/Livepeer/log.txt')) {
+	        _shelljs2.default.rm(homeDir + '/Livepeer/log.txt');
+	    }
+	    _electronLog2.default.transports.file.stream = _fs2.default.createWriteStream(homeDir + '/Livepeer/log.txt', { flags: 'a' });
 	
-	  log.transports.file.appName = 'LivepeerDesktop';
+	    _electronLog2.default.transports.file.appName = 'LivepeerDesktop';
+	
+	    _electronLog2.default.info('Logging started');
 	};
 	
 	var sendBugReport = function sendBugReport() {
-	  log.info('Sending logfile to Livepeer');
+	    return new Promise(function (resolve) {
+	        _electronLog2.default.info('Sending logfile to Livepeer');
+	        // var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+	        // Local ip address that we're trying to calculate
+	        var address = void 0;
+	        for (var dev in ifaces) {
+	            // ... and find the one that matches the criteria
+	            var iface = ifaces[dev].filter(function (details) {
+	                return details.family === 'IPv4' && details.internal === false;
+	            });
+	            if (iface.length > 0) address = iface[0].address;
+	        }
 	
-	  var api_key = 'key-b3ca6551d733367cdb89b04ee6b51f08';
-	  var domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
-	  // var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+	        _fs2.default.readFile(homeDir + '/Livepeer/log.txt', function (err, data) {
+	            if (err) {
+	                throw err;
+	            }
 	
-	  var
-	  // Local ip address that we're trying to calculate
-	  address = void 0,
+	            var res = {
+	                from: 'Bug Reporter ' + address + ' <user@sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org>',
+	                to: 'eric@livepeer.org',
+	                subject: 'Sending Bug Report',
+	                text: data.toString()
+	            };
 	
-	  // Provides a few basic operating-system related utility functions (built-in)
-	  os = __webpack_require__(336),
-	
-	  // Network interfaces
-	  ifaces = os.networkInterfaces();
-	
-	  for (var dev in ifaces) {
-	    // ... and find the one that matches the criteria
-	    var iface = ifaces[dev].filter(function (details) {
-	      return details.family === 'IPv4' && details.internal === false;
+	            mailgun.messages().send(res, function (error, body) {
+	                _electronLog2.default.info(body);
+	                resolve('Bug report sent');
+	            });
+	        });
 	    });
-	    if (iface.length > 0) address = iface[0].address;
-	  }
-	
-	  // fs.readFile( __dirname + '/log.txt', function (err, data) {
-	  fs.readFile(homeDir + '/Livepeer/log.txt', function (err, data) {
-	    if (err) {
-	      throw err;
-	    }
-	
-	    var res = {
-	      from: 'Bug Reporter ' + address + ' <user@sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org>',
-	      to: 'eric@livepeer.org',
-	      subject: 'Sending Bug Report',
-	      text: data.toString()
-	    };
-	
-	    // mailgun.messages().send(res, function (error, body) {
-	    //   log.info(body);
-	    // });
-	  });
 	};
 	
 	exports.default = { windowLogging: { setLogging: setLogging, sendBugReport: sendBugReport } };
@@ -9325,12 +9337,739 @@ module.exports =
 
 /***/ }),
 /* 333 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	if (process.type === 'renderer') {
+	  module.exports = __webpack_require__(334);
+	} else {
+	  module.exports = __webpack_require__(335);
+	}
+
+/***/ }),
+/* 334 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = null;
+	
+	var ipcRenderer;
+	try {
+	  ipcRenderer = __webpack_require__(330).ipcRenderer;
+	} catch (e) {
+	  ipcRenderer = null;
+	}
+	
+	if (ipcRenderer) {
+	  module.exports = {
+	    error:   log.bind(null, 'error'),
+	    warn:    log.bind(null, 'warn'),
+	    info:    log.bind(null, 'info'),
+	    verbose: log.bind(null, 'verbose'),
+	    debug:   log.bind(null, 'debug'),
+	    silly:   log.bind(null, 'silly'),
+	    log:     log.bind(null, 'info')
+	  };
+	
+	  module.exports.default = module.exports;
+	
+	  ipcRenderer.on('__ELECTRON_LOG_RENDERER__', function(event, level, text) {
+	    if (level === 'verbose') {
+	      level = 'log';
+	    } else if (level === 'silly') {
+	      level = 'debug';
+	    }
+	
+	    console[level](text);
+	  });
+	}
+	
+	function log() {
+	  var data = Array.prototype.slice.call(arguments);
+	
+	  data = data.map(function(obj) {
+	    if (obj instanceof Error) {
+	      obj = obj.stack || obj;
+	    }
+	
+	    return obj;
+	  });
+	
+	  ipcRenderer.send('__ELECTRON_LOG__', data);
+	}
+
+
+/***/ }),
+/* 335 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var electron;
+	try {
+	  electron = __webpack_require__(330);
+	} catch (e) {
+	  electron = null;
+	}
+	
+	var log                      = __webpack_require__(336);
+	var transportConsole         = __webpack_require__(337);
+	var transportFile            = __webpack_require__(341);
+	var transportLogS            = __webpack_require__(346);
+	var transportRendererConsole = __webpack_require__(350);
+	
+	var transports = {
+	  console: transportConsole,
+	  file: transportFile,
+	  logS: transportLogS,
+	  rendererConsole: transportRendererConsole
+	};
+	
+	module.exports = {
+	  transports: transports,
+	
+	  error:   log.bind(null, transports, 'error'),
+	  warn:    log.bind(null, transports, 'warn'),
+	  info:    log.bind(null, transports, 'info'),
+	  verbose: log.bind(null, transports, 'verbose'),
+	  debug:   log.bind(null, transports, 'debug'),
+	  silly:   log.bind(null, transports, 'silly'),
+	  log:     log.bind(null, transports, 'info')
+	};
+	
+	module.exports.default = module.exports;
+	
+	if (electron && electron.ipcMain) {
+	  electron.ipcMain.on('__ELECTRON_LOG__', onRendererLog);
+	  var appName = electron.app.getName();
+	  if (appName !== 'Electron') {
+	    transportFile.appName = appName;
+	  }
+	}
+	
+	function onRendererLog(event, data) {
+	  if (Array.isArray(data)) {
+	    data.unshift(transports);
+	    log.apply(null, data);
+	  }
+	}
+
+
+/***/ }),
+/* 336 */
+/***/ (function(module, exports) {
+
+	// jshint -W040
+	'use strict';
+	
+	var LEVELS = ['error', 'warn', 'info', 'verbose', 'debug', 'silly'];
+	
+	module.exports = log;
+	
+	function log(transports, level, text) {
+	  var data = Array.prototype.slice.call(arguments, 2);
+	
+	  var msg = {
+	    data: data,
+	    date: new Date(),
+	    level: level
+	  };
+	
+	  for (var i in transports) {
+	    // jshint -W089
+	    if (!transports.hasOwnProperty(i) || typeof transports[i] !== 'function') {
+	      continue;
+	    }
+	
+	    var transport = transports[i];
+	
+	    if (transport === false || !compareLevels(transport.level, level)) {
+	      continue;
+	    }
+	
+	    if (transport.level === false) continue;
+	
+	    transport.call(null, msg);
+	  }
+	}
+	
+	function compareLevels(passLevel, checkLevel) {
+	  var pass = LEVELS.indexOf(passLevel);
+	  var check = LEVELS.indexOf(checkLevel);
+	  if (check === -1 || pass === -1) {
+	    return true;
+	  }
+	  return check <= pass;
+	}
+
+/***/ }),
+/* 337 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var format = __webpack_require__(338);
+	
+	transport.level  = 'silly';
+	transport.format = formatFn;
+	
+	module.exports = transport;
+	
+	function transport(msg) {
+	  var text = format.format(msg, transport.format);
+	  if (console[msg.level]) {
+	    console[msg.level](text);
+	  } else {
+	    console.log(text);
+	  }
+	}
+	
+	function formatFn(msg) {
+	  var time =
+	    format.pad(msg.date.getHours()) + ':' +
+	    format.pad(msg.date.getMinutes()) + ':' +
+	    format.pad(msg.date.getSeconds()) + ':' +
+	    format.pad(msg.date.getMilliseconds(), 4);
+	
+	  return '[' + time + '] [' + msg.level + '] ' +
+	    format.stringifyArray(msg.data);
+	}
+
+/***/ }),
+/* 338 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var util = __webpack_require__(339);
+	var EOL  = __webpack_require__(340).EOL;
+	
+	module.exports = {
+	  format: format,
+	  pad: pad,
+	  stringifyArray: stringifyArray
+	};
+	
+	function format(msg, formatter) {
+	  if (typeof formatter === 'function') {
+	    return formatter(msg);
+	  }
+	
+	  var date = msg.date;
+	
+	  return formatter
+	    .replace('{level}', msg.level)
+	    .replace('{text}', stringifyArray(msg.data))
+	    .replace('{y}', date.getFullYear())
+	    .replace('{m}', pad(date.getMonth() + 1))
+	    .replace('{d}', pad(date.getDate()))
+	    .replace('{h}', pad(date.getHours()))
+	    .replace('{i}', pad(date.getMinutes()))
+	    .replace('{s}', pad(date.getSeconds()))
+	    .replace('{ms}', pad(date.getMilliseconds(), 4));
+	}
+	
+	function stringifyArray(data) {
+	  data = data.map(function formatErrors(arg) {
+	    return arg instanceof Error ? arg.stack + EOL : arg;
+	  });
+	  return util.format.apply(util, data);
+	}
+	
+	function pad(number, zeros) {
+	  zeros = zeros || 2;
+	  return (new Array(zeros + 1).join('0') + number).substr(-zeros, zeros);
+	}
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports) {
+
+	module.exports = require("util");
+
+/***/ }),
+/* 340 */
+/***/ (function(module, exports) {
+
+	module.exports = require("os");
+
+/***/ }),
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var fs               = __webpack_require__(342);
+	var EOL              = __webpack_require__(340).EOL;
+	var format           = __webpack_require__(338);
+	var consoleTransport = __webpack_require__(337);
+	var findLogPath      = __webpack_require__(343);
+	
+	transport.findLogPath  = findLogPath;
+	transport.format       = formatFn;
+	transport.level        = 'warn';
+	transport.maxSize      = 1024 * 1024;
+	transport.streamConfig = undefined;
+	
+	module.exports = transport;
+	
+	function transport(msg) {
+	  var text = format.format(msg, transport.format) + EOL;
+	
+	  if (transport.stream === undefined) {
+	    initSteamConfig();
+	    openStream();
+	  }
+	
+	  if (transport.level === false) {
+	    return;
+	  }
+	
+	  var needLogRotation = transport.maxSize > 0 &&
+	    getStreamSize(transport.stream) > transport.maxSize;
+	
+	  if (needLogRotation) {
+	    archiveLog(transport.stream);
+	    openStream();
+	  }
+	
+	  transport.stream.write(text);
+	}
+	
+	function initSteamConfig() {
+	  transport.file = transport.file || findLogPath(transport.appName);
+	
+	  if (!transport.file) {
+	    transport.level = false;
+	    logConsole('Could not set a log file');
+	  }
+	}
+	
+	function openStream() {
+	  if (transport.level === false) {
+	    return;
+	  }
+	
+	  transport.stream = fs.createWriteStream(
+	    transport.file,
+	    transport.streamConfig || { flags: 'a' }
+	  );
+	}
+	
+	function getStreamSize(stream) {
+	  if (!stream) {
+	    return 0;
+	  }
+	
+	  if (stream.logSizeAtStart === undefined) {
+	    try {
+	      stream.logSizeAtStart = fs.statSync(stream.path).size;
+	    } catch (e) {
+	      stream.logSizeAtStart = 0;
+	    }
+	  }
+	
+	  return stream.logSizeAtStart + stream.bytesWritten;
+	}
+	
+	function archiveLog(stream) {
+	  if (stream.end) {
+	    stream.end();
+	  }
+	
+	  try {
+	    fs.renameSync(stream.path, stream.path.replace(/log$/, 'old.log'));
+	  } catch (e) {
+	    logConsole('Could not rotate log', e);
+	  }
+	}
+	
+	function formatFn(msg) {
+	  var date =
+	    msg.date.getFullYear() + '-' +
+	    format.pad(msg.date.getMonth() + 1) + '-' +
+	    format.pad(msg.date.getDate()) + ' ' +
+	    format.pad(msg.date.getHours()) + ':' +
+	    format.pad(msg.date.getMinutes()) + ':' +
+	    format.pad(msg.date.getSeconds()) + ':' +
+	    format.pad(msg.date.getMilliseconds(), 4);
+	
+	  return '[' + date + '] [' + msg.level + '] ' +
+	    format.stringifyArray(msg.data);
+	}
+	
+	function logConsole(message, error) {
+	  var data = ['electron-log.transports.file: ' + message];
+	
+	  if (error) {
+	    data.push(error);
+	  }
+	
+	  consoleTransport({ data: data, date: new Date(), level: 'warn' });
+	}
+
+/***/ }),
+/* 342 */
 /***/ (function(module, exports) {
 
 	module.exports = require("fs");
 
 /***/ }),
-/* 334 */
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var fs   = __webpack_require__(342);
+	var path = __webpack_require__(344);
+	var os   = __webpack_require__(340);
+	var getAppName = __webpack_require__(345);
+	
+	module.exports = findLogPath;
+	
+	/**
+	 * Try to determine a platform-specific path where can write logs
+	 * @param {string} [appName] Used to determine the last part of a log path
+	 * @return {string|boolean}
+	 */
+	function findLogPath(appName) {
+	  appName = appName || getAppName();
+	  if (!appName) {
+	    return false;
+	  }
+	
+	  var homeDir = os.homedir ? os.homedir() : ({"NODE_ENV":"production"})['HOME'];
+	  
+	  var dir;
+	  switch (process.platform) {
+	    case 'linux': {
+	      dir = prepareDir(({"NODE_ENV":"production"})['XDG_CONFIG_HOME'], appName)
+	        .or(homeDir, '.config', appName)
+	        .or(({"NODE_ENV":"production"})['XDG_DATA_HOME'], appName)
+	        .or(homeDir, '.local', 'share', appName)
+	        .result;
+	      break;
+	    }
+	
+	    case 'darwin': {
+	      dir = prepareDir(homeDir, 'Library', 'Logs', appName)
+	        .or(homeDir, 'Library', 'Application Support', appName)
+	        .result;
+	      break;
+	    }
+	
+	    case 'win32': {
+	      dir = prepareDir(({"NODE_ENV":"production"})['APPDATA'], appName)
+	        .or(homeDir, 'AppData', 'Roaming', appName)
+	        .result;
+	      break;
+	    }
+	  }
+	
+	  if (dir) {
+	    return path.join(dir, 'log.log');
+	  } else {
+	    return false;
+	  }
+	}
+	
+	
+	
+	function prepareDir(dirPath) {
+	  // jshint -W040
+	  if (!this || this.or !== prepareDir || !this.result) {
+	    if (!dirPath) {
+	      return { or: prepareDir };
+	    }
+	
+	    //noinspection JSCheckFunctionSignatures
+	    dirPath = path.join.apply(path, arguments);
+	    mkDir(dirPath);
+	
+	    try {
+	      fs.accessSync(dirPath, fs.W_OK);
+	    } catch (e) {
+	      return { or: prepareDir };
+	    }
+	  }
+	
+	  return {
+	    or: prepareDir,
+	    result: (this ? this.result : false) || dirPath
+	  };
+	}
+	
+	function mkDir(dirPath, root) {
+	  var dirs = dirPath.split(path.sep);
+	  var dir = dirs.shift();
+	  root = (root || '') + dir + path.sep;
+	
+	  try {
+	    fs.mkdirSync(root);
+	  } catch (e) {
+	    if (!fs.statSync(root).isDirectory()) {
+	      throw new Error(e);
+	    }
+	  }
+	
+	  return !dirs.length || mkDir(dirs.join(path.sep), root);
+	}
+
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports) {
+
+	module.exports = require("path");
+
+/***/ }),
+/* 345 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// jshint -W074
+	'use strict';
+	
+	/** @name process.resourcesPath */
+	
+	var fs   = __webpack_require__(342);
+	var path = __webpack_require__(344);
+	var consoleTransport = __webpack_require__(337);
+	
+	module.exports = getAppName;
+	
+	function getAppName() {
+	  try {
+	    var name = loadPackageName();
+	    if (name) {
+	      return name;
+	    }
+	    return warn('electron-log: unable to load the app name from package.json');
+	  } catch (e) {
+	    return warn('electron-log: ' + e.message);
+	  }
+	}
+	
+	/**
+	 * Try to load main app package
+	 * @throws {Error}
+	 * @return {Object|null}
+	 */
+	function loadPackageName() {
+	  var packageFile;
+	
+	  try {
+	    if (__webpack_require__.c[0].filename) {
+	      packageFile = find(path.dirname(__webpack_require__.c[0].filename));
+	    }
+	  } catch (e) {}
+	
+	  if (!packageFile && process.resourcesPath) {
+	    packageFile = find(path.join(process.resourcesPath, 'app.asar'));
+	    var electronModule = path.join('node_modules', 'electron', 'package.json');
+	    if (packageFile && packageFile.indexOf(electronModule) !== -1) {
+	      packageFile = null;
+	    }
+	  }
+	
+	  if (!packageFile) {
+	    packageFile = find(process.cwd());
+	  }
+	
+	  if (!packageFile) {
+	    return null;
+	  }
+	
+	  var content = fs.readFileSync(packageFile, 'utf-8');
+	  var packageData = JSON.parse(content);
+	
+	  //noinspection JSUnresolvedVariable
+	  return packageData ? packageData.productName || packageData.name : false;
+	}
+	
+	function find(root) {
+	  var file;
+	
+	  while (!file) {
+	    var parent;
+	    file = path.join(root, 'package.json');
+	
+	    try {
+	      fs.statSync(file);
+	    } catch (e) {
+	      parent = path.resolve(root, '..');
+	      file = null;
+	    }
+	
+	    if (root === parent) {
+	      break;
+	    }
+	
+	    root = parent;
+	  }
+	
+	  return file;
+	}
+	
+	function warn(message) {
+	  consoleTransport({
+	    data: [message],
+	    date: new Date(),
+	    level: 'warn'
+	  });
+	}
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// jshint -W074, -W089
+	'use strict';
+	
+	var http  = __webpack_require__(347);
+	var https = __webpack_require__(348);
+	var url   = __webpack_require__(349);
+	
+	transport.client = { name: 'electron-application' };
+	transport.depth  = 6;
+	transport.level  = false;
+	transport.url    = null;
+	
+	module.exports = transport;
+	
+	function transport(msg) {
+	  if (!transport.url) return;
+	
+	  var data = jsonDepth({
+	    client: transport.client,
+	    data: msg.data,
+	    date: msg.date.getTime(),
+	    level: msg.level
+	  }, transport.depth + 1);
+	
+	  post(transport.url, data);
+	}
+	
+	function post(serverUrl, data) {
+	  var urlObject = url.parse(serverUrl);
+	  var transport = urlObject.protocol === 'https:' ? https : http;
+	
+	  var body = JSON.stringify(data);
+	
+	  var options = {
+	    hostname: urlObject.hostname,
+	    port:     urlObject.port,
+	    path:     urlObject.path,
+	    method:   'POST',
+	    headers:  {
+	      'Content-Type':  'application/json',
+	      'Content-Length': body.length
+	    }
+	  };
+	
+	  var request = transport.request(options);
+	  request.write(body);
+	  request.end();
+	}
+	
+	function jsonDepth(json, depth) {
+	  if (depth < 1) {
+	    if (Array.isArray(json))  return '[array]';
+	    if (typeof json === 'object')  return '[object]';
+	    return json;
+	  }
+	
+	  if (Array.isArray(json)) {
+	    return json.map(function(child) {
+	      return jsonDepth(child, depth - 1);
+	    });
+	  }
+	
+	  if (json && typeof json.getMonth === 'function') {
+	    return json;
+	  }
+	
+	  if (json === null) {
+	    return null;
+	  }
+	
+	  if (typeof json === 'object') {
+	    if (typeof json.toJSON === 'function') {
+	      json = json.toJSON();
+	    }
+	
+	    var newJson = {};
+	    for (var i in json) {
+	      //noinspection JSUnfilteredForInLoop
+	      newJson[i] = jsonDepth(json[i], depth - 1);
+	    }
+	
+	    return newJson;
+	  }
+	
+	  return json;
+	}
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports) {
+
+	module.exports = require("http");
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports) {
+
+	module.exports = require("https");
+
+/***/ }),
+/* 349 */
+/***/ (function(module, exports) {
+
+	module.exports = require("url");
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var BrowserWindow;
+	try {
+	  BrowserWindow = __webpack_require__(330).BrowserWindow;
+	} catch (e) {
+	  BrowserWindow = null;
+	}
+	
+	var format = __webpack_require__(338);
+	
+	transport.level  = BrowserWindow ? 'silly' : false;
+	transport.format = formatFn;
+	
+	module.exports = transport;
+	
+	function transport(msg) {
+	  if (!BrowserWindow) return;
+	
+	  var text = format.format(msg, transport.format);
+	  BrowserWindow.getAllWindows().forEach(function(wnd) {
+	    wnd.webContents.send('__ELECTRON_LOG_RENDERER__', msg.level, text);
+	  });
+	}
+	
+	function formatFn(msg) {
+	  var time =
+	        format.pad(msg.date.getHours()) + ':' +
+	        format.pad(msg.date.getMinutes()) + ':' +
+	        format.pad(msg.date.getSeconds()) + ':' +
+	        format.pad(msg.date.getMilliseconds(), 4);
+	
+	  return '[' + time + '] ' + format.stringifyArray(msg.data);
+	}
+
+/***/ }),
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//
@@ -9341,7 +10080,7 @@ module.exports =
 	// http://github.com/shelljs/shelljs
 	//
 	
-	var common = __webpack_require__(335);
+	var common = __webpack_require__(352);
 	
 	//@
 	//@ All commands run synchronously, unless otherwise stated.
@@ -9356,8 +10095,8 @@ module.exports =
 	//@commands
 	
 	// Load all default commands
-	__webpack_require__(355).forEach(function (command) {
-	  __webpack_require__(356)("./" + command);
+	__webpack_require__(369).forEach(function (command) {
+	  __webpack_require__(370)("./" + command);
 	});
 	
 	//@
@@ -9366,7 +10105,7 @@ module.exports =
 	exports.exit = process.exit;
 	
 	//@include ./src/error
-	exports.error = __webpack_require__(363);
+	exports.error = __webpack_require__(377);
 	
 	//@include ./src/common
 	exports.ShellString = common.ShellString;
@@ -9490,17 +10229,17 @@ module.exports =
 
 
 /***/ }),
-/* 335 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Ignore warning about 'new String()'
 	/* eslint no-new-wrappers: 0 */
 	'use strict';
 	
-	var os = __webpack_require__(336);
-	var fs = __webpack_require__(333);
-	var glob = __webpack_require__(337);
-	var shell = __webpack_require__(334);
+	var os = __webpack_require__(340);
+	var fs = __webpack_require__(342);
+	var glob = __webpack_require__(353);
+	var shell = __webpack_require__(351);
 	
 	var shellMethods = Object.create(shell);
 	
@@ -9962,13 +10701,7 @@ module.exports =
 
 
 /***/ }),
-/* 336 */
-/***/ (function(module, exports) {
-
-	module.exports = require("os");
-
-/***/ }),
-/* 337 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Approach:
@@ -10013,27 +10746,27 @@ module.exports =
 	
 	module.exports = glob
 	
-	var fs = __webpack_require__(333)
-	var rp = __webpack_require__(338)
-	var minimatch = __webpack_require__(341)
+	var fs = __webpack_require__(342)
+	var rp = __webpack_require__(354)
+	var minimatch = __webpack_require__(356)
 	var Minimatch = minimatch.Minimatch
-	var inherits = __webpack_require__(345)
-	var EE = __webpack_require__(346).EventEmitter
-	var path = __webpack_require__(340)
-	var assert = __webpack_require__(347)
-	var isAbsolute = __webpack_require__(348)
-	var globSync = __webpack_require__(349)
-	var common = __webpack_require__(351)
+	var inherits = __webpack_require__(360)
+	var EE = __webpack_require__(361).EventEmitter
+	var path = __webpack_require__(344)
+	var assert = __webpack_require__(362)
+	var isAbsolute = __webpack_require__(363)
+	var globSync = __webpack_require__(364)
+	var common = __webpack_require__(365)
 	var alphasort = common.alphasort
 	var alphasorti = common.alphasorti
 	var setopts = common.setopts
 	var ownProp = common.ownProp
-	var inflight = __webpack_require__(352)
-	var util = __webpack_require__(350)
+	var inflight = __webpack_require__(366)
+	var util = __webpack_require__(339)
 	var childrenIgnored = common.childrenIgnored
 	var isIgnored = common.isIgnored
 	
-	var once = __webpack_require__(354)
+	var once = __webpack_require__(368)
 	
 	function glob (pattern, options, cb) {
 	  if (typeof options === 'function') cb = options, options = {}
@@ -10764,7 +11497,7 @@ module.exports =
 
 
 /***/ }),
-/* 338 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = realpath
@@ -10774,13 +11507,13 @@ module.exports =
 	realpath.monkeypatch = monkeypatch
 	realpath.unmonkeypatch = unmonkeypatch
 	
-	var fs = __webpack_require__(333)
+	var fs = __webpack_require__(342)
 	var origRealpath = fs.realpath
 	var origRealpathSync = fs.realpathSync
 	
 	var version = process.version
 	var ok = /^v[0-5]\./.test(version)
-	var old = __webpack_require__(339)
+	var old = __webpack_require__(355)
 	
 	function newError (er) {
 	  return er && er.syscall === 'realpath' && (
@@ -10836,7 +11569,7 @@ module.exports =
 
 
 /***/ }),
-/* 339 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -10860,9 +11593,9 @@ module.exports =
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var pathModule = __webpack_require__(340);
+	var pathModule = __webpack_require__(344);
 	var isWindows = process.platform === 'win32';
-	var fs = __webpack_require__(333);
+	var fs = __webpack_require__(342);
 	
 	// JavaScript implementation of realpath, ported from node pre-v6
 	
@@ -11145,13 +11878,7 @@ module.exports =
 
 
 /***/ }),
-/* 340 */
-/***/ (function(module, exports) {
-
-	module.exports = require("path");
-
-/***/ }),
-/* 341 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = minimatch
@@ -11159,11 +11886,11 @@ module.exports =
 	
 	var path = { sep: '/' }
 	try {
-	  path = __webpack_require__(340)
+	  path = __webpack_require__(344)
 	} catch (er) {}
 	
 	var GLOBSTAR = minimatch.GLOBSTAR = Minimatch.GLOBSTAR = {}
-	var expand = __webpack_require__(342)
+	var expand = __webpack_require__(357)
 	
 	var plTypes = {
 	  '!': { open: '(?:(?!(?:', close: '))[^/]*?)'},
@@ -12080,11 +12807,11 @@ module.exports =
 
 
 /***/ }),
-/* 342 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var concatMap = __webpack_require__(343);
-	var balanced = __webpack_require__(344);
+	var concatMap = __webpack_require__(358);
+	var balanced = __webpack_require__(359);
 	
 	module.exports = expandTop;
 	
@@ -12287,7 +13014,7 @@ module.exports =
 
 
 /***/ }),
-/* 343 */
+/* 358 */
 /***/ (function(module, exports) {
 
 	module.exports = function (xs, fn) {
@@ -12306,7 +13033,7 @@ module.exports =
 
 
 /***/ }),
-/* 344 */
+/* 359 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -12371,7 +13098,7 @@ module.exports =
 
 
 /***/ }),
-/* 345 */
+/* 360 */
 /***/ (function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -12400,19 +13127,19 @@ module.exports =
 
 
 /***/ }),
-/* 346 */
+/* 361 */
 /***/ (function(module, exports) {
 
 	module.exports = require("events");
 
 /***/ }),
-/* 347 */
+/* 362 */
 /***/ (function(module, exports) {
 
 	module.exports = require("assert");
 
 /***/ }),
-/* 348 */
+/* 363 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -12438,22 +13165,22 @@ module.exports =
 
 
 /***/ }),
-/* 349 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = globSync
 	globSync.GlobSync = GlobSync
 	
-	var fs = __webpack_require__(333)
-	var rp = __webpack_require__(338)
-	var minimatch = __webpack_require__(341)
+	var fs = __webpack_require__(342)
+	var rp = __webpack_require__(354)
+	var minimatch = __webpack_require__(356)
 	var Minimatch = minimatch.Minimatch
-	var Glob = __webpack_require__(337).Glob
-	var util = __webpack_require__(350)
-	var path = __webpack_require__(340)
-	var assert = __webpack_require__(347)
-	var isAbsolute = __webpack_require__(348)
-	var common = __webpack_require__(351)
+	var Glob = __webpack_require__(353).Glob
+	var util = __webpack_require__(339)
+	var path = __webpack_require__(344)
+	var assert = __webpack_require__(362)
+	var isAbsolute = __webpack_require__(363)
+	var common = __webpack_require__(365)
 	var alphasort = common.alphasort
 	var alphasorti = common.alphasorti
 	var setopts = common.setopts
@@ -12930,13 +13657,7 @@ module.exports =
 
 
 /***/ }),
-/* 350 */
-/***/ (function(module, exports) {
-
-	module.exports = require("util");
-
-/***/ }),
-/* 351 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports.alphasort = alphasort
@@ -12953,9 +13674,9 @@ module.exports =
 	  return Object.prototype.hasOwnProperty.call(obj, field)
 	}
 	
-	var path = __webpack_require__(340)
-	var minimatch = __webpack_require__(341)
-	var isAbsolute = __webpack_require__(348)
+	var path = __webpack_require__(344)
+	var minimatch = __webpack_require__(356)
+	var isAbsolute = __webpack_require__(363)
 	var Minimatch = minimatch.Minimatch
 	
 	function alphasorti (a, b) {
@@ -13182,12 +13903,12 @@ module.exports =
 
 
 /***/ }),
-/* 352 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var wrappy = __webpack_require__(353)
+	var wrappy = __webpack_require__(367)
 	var reqs = Object.create(null)
-	var once = __webpack_require__(354)
+	var once = __webpack_require__(368)
 	
 	module.exports = wrappy(inflight)
 	
@@ -13242,7 +13963,7 @@ module.exports =
 
 
 /***/ }),
-/* 353 */
+/* 367 */
 /***/ (function(module, exports) {
 
 	// Returns a wrapper function that returns a wrapped callback
@@ -13281,10 +14002,10 @@ module.exports =
 
 
 /***/ }),
-/* 354 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var wrappy = __webpack_require__(353)
+	var wrappy = __webpack_require__(367)
 	module.exports = wrappy(once)
 	module.exports.strict = wrappy(onceStrict)
 	
@@ -13329,7 +14050,7 @@ module.exports =
 
 
 /***/ }),
-/* 355 */
+/* 369 */
 /***/ (function(module, exports) {
 
 	module.exports = [
@@ -13364,72 +14085,72 @@ module.exports =
 
 
 /***/ }),
-/* 356 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./cat": 357,
-		"./cat.js": 357,
-		"./cd": 358,
-		"./cd.js": 358,
-		"./chmod": 359,
-		"./chmod.js": 359,
-		"./common": 335,
-		"./common.js": 335,
-		"./cp": 360,
-		"./cp.js": 360,
-		"./dirs": 361,
-		"./dirs.js": 361,
-		"./echo": 362,
-		"./echo.js": 362,
-		"./error": 363,
-		"./error.js": 363,
-		"./exec": 364,
-		"./exec.js": 364,
-		"./find": 368,
-		"./find.js": 368,
-		"./grep": 370,
-		"./grep.js": 370,
-		"./head": 371,
-		"./head.js": 371,
-		"./ln": 372,
-		"./ln.js": 372,
-		"./ls": 369,
-		"./ls.js": 369,
-		"./mkdir": 373,
-		"./mkdir.js": 373,
-		"./mv": 374,
-		"./mv.js": 374,
-		"./popd": 376,
-		"./popd.js": 376,
-		"./pushd": 377,
-		"./pushd.js": 377,
-		"./pwd": 366,
-		"./pwd.js": 366,
-		"./rm": 375,
-		"./rm.js": 375,
-		"./sed": 378,
-		"./sed.js": 378,
-		"./set": 379,
-		"./set.js": 379,
-		"./sort": 380,
-		"./sort.js": 380,
-		"./tail": 381,
-		"./tail.js": 381,
-		"./tempdir": 365,
-		"./tempdir.js": 365,
-		"./test": 382,
-		"./test.js": 382,
-		"./to": 383,
-		"./to.js": 383,
-		"./toEnd": 384,
-		"./toEnd.js": 384,
-		"./touch": 385,
-		"./touch.js": 385,
-		"./uniq": 386,
-		"./uniq.js": 386,
-		"./which": 387,
-		"./which.js": 387
+		"./cat": 371,
+		"./cat.js": 371,
+		"./cd": 372,
+		"./cd.js": 372,
+		"./chmod": 373,
+		"./chmod.js": 373,
+		"./common": 352,
+		"./common.js": 352,
+		"./cp": 374,
+		"./cp.js": 374,
+		"./dirs": 375,
+		"./dirs.js": 375,
+		"./echo": 376,
+		"./echo.js": 376,
+		"./error": 377,
+		"./error.js": 377,
+		"./exec": 378,
+		"./exec.js": 378,
+		"./find": 382,
+		"./find.js": 382,
+		"./grep": 384,
+		"./grep.js": 384,
+		"./head": 385,
+		"./head.js": 385,
+		"./ln": 386,
+		"./ln.js": 386,
+		"./ls": 383,
+		"./ls.js": 383,
+		"./mkdir": 387,
+		"./mkdir.js": 387,
+		"./mv": 388,
+		"./mv.js": 388,
+		"./popd": 390,
+		"./popd.js": 390,
+		"./pushd": 391,
+		"./pushd.js": 391,
+		"./pwd": 380,
+		"./pwd.js": 380,
+		"./rm": 389,
+		"./rm.js": 389,
+		"./sed": 392,
+		"./sed.js": 392,
+		"./set": 393,
+		"./set.js": 393,
+		"./sort": 394,
+		"./sort.js": 394,
+		"./tail": 395,
+		"./tail.js": 395,
+		"./tempdir": 379,
+		"./tempdir.js": 379,
+		"./test": 396,
+		"./test.js": 396,
+		"./to": 397,
+		"./to.js": 397,
+		"./toEnd": 398,
+		"./toEnd.js": 398,
+		"./touch": 399,
+		"./touch.js": 399,
+		"./uniq": 400,
+		"./uniq.js": 400,
+		"./which": 401,
+		"./which.js": 401
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -13442,15 +14163,15 @@ module.exports =
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 356;
+	webpackContext.id = 370;
 
 
 /***/ }),
-/* 357 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('cat', _cat, {
 	  canReceivePipe: true,
@@ -13494,11 +14215,11 @@ module.exports =
 
 
 /***/ }),
-/* 358 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(333);
-	var common = __webpack_require__(335);
+	var fs = __webpack_require__(342);
+	var common = __webpack_require__(352);
 	
 	common.register('cd', _cd, {});
 	
@@ -13538,12 +14259,12 @@ module.exports =
 
 
 /***/ }),
-/* 359 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
 	
 	var PERMS = (function (base) {
 	  return {
@@ -13760,12 +14481,12 @@ module.exports =
 
 
 /***/ }),
-/* 360 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
-	var common = __webpack_require__(335);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
+	var common = __webpack_require__(352);
 	
 	common.register('cp', _cp, {
 	  cmdOptions: {
@@ -14065,12 +14786,12 @@ module.exports =
 
 
 /***/ }),
-/* 361 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var _cd = __webpack_require__(358);
-	var path = __webpack_require__(340);
+	var common = __webpack_require__(352);
+	var _cd = __webpack_require__(372);
+	var path = __webpack_require__(344);
 	
 	common.register('dirs', _dirs, {
 	  wrapOutput: false,
@@ -14271,10 +14992,10 @@ module.exports =
 
 
 /***/ }),
-/* 362 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
+	var common = __webpack_require__(352);
 	
 	common.register('echo', _echo, {
 	  allowGlobbing: false,
@@ -14311,10 +15032,10 @@ module.exports =
 
 
 /***/ }),
-/* 363 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
+	var common = __webpack_require__(352);
 	
 	//@
 	//@ ### error()
@@ -14331,15 +15052,15 @@ module.exports =
 
 
 /***/ }),
-/* 364 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var _tempDir = __webpack_require__(365);
-	var _pwd = __webpack_require__(366);
-	var path = __webpack_require__(340);
-	var fs = __webpack_require__(333);
-	var child = __webpack_require__(367);
+	var common = __webpack_require__(352);
+	var _tempDir = __webpack_require__(379);
+	var _pwd = __webpack_require__(380);
+	var path = __webpack_require__(344);
+	var fs = __webpack_require__(342);
+	var child = __webpack_require__(381);
 	
 	var DEFAULT_MAXBUFFER_SIZE = 20 * 1024 * 1024;
 	
@@ -14632,12 +15353,12 @@ module.exports =
 
 
 /***/ }),
-/* 365 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var os = __webpack_require__(336);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var os = __webpack_require__(340);
+	var fs = __webpack_require__(342);
 	
 	common.register('tempdir', _tempDir, {
 	  allowGlobbing: false,
@@ -14698,11 +15419,11 @@ module.exports =
 
 
 /***/ }),
-/* 366 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(340);
-	var common = __webpack_require__(335);
+	var path = __webpack_require__(344);
+	var common = __webpack_require__(352);
 	
 	common.register('pwd', _pwd, {
 	  allowGlobbing: false,
@@ -14719,19 +15440,19 @@ module.exports =
 
 
 /***/ }),
-/* 367 */
+/* 381 */
 /***/ (function(module, exports) {
 
 	module.exports = require("child_process");
 
 /***/ }),
-/* 368 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
-	var common = __webpack_require__(335);
-	var _ls = __webpack_require__(369);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
+	var common = __webpack_require__(352);
+	var _ls = __webpack_require__(383);
 	
 	common.register('find', _find, {});
 	
@@ -14792,13 +15513,13 @@ module.exports =
 
 
 /***/ }),
-/* 369 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(340);
-	var fs = __webpack_require__(333);
-	var common = __webpack_require__(335);
-	var glob = __webpack_require__(337);
+	var path = __webpack_require__(344);
+	var fs = __webpack_require__(342);
+	var common = __webpack_require__(352);
+	var glob = __webpack_require__(353);
 	
 	var globPatternRecursive = path.sep + '**';
 	
@@ -14924,11 +15645,11 @@ module.exports =
 
 
 /***/ }),
-/* 370 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('grep', _grep, {
 	  globStart: 2, // don't glob-expand the regex
@@ -14997,11 +15718,11 @@ module.exports =
 
 
 /***/ }),
-/* 371 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('head', _head, {
 	  canReceivePipe: true,
@@ -15114,12 +15835,12 @@ module.exports =
 
 
 /***/ }),
-/* 372 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
-	var common = __webpack_require__(335);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
+	var common = __webpack_require__(352);
 	
 	common.register('ln', _ln, {
 	  cmdOptions: {
@@ -15192,12 +15913,12 @@ module.exports =
 
 
 /***/ }),
-/* 373 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
 	
 	common.register('mkdir', _mkdir, {
 	  cmdOptions: {
@@ -15297,14 +16018,14 @@ module.exports =
 
 
 /***/ }),
-/* 374 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
-	var common = __webpack_require__(335);
-	var cp = __webpack_require__(360);
-	var rm = __webpack_require__(375);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
+	var common = __webpack_require__(352);
+	var cp = __webpack_require__(374);
+	var rm = __webpack_require__(389);
 	
 	common.register('mv', _mv, {
 	  cmdOptions: {
@@ -15420,11 +16141,11 @@ module.exports =
 
 
 /***/ }),
-/* 375 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('rm', _rm, {
 	  cmdOptions: {
@@ -15626,25 +16347,25 @@ module.exports =
 
 
 /***/ }),
-/* 376 */
+/* 390 */
 /***/ (function(module, exports) {
 
 	// see dirs.js
 
 
 /***/ }),
-/* 377 */
+/* 391 */
 /***/ (function(module, exports) {
 
 	// see dirs.js
 
 
 /***/ }),
-/* 378 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('sed', _sed, {
 	  globStart: 3, // don't glob-expand regexes
@@ -15732,10 +16453,10 @@ module.exports =
 
 
 /***/ }),
-/* 379 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
+	var common = __webpack_require__(352);
 	
 	common.register('set', _set, {
 	  allowGlobbing: false,
@@ -15793,11 +16514,11 @@ module.exports =
 
 
 /***/ }),
-/* 380 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('sort', _sort, {
 	  canReceivePipe: true,
@@ -15897,11 +16618,11 @@ module.exports =
 
 
 /***/ }),
-/* 381 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('tail', _tail, {
 	  canReceivePipe: true,
@@ -15982,11 +16703,11 @@ module.exports =
 
 
 /***/ }),
-/* 382 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('test', _test, {
 	  cmdOptions: {
@@ -16072,12 +16793,12 @@ module.exports =
 
 
 /***/ }),
-/* 383 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
 	
 	common.register('to', _to, {
 	  pipeOnly: true,
@@ -16115,12 +16836,12 @@ module.exports =
 
 
 /***/ }),
-/* 384 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
 	
 	common.register('toEnd', _toEnd, {
 	  pipeOnly: true,
@@ -16157,11 +16878,11 @@ module.exports =
 
 
 /***/ }),
-/* 385 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	common.register('touch', _touch, {
 	  cmdOptions: {
@@ -16273,11 +16994,11 @@ module.exports =
 
 
 /***/ }),
-/* 386 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
 	
 	// add c spaces to the left of str
 	function lpad(c, str) {
@@ -16370,12 +17091,12 @@ module.exports =
 
 
 /***/ }),
-/* 387 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var common = __webpack_require__(335);
-	var fs = __webpack_require__(333);
-	var path = __webpack_require__(340);
+	var common = __webpack_require__(352);
+	var fs = __webpack_require__(342);
+	var path = __webpack_require__(344);
 	
 	common.register('which', _which, {
 	  allowGlobbing: false,
@@ -16475,7 +17196,79 @@ module.exports =
 
 
 /***/ }),
-/* 388 */
+/* 402 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/*
+	    Configuration store for the dependencies and frame config
+	*/
+	
+	var homeDir = __webpack_require__(340).homedir();
+	var appRootDir = __webpack_require__(403).get();
+	
+	var frameConfig = [{ framerate: 15, keyint: 75 }, { framerate: 30, keyint: 150 }, { framerate: 60, keyint: 300 }];
+	var rtmpPort = '1935';
+	var httpPort = '8935';
+	
+	exports.default = {
+	    main: { homeDir: homeDir, frameConfig: frameConfig, rtmpPort: rtmpPort, httpPort: httpPort, appRootDir: appRootDir }
+	};
+	module.exports = exports['default'];
+
+/***/ }),
+/* 403 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var GLOBAL_KEY = 'app-root-dir';
+	var _rootDir;
+	
+	exports.get = function() {
+	    var dir = global[GLOBAL_KEY];
+	    if (dir) {
+	        return dir;
+	    }
+	
+	    if (_rootDir === undefined) {
+	        var fs = __webpack_require__(342);
+	        var path = __webpack_require__(344);
+	        var NODE_MODULES = path.sep + 'node_modules' + path.sep;
+	        var cwd = process.cwd();
+	        var pos = cwd.indexOf(NODE_MODULES);
+	        if (pos !== -1) {
+	            _rootDir =  cwd.substring(0, pos);
+	        } else if (fs.existsSync(path.join(cwd, 'package.json'))) {
+	            _rootDir = cwd;
+	        } else {
+	            pos = __dirname.indexOf(NODE_MODULES);
+	            if (pos === -1) {
+	                _rootDir = path.normalize(path.join(__dirname, '..'));
+	            } else {
+	                _rootDir = __dirname.substring(0, pos);
+	            }
+	        }
+	    }
+	
+	    return _rootDir;
+	};
+	
+	exports.set = function(dir) {
+	    global[GLOBAL_KEY] = _rootDir = dir;
+	};
+
+
+/***/ }),
+/* 404 */
+/***/ (function(module, exports) {
+
+	module.exports = require("mailgun-js");
+
+/***/ }),
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16484,11 +17277,11 @@ module.exports =
 	    value: true
 	});
 	
-	var _electronLog = __webpack_require__(389);
+	var _electronLog = __webpack_require__(333);
 	
 	var _electronLog2 = _interopRequireDefault(_electronLog);
 	
-	var _config = __webpack_require__(403);
+	var _config = __webpack_require__(402);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -16498,7 +17291,7 @@ module.exports =
 	    FFMpeg wrapper
 	*/
 	
-	var childProcess = __webpack_require__(367);
+	var childProcess = __webpack_require__(381);
 	
 	var rtmpPort = _config.main.rtmpPort,
 	    frameConfig = _config.main.frameConfig;
@@ -16518,7 +17311,6 @@ module.exports =
 	    var FFMPeArgs = ['-f', 'avfoundation', '-framerate', framerate, '-pixel_format', 'uyvy422', '-i', '0:0', '-vcodec', 'libx264', '-tune', 'zerolatency', '-b', '900k', '-x264-params', 'keyint=' + keyint + ':min-keyint=' + keyint, '-acodec', 'aac', '-ac', '1', '-b:a', '96k', '-f', 'flv', 'rtmp://localhost:' + rtmpPort + '/stream/' + rtmpStrmID];
 	
 	    var broadcastProc = childProcess.spawn(global.ffmpegPath, FFMPeArgs);
-	    _electronLog2.default.info('Spawn ffmpeg ~ ' + FFMPeArgs.join(' '));
 	
 	    global.sharedObj.ffmpegProc = broadcastProc;
 	
@@ -16526,7 +17318,7 @@ module.exports =
 	        _electronLog2.default.info('An error occurred: ' + err.message);
 	    });
 	
-	    broadcastProc.on('end', function (code, signal) {
+	    broadcastProc.on('close', function (code, signal) {
 	        if (userStopFFmpeg) {
 	            return _electronLog2.default.info('ffmpeg - terminated by the user (stopFFMpeg)');
 	        }
@@ -16571,782 +17363,7 @@ module.exports =
 	module.exports = exports['default'];
 
 /***/ }),
-/* 389 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	if (process.type === 'renderer') {
-	  module.exports = __webpack_require__(390);
-	} else {
-	  module.exports = __webpack_require__(391);
-	}
-
-/***/ }),
-/* 390 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = null;
-	
-	var ipcRenderer;
-	try {
-	  ipcRenderer = __webpack_require__(330).ipcRenderer;
-	} catch (e) {
-	  ipcRenderer = null;
-	}
-	
-	if (ipcRenderer) {
-	  module.exports = {
-	    error:   log.bind(null, 'error'),
-	    warn:    log.bind(null, 'warn'),
-	    info:    log.bind(null, 'info'),
-	    verbose: log.bind(null, 'verbose'),
-	    debug:   log.bind(null, 'debug'),
-	    silly:   log.bind(null, 'silly'),
-	    log:     log.bind(null, 'info')
-	  };
-	
-	  module.exports.default = module.exports;
-	
-	  ipcRenderer.on('__ELECTRON_LOG_RENDERER__', function(event, level, text) {
-	    if (level === 'verbose') {
-	      level = 'log';
-	    } else if (level === 'silly') {
-	      level = 'debug';
-	    }
-	
-	    console[level](text);
-	  });
-	}
-	
-	function log() {
-	  var data = Array.prototype.slice.call(arguments);
-	
-	  data = data.map(function(obj) {
-	    if (obj instanceof Error) {
-	      obj = obj.stack || obj;
-	    }
-	
-	    return obj;
-	  });
-	
-	  ipcRenderer.send('__ELECTRON_LOG__', data);
-	}
-
-
-/***/ }),
-/* 391 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var electron;
-	try {
-	  electron = __webpack_require__(330);
-	} catch (e) {
-	  electron = null;
-	}
-	
-	var log                      = __webpack_require__(392);
-	var transportConsole         = __webpack_require__(393);
-	var transportFile            = __webpack_require__(395);
-	var transportLogS            = __webpack_require__(398);
-	var transportRendererConsole = __webpack_require__(402);
-	
-	var transports = {
-	  console: transportConsole,
-	  file: transportFile,
-	  logS: transportLogS,
-	  rendererConsole: transportRendererConsole
-	};
-	
-	module.exports = {
-	  transports: transports,
-	
-	  error:   log.bind(null, transports, 'error'),
-	  warn:    log.bind(null, transports, 'warn'),
-	  info:    log.bind(null, transports, 'info'),
-	  verbose: log.bind(null, transports, 'verbose'),
-	  debug:   log.bind(null, transports, 'debug'),
-	  silly:   log.bind(null, transports, 'silly'),
-	  log:     log.bind(null, transports, 'info')
-	};
-	
-	module.exports.default = module.exports;
-	
-	if (electron && electron.ipcMain) {
-	  electron.ipcMain.on('__ELECTRON_LOG__', onRendererLog);
-	  var appName = electron.app.getName();
-	  if (appName !== 'Electron') {
-	    transportFile.appName = appName;
-	  }
-	}
-	
-	function onRendererLog(event, data) {
-	  if (Array.isArray(data)) {
-	    data.unshift(transports);
-	    log.apply(null, data);
-	  }
-	}
-
-
-/***/ }),
-/* 392 */
-/***/ (function(module, exports) {
-
-	// jshint -W040
-	'use strict';
-	
-	var LEVELS = ['error', 'warn', 'info', 'verbose', 'debug', 'silly'];
-	
-	module.exports = log;
-	
-	function log(transports, level, text) {
-	  var data = Array.prototype.slice.call(arguments, 2);
-	
-	  var msg = {
-	    data: data,
-	    date: new Date(),
-	    level: level
-	  };
-	
-	  for (var i in transports) {
-	    // jshint -W089
-	    if (!transports.hasOwnProperty(i) || typeof transports[i] !== 'function') {
-	      continue;
-	    }
-	
-	    var transport = transports[i];
-	
-	    if (transport === false || !compareLevels(transport.level, level)) {
-	      continue;
-	    }
-	
-	    if (transport.level === false) continue;
-	
-	    transport.call(null, msg);
-	  }
-	}
-	
-	function compareLevels(passLevel, checkLevel) {
-	  var pass = LEVELS.indexOf(passLevel);
-	  var check = LEVELS.indexOf(checkLevel);
-	  if (check === -1 || pass === -1) {
-	    return true;
-	  }
-	  return check <= pass;
-	}
-
-/***/ }),
-/* 393 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var format = __webpack_require__(394);
-	
-	transport.level  = 'silly';
-	transport.format = formatFn;
-	
-	module.exports = transport;
-	
-	function transport(msg) {
-	  var text = format.format(msg, transport.format);
-	  if (console[msg.level]) {
-	    console[msg.level](text);
-	  } else {
-	    console.log(text);
-	  }
-	}
-	
-	function formatFn(msg) {
-	  var time =
-	    format.pad(msg.date.getHours()) + ':' +
-	    format.pad(msg.date.getMinutes()) + ':' +
-	    format.pad(msg.date.getSeconds()) + ':' +
-	    format.pad(msg.date.getMilliseconds(), 4);
-	
-	  return '[' + time + '] [' + msg.level + '] ' +
-	    format.stringifyArray(msg.data);
-	}
-
-/***/ }),
-/* 394 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var util = __webpack_require__(350);
-	var EOL  = __webpack_require__(336).EOL;
-	
-	module.exports = {
-	  format: format,
-	  pad: pad,
-	  stringifyArray: stringifyArray
-	};
-	
-	function format(msg, formatter) {
-	  if (typeof formatter === 'function') {
-	    return formatter(msg);
-	  }
-	
-	  var date = msg.date;
-	
-	  return formatter
-	    .replace('{level}', msg.level)
-	    .replace('{text}', stringifyArray(msg.data))
-	    .replace('{y}', date.getFullYear())
-	    .replace('{m}', pad(date.getMonth() + 1))
-	    .replace('{d}', pad(date.getDate()))
-	    .replace('{h}', pad(date.getHours()))
-	    .replace('{i}', pad(date.getMinutes()))
-	    .replace('{s}', pad(date.getSeconds()))
-	    .replace('{ms}', pad(date.getMilliseconds(), 4));
-	}
-	
-	function stringifyArray(data) {
-	  data = data.map(function formatErrors(arg) {
-	    return arg instanceof Error ? arg.stack + EOL : arg;
-	  });
-	  return util.format.apply(util, data);
-	}
-	
-	function pad(number, zeros) {
-	  zeros = zeros || 2;
-	  return (new Array(zeros + 1).join('0') + number).substr(-zeros, zeros);
-	}
-
-/***/ }),
-/* 395 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var fs               = __webpack_require__(333);
-	var EOL              = __webpack_require__(336).EOL;
-	var format           = __webpack_require__(394);
-	var consoleTransport = __webpack_require__(393);
-	var findLogPath      = __webpack_require__(396);
-	
-	transport.findLogPath  = findLogPath;
-	transport.format       = formatFn;
-	transport.level        = 'warn';
-	transport.maxSize      = 1024 * 1024;
-	transport.streamConfig = undefined;
-	
-	module.exports = transport;
-	
-	function transport(msg) {
-	  var text = format.format(msg, transport.format) + EOL;
-	
-	  if (transport.stream === undefined) {
-	    initSteamConfig();
-	    openStream();
-	  }
-	
-	  if (transport.level === false) {
-	    return;
-	  }
-	
-	  var needLogRotation = transport.maxSize > 0 &&
-	    getStreamSize(transport.stream) > transport.maxSize;
-	
-	  if (needLogRotation) {
-	    archiveLog(transport.stream);
-	    openStream();
-	  }
-	
-	  transport.stream.write(text);
-	}
-	
-	function initSteamConfig() {
-	  transport.file = transport.file || findLogPath(transport.appName);
-	
-	  if (!transport.file) {
-	    transport.level = false;
-	    logConsole('Could not set a log file');
-	  }
-	}
-	
-	function openStream() {
-	  if (transport.level === false) {
-	    return;
-	  }
-	
-	  transport.stream = fs.createWriteStream(
-	    transport.file,
-	    transport.streamConfig || { flags: 'a' }
-	  );
-	}
-	
-	function getStreamSize(stream) {
-	  if (!stream) {
-	    return 0;
-	  }
-	
-	  if (stream.logSizeAtStart === undefined) {
-	    try {
-	      stream.logSizeAtStart = fs.statSync(stream.path).size;
-	    } catch (e) {
-	      stream.logSizeAtStart = 0;
-	    }
-	  }
-	
-	  return stream.logSizeAtStart + stream.bytesWritten;
-	}
-	
-	function archiveLog(stream) {
-	  if (stream.end) {
-	    stream.end();
-	  }
-	
-	  try {
-	    fs.renameSync(stream.path, stream.path.replace(/log$/, 'old.log'));
-	  } catch (e) {
-	    logConsole('Could not rotate log', e);
-	  }
-	}
-	
-	function formatFn(msg) {
-	  var date =
-	    msg.date.getFullYear() + '-' +
-	    format.pad(msg.date.getMonth() + 1) + '-' +
-	    format.pad(msg.date.getDate()) + ' ' +
-	    format.pad(msg.date.getHours()) + ':' +
-	    format.pad(msg.date.getMinutes()) + ':' +
-	    format.pad(msg.date.getSeconds()) + ':' +
-	    format.pad(msg.date.getMilliseconds(), 4);
-	
-	  return '[' + date + '] [' + msg.level + '] ' +
-	    format.stringifyArray(msg.data);
-	}
-	
-	function logConsole(message, error) {
-	  var data = ['electron-log.transports.file: ' + message];
-	
-	  if (error) {
-	    data.push(error);
-	  }
-	
-	  consoleTransport({ data: data, date: new Date(), level: 'warn' });
-	}
-
-/***/ }),
-/* 396 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var fs   = __webpack_require__(333);
-	var path = __webpack_require__(340);
-	var os   = __webpack_require__(336);
-	var getAppName = __webpack_require__(397);
-	
-	module.exports = findLogPath;
-	
-	/**
-	 * Try to determine a platform-specific path where can write logs
-	 * @param {string} [appName] Used to determine the last part of a log path
-	 * @return {string|boolean}
-	 */
-	function findLogPath(appName) {
-	  appName = appName || getAppName();
-	  if (!appName) {
-	    return false;
-	  }
-	
-	  var homeDir = os.homedir ? os.homedir() : ({"NODE_ENV":"production"})['HOME'];
-	  
-	  var dir;
-	  switch (process.platform) {
-	    case 'linux': {
-	      dir = prepareDir(({"NODE_ENV":"production"})['XDG_CONFIG_HOME'], appName)
-	        .or(homeDir, '.config', appName)
-	        .or(({"NODE_ENV":"production"})['XDG_DATA_HOME'], appName)
-	        .or(homeDir, '.local', 'share', appName)
-	        .result;
-	      break;
-	    }
-	
-	    case 'darwin': {
-	      dir = prepareDir(homeDir, 'Library', 'Logs', appName)
-	        .or(homeDir, 'Library', 'Application Support', appName)
-	        .result;
-	      break;
-	    }
-	
-	    case 'win32': {
-	      dir = prepareDir(({"NODE_ENV":"production"})['APPDATA'], appName)
-	        .or(homeDir, 'AppData', 'Roaming', appName)
-	        .result;
-	      break;
-	    }
-	  }
-	
-	  if (dir) {
-	    return path.join(dir, 'log.log');
-	  } else {
-	    return false;
-	  }
-	}
-	
-	
-	
-	function prepareDir(dirPath) {
-	  // jshint -W040
-	  if (!this || this.or !== prepareDir || !this.result) {
-	    if (!dirPath) {
-	      return { or: prepareDir };
-	    }
-	
-	    //noinspection JSCheckFunctionSignatures
-	    dirPath = path.join.apply(path, arguments);
-	    mkDir(dirPath);
-	
-	    try {
-	      fs.accessSync(dirPath, fs.W_OK);
-	    } catch (e) {
-	      return { or: prepareDir };
-	    }
-	  }
-	
-	  return {
-	    or: prepareDir,
-	    result: (this ? this.result : false) || dirPath
-	  };
-	}
-	
-	function mkDir(dirPath, root) {
-	  var dirs = dirPath.split(path.sep);
-	  var dir = dirs.shift();
-	  root = (root || '') + dir + path.sep;
-	
-	  try {
-	    fs.mkdirSync(root);
-	  } catch (e) {
-	    if (!fs.statSync(root).isDirectory()) {
-	      throw new Error(e);
-	    }
-	  }
-	
-	  return !dirs.length || mkDir(dirs.join(path.sep), root);
-	}
-
-
-/***/ }),
-/* 397 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// jshint -W074
-	'use strict';
-	
-	/** @name process.resourcesPath */
-	
-	var fs   = __webpack_require__(333);
-	var path = __webpack_require__(340);
-	var consoleTransport = __webpack_require__(393);
-	
-	module.exports = getAppName;
-	
-	function getAppName() {
-	  try {
-	    var name = loadPackageName();
-	    if (name) {
-	      return name;
-	    }
-	    return warn('electron-log: unable to load the app name from package.json');
-	  } catch (e) {
-	    return warn('electron-log: ' + e.message);
-	  }
-	}
-	
-	/**
-	 * Try to load main app package
-	 * @throws {Error}
-	 * @return {Object|null}
-	 */
-	function loadPackageName() {
-	  var packageFile;
-	
-	  try {
-	    if (__webpack_require__.c[0].filename) {
-	      packageFile = find(path.dirname(__webpack_require__.c[0].filename));
-	    }
-	  } catch (e) {}
-	
-	  if (!packageFile && process.resourcesPath) {
-	    packageFile = find(path.join(process.resourcesPath, 'app.asar'));
-	    var electronModule = path.join('node_modules', 'electron', 'package.json');
-	    if (packageFile && packageFile.indexOf(electronModule) !== -1) {
-	      packageFile = null;
-	    }
-	  }
-	
-	  if (!packageFile) {
-	    packageFile = find(process.cwd());
-	  }
-	
-	  if (!packageFile) {
-	    return null;
-	  }
-	
-	  var content = fs.readFileSync(packageFile, 'utf-8');
-	  var packageData = JSON.parse(content);
-	
-	  //noinspection JSUnresolvedVariable
-	  return packageData ? packageData.productName || packageData.name : false;
-	}
-	
-	function find(root) {
-	  var file;
-	
-	  while (!file) {
-	    var parent;
-	    file = path.join(root, 'package.json');
-	
-	    try {
-	      fs.statSync(file);
-	    } catch (e) {
-	      parent = path.resolve(root, '..');
-	      file = null;
-	    }
-	
-	    if (root === parent) {
-	      break;
-	    }
-	
-	    root = parent;
-	  }
-	
-	  return file;
-	}
-	
-	function warn(message) {
-	  consoleTransport({
-	    data: [message],
-	    date: new Date(),
-	    level: 'warn'
-	  });
-	}
-
-/***/ }),
-/* 398 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// jshint -W074, -W089
-	'use strict';
-	
-	var http  = __webpack_require__(399);
-	var https = __webpack_require__(400);
-	var url   = __webpack_require__(401);
-	
-	transport.client = { name: 'electron-application' };
-	transport.depth  = 6;
-	transport.level  = false;
-	transport.url    = null;
-	
-	module.exports = transport;
-	
-	function transport(msg) {
-	  if (!transport.url) return;
-	
-	  var data = jsonDepth({
-	    client: transport.client,
-	    data: msg.data,
-	    date: msg.date.getTime(),
-	    level: msg.level
-	  }, transport.depth + 1);
-	
-	  post(transport.url, data);
-	}
-	
-	function post(serverUrl, data) {
-	  var urlObject = url.parse(serverUrl);
-	  var transport = urlObject.protocol === 'https:' ? https : http;
-	
-	  var body = JSON.stringify(data);
-	
-	  var options = {
-	    hostname: urlObject.hostname,
-	    port:     urlObject.port,
-	    path:     urlObject.path,
-	    method:   'POST',
-	    headers:  {
-	      'Content-Type':  'application/json',
-	      'Content-Length': body.length
-	    }
-	  };
-	
-	  var request = transport.request(options);
-	  request.write(body);
-	  request.end();
-	}
-	
-	function jsonDepth(json, depth) {
-	  if (depth < 1) {
-	    if (Array.isArray(json))  return '[array]';
-	    if (typeof json === 'object')  return '[object]';
-	    return json;
-	  }
-	
-	  if (Array.isArray(json)) {
-	    return json.map(function(child) {
-	      return jsonDepth(child, depth - 1);
-	    });
-	  }
-	
-	  if (json && typeof json.getMonth === 'function') {
-	    return json;
-	  }
-	
-	  if (json === null) {
-	    return null;
-	  }
-	
-	  if (typeof json === 'object') {
-	    if (typeof json.toJSON === 'function') {
-	      json = json.toJSON();
-	    }
-	
-	    var newJson = {};
-	    for (var i in json) {
-	      //noinspection JSUnfilteredForInLoop
-	      newJson[i] = jsonDepth(json[i], depth - 1);
-	    }
-	
-	    return newJson;
-	  }
-	
-	  return json;
-	}
-
-/***/ }),
-/* 399 */
-/***/ (function(module, exports) {
-
-	module.exports = require("http");
-
-/***/ }),
-/* 400 */
-/***/ (function(module, exports) {
-
-	module.exports = require("https");
-
-/***/ }),
-/* 401 */
-/***/ (function(module, exports) {
-
-	module.exports = require("url");
-
-/***/ }),
-/* 402 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var BrowserWindow;
-	try {
-	  BrowserWindow = __webpack_require__(330).BrowserWindow;
-	} catch (e) {
-	  BrowserWindow = null;
-	}
-	
-	var format = __webpack_require__(394);
-	
-	transport.level  = BrowserWindow ? 'silly' : false;
-	transport.format = formatFn;
-	
-	module.exports = transport;
-	
-	function transport(msg) {
-	  if (!BrowserWindow) return;
-	
-	  var text = format.format(msg, transport.format);
-	  BrowserWindow.getAllWindows().forEach(function(wnd) {
-	    wnd.webContents.send('__ELECTRON_LOG_RENDERER__', msg.level, text);
-	  });
-	}
-	
-	function formatFn(msg) {
-	  var time =
-	        format.pad(msg.date.getHours()) + ':' +
-	        format.pad(msg.date.getMinutes()) + ':' +
-	        format.pad(msg.date.getSeconds()) + ':' +
-	        format.pad(msg.date.getMilliseconds(), 4);
-	
-	  return '[' + time + '] ' + format.stringifyArray(msg.data);
-	}
-
-/***/ }),
-/* 403 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	/*
-	    Configuration store for the dependencies and frame config
-	*/
-	
-	var homeDir = __webpack_require__(336).homedir();
-	var appRootDir = __webpack_require__(404).get();
-	
-	var frameConfig = [{ framerate: 15, keyint: 75 }, { framerate: 30, keyint: 150 }, { framerate: 60, keyint: 300 }];
-	var rtmpPort = '1935';
-	var httpPort = '8935';
-	
-	exports.default = {
-	    main: { homeDir: homeDir, frameConfig: frameConfig, rtmpPort: rtmpPort, httpPort: httpPort, appRootDir: appRootDir }
-	};
-	module.exports = exports['default'];
-
-/***/ }),
-/* 404 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var GLOBAL_KEY = 'app-root-dir';
-	var _rootDir;
-	
-	exports.get = function() {
-	    var dir = global[GLOBAL_KEY];
-	    if (dir) {
-	        return dir;
-	    }
-	
-	    if (_rootDir === undefined) {
-	        var fs = __webpack_require__(333);
-	        var path = __webpack_require__(340);
-	        var NODE_MODULES = path.sep + 'node_modules' + path.sep;
-	        var cwd = process.cwd();
-	        var pos = cwd.indexOf(NODE_MODULES);
-	        if (pos !== -1) {
-	            _rootDir =  cwd.substring(0, pos);
-	        } else if (fs.existsSync(path.join(cwd, 'package.json'))) {
-	            _rootDir = cwd;
-	        } else {
-	            pos = __dirname.indexOf(NODE_MODULES);
-	            if (pos === -1) {
-	                _rootDir = path.normalize(path.join(__dirname, '..'));
-	            } else {
-	                _rootDir = __dirname.substring(0, pos);
-	            }
-	        }
-	    }
-	
-	    return _rootDir;
-	};
-	
-	exports.set = function(dir) {
-	    global[GLOBAL_KEY] = _rootDir = dir;
-	};
-
-
-/***/ }),
-/* 405 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17355,36 +17372,37 @@ module.exports =
 	    value: true
 	});
 	
-	var _shelljs = __webpack_require__(334);
+	var _shelljs = __webpack_require__(351);
 	
 	var _shelljs2 = _interopRequireDefault(_shelljs);
 	
-	var _rimraf = __webpack_require__(406);
+	var _rimraf = __webpack_require__(407);
 	
 	var _rimraf2 = _interopRequireDefault(_rimraf);
 	
-	var _request = __webpack_require__(407);
+	var _request = __webpack_require__(408);
 	
 	var _request2 = _interopRequireDefault(_request);
 	
-	var _electronLog = __webpack_require__(389);
+	var _electronLog = __webpack_require__(333);
 	
 	var _electronLog2 = _interopRequireDefault(_electronLog);
 	
-	var _config = __webpack_require__(403);
+	var _config = __webpack_require__(402);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// Do not use import {spawn} >
-	// https://discuss.atom.io/t/not-able-to-spawn-npm-modules-from-electron-package-in-os-x-solved/18905/9
-	var spawn = __webpack_require__(367).spawn; /*
-	                                                LivePeer wrapper
-	                                                https://stackoverflow.com/questions/33152533/bundling-precompiled-binary-into-electron-app
-	                                            */
 	
 	var httpPort = _config.main.httpPort,
 	    homeDir = _config.main.homeDir;
 	
+	// Do not use import {spawn} >
+	// https://discuss.atom.io/t/not-able-to-spawn-npm-modules-from-electron-package-in-os-x-solved/18905/9
+	/*
+	    LivePeer wrapper
+	    https://stackoverflow.com/questions/33152533/bundling-precompiled-binary-into-electron-app
+	*/
+	
+	var spawn = __webpack_require__(381).spawn;
 	
 	var startLivepeer = function startLivepeer(sender) {
 	    (0, _request2.default)('http://localhost:' + httpPort + '/localStreams', function (err) {
@@ -17439,7 +17457,7 @@ module.exports =
 	    return new Promise(function (resolve, reject) {
 	        (0, _request2.default)('http://localhost:' + httpPort + '/createStream', function (err, res, body) {
 	            if (err != null) {
-	                sender.send('notifier', { error: 4 }); // return;
+	                sender.send('notifier', { error: 4 });
 	                reject({ message: 'Having problem connecting to Livepeer.  Make sure your local node is running.', buttons: ['OK'] });
 	            }
 	            resolve({ rtmpStrmID: JSON.parse(body).streamID });
@@ -17450,7 +17468,7 @@ module.exports =
 	var getHlsStrmID = function getHlsStrmID(sender) {
 	    (0, _request2.default)('http://localhost:' + httpPort + '/localStreams', function (err, res, body) {
 	        if (err != null) {
-	            // dialog.showMessageBox({ message: 'Having problem getting stream ID.  Make sure your local node is running.', buttons: ['OK'] });
+	            sender.send('notifier', { error: 4 });
 	            return;
 	        }
 	
@@ -17491,16 +17509,16 @@ module.exports =
 	module.exports = exports['default'];
 
 /***/ }),
-/* 406 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	module.exports = rimraf
 	rimraf.sync = rimrafSync
 	
-	var assert = __webpack_require__(347)
-	var path = __webpack_require__(340)
-	var fs = __webpack_require__(333)
-	var glob = __webpack_require__(337)
+	var assert = __webpack_require__(362)
+	var path = __webpack_require__(344)
+	var fs = __webpack_require__(342)
+	var glob = __webpack_require__(353)
 	
 	var defaultGlobOpts = {
 	  nosort: true,
@@ -17860,13 +17878,13 @@ module.exports =
 
 
 /***/ }),
-/* 407 */
+/* 408 */
 /***/ (function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ }),
-/* 408 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18076,7 +18094,7 @@ module.exports =
 	module.exports = exports['default'];
 
 /***/ }),
-/* 409 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18088,13 +18106,13 @@ module.exports =
 	
 	var _electron = __webpack_require__(330);
 	
-	var _request = __webpack_require__(407);
+	var _request = __webpack_require__(408);
 	
 	var _request2 = _interopRequireDefault(_request);
 	
 	var _ = __webpack_require__(331);
 	
-	var _config = __webpack_require__(403);
+	var _config = __webpack_require__(402);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -18105,6 +18123,9 @@ module.exports =
 	
 	var httpPort = _config.main.httpPort;
 	var listener = exports.listener = function listener(app, mainWindow) {
+	    // Start logging
+	    _.windowLogging.setLogging();
+	
 	    // is LP running [hacky] ?
 	    var checkIfRunning = setInterval(function () {
 	        (0, _request2.default)('http://localhost:' + httpPort + '/peersCount', function (err, res, body) {
@@ -18199,8 +18220,10 @@ module.exports =
 	        Refresh window
 	    */
 	
-	    _electron.ipcMain.on('refresh', function () {
-	        return mainWindow.reload();
+	    _electron.ipcMain.on('criticalRefresh', function () {
+	        _.windowLogging.sendBugReport().then(function () {
+	            return mainWindow.reload();
+	        });
 	    });
 	
 	    /*
@@ -18239,13 +18262,13 @@ module.exports =
 	};
 
 /***/ }),
-/* 410 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	const electron = __webpack_require__(330);
-	const localShortcut = __webpack_require__(411);
-	const isDev = __webpack_require__(418);
+	const localShortcut = __webpack_require__(412);
+	const isDev = __webpack_require__(419);
 	
 	const app = electron.app;
 	const BrowserWindow = electron.BrowserWindow;
@@ -18315,7 +18338,7 @@ module.exports =
 					{}.hasOwnProperty.call(BrowserWindow.getDevToolsExtensions(), 'devtron');
 	
 				if (!devtronAlreadyAdded) {
-					BrowserWindow.addDevToolsExtension(__webpack_require__(419).path);
+					BrowserWindow.addDevToolsExtension(__webpack_require__(420).path);
 				}
 			} catch (err) {}
 	
@@ -18334,15 +18357,15 @@ module.exports =
 
 
 /***/ }),
-/* 411 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	const {app, BrowserWindow} = __webpack_require__(330);
-	const isAccelerator = __webpack_require__(412);
-	const equals = __webpack_require__(413);
-	const {toKeyEvent} = __webpack_require__(414);
-	const _debug = __webpack_require__(415);
+	const isAccelerator = __webpack_require__(413);
+	const equals = __webpack_require__(414);
+	const {toKeyEvent} = __webpack_require__(415);
+	const _debug = __webpack_require__(416);
 	
 	const debug = _debug('electron-localshortcut');
 	
@@ -18648,7 +18671,7 @@ module.exports =
 
 
 /***/ }),
-/* 412 */
+/* 413 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -18675,7 +18698,7 @@ module.exports =
 
 
 /***/ }),
-/* 413 */
+/* 414 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -18720,7 +18743,7 @@ module.exports =
 
 
 /***/ }),
-/* 414 */
+/* 415 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -18921,7 +18944,7 @@ module.exports =
 
 
 /***/ }),
-/* 415 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18930,7 +18953,7 @@ module.exports =
 	 * Expose `debug()` as the module.
 	 */
 	
-	exports = module.exports = __webpack_require__(416);
+	exports = module.exports = __webpack_require__(417);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -19112,7 +19135,7 @@ module.exports =
 
 
 /***/ }),
-/* 416 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -19128,7 +19151,7 @@ module.exports =
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(417);
+	exports.humanize = __webpack_require__(418);
 	
 	/**
 	 * The currently active debug mode names, and names to skip.
@@ -19320,7 +19343,7 @@ module.exports =
 
 
 /***/ }),
-/* 417 */
+/* 418 */
 /***/ (function(module, exports) {
 
 	/**
@@ -19478,7 +19501,7 @@ module.exports =
 
 
 /***/ }),
-/* 418 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19489,7 +19512,7 @@ module.exports =
 
 
 /***/ }),
-/* 419 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	const electron = __webpack_require__(330)
@@ -19526,11 +19549,11 @@ module.exports =
 
 
 /***/ }),
-/* 420 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	const os = __webpack_require__(336)
-	const path = __webpack_require__(340)
+	const os = __webpack_require__(340)
+	const path = __webpack_require__(344)
 	
 	const platform = os.platform()
 	if (platform !== 'linux' && platform !== 'darwin' && platform !== 'win32') {
@@ -19556,11 +19579,11 @@ module.exports =
 
 
 /***/ }),
-/* 421 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var os = __webpack_require__(336)
-	var path = __webpack_require__(340)
+	var os = __webpack_require__(340)
+	var path = __webpack_require__(344)
 	
 	var platform = os.platform()
 	if (platform !== 'linux' && platform !== 'darwin' && platform !== 'win32') {
@@ -19586,7 +19609,7 @@ module.exports =
 
 
 /***/ }),
-/* 422 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19602,23 +19625,23 @@ module.exports =
 	
 	var _electron2 = _interopRequireDefault(_electron);
 	
-	var _fs = __webpack_require__(333);
+	var _fs = __webpack_require__(342);
 	
 	var _fs2 = _interopRequireDefault(_fs);
 	
-	var _path = __webpack_require__(340);
+	var _path = __webpack_require__(344);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
-	var _semver = __webpack_require__(423);
+	var _semver = __webpack_require__(424);
 	
 	var _semver2 = _interopRequireDefault(_semver);
 	
-	var _downloadChromeExtension = __webpack_require__(424);
+	var _downloadChromeExtension = __webpack_require__(425);
 	
 	var _downloadChromeExtension2 = _interopRequireDefault(_downloadChromeExtension);
 	
-	var _utils = __webpack_require__(427);
+	var _utils = __webpack_require__(429);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -19707,7 +19730,7 @@ module.exports =
 	};
 
 /***/ }),
-/* 423 */
+/* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = SemVer;
@@ -21009,7 +21032,7 @@ module.exports =
 
 
 /***/ }),
-/* 424 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21018,23 +21041,23 @@ module.exports =
 	  value: true
 	});
 	
-	var _fs = __webpack_require__(333);
+	var _fs = __webpack_require__(342);
 	
 	var _fs2 = _interopRequireDefault(_fs);
 	
-	var _path = __webpack_require__(340);
+	var _path = __webpack_require__(344);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
-	var _rimraf = __webpack_require__(406);
+	var _rimraf = __webpack_require__(407);
 	
 	var _rimraf2 = _interopRequireDefault(_rimraf);
 	
-	var _crossUnzip = __webpack_require__(425);
+	var _crossUnzip = __webpack_require__(426);
 	
 	var _crossUnzip2 = _interopRequireDefault(_crossUnzip);
 	
-	var _utils = __webpack_require__(427);
+	var _utils = __webpack_require__(429);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21080,11 +21103,11 @@ module.exports =
 	exports.default = downloadChromeExtension;
 
 /***/ }),
-/* 425 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var spawn = __webpack_require__(367).spawn
+	var spawn = __webpack_require__(381).spawn
 	var slice = Array.prototype.slice
 	
 	var unzip = process.platform === 'win32' ? forWin32 : forUnix
@@ -21095,7 +21118,7 @@ module.exports =
 	
 	// https://github.com/fritx/win-7zip
 	function forWin32 (inPath, outPath, callback) {
-	  var _7z = __webpack_require__(426)['7z']
+	  var _7z = __webpack_require__(427)['7z']
 	
 	  // very 奇葩
 	  // eg. 7z x archive.zip -oc:\Doc
@@ -21138,11 +21161,11 @@ module.exports =
 
 
 /***/ }),
-/* 426 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var resolve = __webpack_require__(340).resolve
-	var bin = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./package\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).bin
+	var resolve = __webpack_require__(344).resolve
+	var bin = __webpack_require__(428).bin
 	
 	module.exports = map_obj(bin, function(v){
 	  return resolve(__dirname, v)
@@ -21157,7 +21180,13 @@ module.exports =
 
 
 /***/ }),
-/* 427 */
+/* 428 */
+/***/ (function(module, exports) {
+
+	module.exports = {"_args":[[{"raw":"7zip@0.0.6","scope":null,"escapedName":"7zip","name":"7zip","rawSpec":"0.0.6","spec":"0.0.6","type":"version"},"/Users/builldog/Documents/buildog/LivepeerDesktop/node_modules/electron-devtools-installer"]],"_from":"7zip@0.0.6","_id":"7zip@0.0.6","_inCache":true,"_location":"/7zip","_nodeVersion":"5.11.0","_npmOperationalInternal":{"host":"packages-12-west.internal.npmjs.com","tmp":"tmp/7zip-0.0.6.tgz_1463274735811_0.1922009070403874"},"_npmUser":{"name":"fritx","email":"uxfritz@163.com"},"_npmVersion":"3.8.6","_phantomChildren":{},"_requested":{"raw":"7zip@0.0.6","scope":null,"escapedName":"7zip","name":"7zip","rawSpec":"0.0.6","spec":"0.0.6","type":"version"},"_requiredBy":["/electron-devtools-installer"],"_resolved":"https://registry.npmjs.org/7zip/-/7zip-0.0.6.tgz","_shasum":"9cafb171af82329490353b4816f03347aa150a30","_shrinkwrap":null,"_spec":"7zip@0.0.6","_where":"/Users/builldog/Documents/buildog/LivepeerDesktop/node_modules/electron-devtools-installer","bin":{"7z":"7zip-lite/7z.exe"},"bugs":{"url":"https://github.com/fritx/win-7zip/issues"},"dependencies":{},"description":"7zip Windows Package via Node.js","devDependencies":{},"directories":{},"dist":{"shasum":"9cafb171af82329490353b4816f03347aa150a30","tarball":"https://registry.npmjs.org/7zip/-/7zip-0.0.6.tgz"},"gitHead":"ece5481873f357545c99a9e2f9e1cdb3fe76de2d","homepage":"https://github.com/fritx/win-7zip#readme","keywords":["7z","7zip","7-zip","windows","install"],"license":"GNU LGPL","main":"index.js","maintainers":[{"name":"fritx","email":"uxfritz@163.com"}],"name":"7zip","optionalDependencies":{},"readme":"ERROR: No README data found!","repository":{"type":"git","url":"git+ssh://git@github.com/fritx/win-7zip.git"},"scripts":{"test":"mocha"},"version":"0.0.6"}
+
+/***/ }),
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21171,15 +21200,15 @@ module.exports =
 	
 	var _electron2 = _interopRequireDefault(_electron);
 	
-	var _fs = __webpack_require__(333);
+	var _fs = __webpack_require__(342);
 	
 	var _fs2 = _interopRequireDefault(_fs);
 	
-	var _path = __webpack_require__(340);
+	var _path = __webpack_require__(344);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
-	var _https = __webpack_require__(400);
+	var _https = __webpack_require__(348);
 	
 	var _https2 = _interopRequireDefault(_https);
 	

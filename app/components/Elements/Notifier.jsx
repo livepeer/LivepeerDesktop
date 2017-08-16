@@ -42,7 +42,7 @@ class Notifier extends React.Component {
     }
 
     render() {
-        const { errors, clearAllErrors, refreshApp } = this.props.video.notifier;
+        const { clearAllErrors, refreshApp } = this.props.video.notifier;
 
         return (
           <div className={this.getClassState()}>

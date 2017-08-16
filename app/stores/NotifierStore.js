@@ -39,7 +39,7 @@ export default class NotifierStore {
     }
 
     refreshApp = () => {
-        ipcRenderer.send('refresh');
+        ipcRenderer.send('criticalRefresh');
     }
 
 

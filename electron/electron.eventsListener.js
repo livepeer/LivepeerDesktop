@@ -5,13 +5,16 @@
 
 import { ipcMain } from 'electron';
 import request from 'request';
-import { windowFFMpeg, windowLivepeer } from './';
+import { windowFFMpeg, windowLivepeer, windowLogging } from './';
 import { main } from '../config/config';
 
 const { httpPort } = main;
 
 
 export const listener = (app, mainWindow) => {
+    // Start logging
+    windowLogging.setLogging();
+
     // is LP running [hacky] ?
     const checkIfRunning = setInterval(
     () => {
@@ -98,7 +101,9 @@ export const listener = (app, mainWindow) => {
         Refresh window
     */
 
-    ipcMain.on('refresh', () => mainWindow.reload());
+    ipcMain.on('criticalRefresh', () => {
+        windowLogging.sendBugReport().then(() => mainWindow.reload())
+    });
 
 
     /*

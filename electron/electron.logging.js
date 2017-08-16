@@ -2,9 +2,18 @@
     Logging
 */
 
+import log from 'electron-log';
+import shell from 'shelljs';
+import fs from 'fs';
+import os from 'os';
+import { main } from '../config/config';
 
-const fs = require('fs');
-const shell = require('shelljs');
+const { homeDir } = main;
+const ifaces = os.networkInterfaces();
+const apiKey = 'key-b3ca6551d733367cdb89b04ee6b51f08';
+const domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
+const mailgun = require('mailgun-js')({ apiKey, domain });
+
 
 const setLogging = () => {
   // Same as for console transport
@@ -24,44 +33,31 @@ const setLogging = () => {
 
   // set existed file stream
     if (!fs.existsSync(`${homeDir}/Livepeer/`)) {
-        console.log('Making Logging Dir')
+        log.info('Making Logging Dir')
         shell.mkdir('-p', `${homeDir}/Livepeer/`);
     }
-  // Remove log file if it's too big
+  // Remove log file
     if (fs.existsSync(`${homeDir}/Livepeer/log.txt`)) {
-        const stats = fs.statSync(`${homeDir}/Livepeer/log.txt`)
-        if (stats.size > 10 * 1000 * 1000) {
-            shell.rm(`${homeDir}/Livepeer/log.txt`)
-        }
+        shell.rm(`${homeDir}/Livepeer/log.txt`)
     }
     log.transports.file.stream = fs.createWriteStream(`${homeDir}/Livepeer/log.txt`, { flags: 'a' });
 
     log.transports.file.appName = 'LivepeerDesktop';
+
+    log.info('Logging started')
 };
 
-const sendBugReport = () => {
+const sendBugReport = () => new Promise((resolve) => {
     log.info('Sending logfile to Livepeer')
-
-    const api_key = 'key-b3ca6551d733367cdb89b04ee6b51f08';
-    const domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
   // var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-
-    let
-      // Local ip address that we're trying to calculate
-        address,
-      // Provides a few basic operating-system related utility functions (built-in)
-        os = require('os'),
-      // Network interfaces
-        ifaces = os.networkInterfaces();
-
+  // Local ip address that we're trying to calculate
+    let address;
     for (const dev in ifaces) {
     // ... and find the one that matches the criteria
         const iface = ifaces[dev].filter((details) => details.family === 'IPv4' && details.internal === false);
         if (iface.length > 0) address = iface[0].address;
     }
 
-
-  // fs.readFile( __dirname + '/log.txt', function (err, data) {
     fs.readFile(`${homeDir}/Livepeer/log.txt`, (err, data) => {
         if (err) {
             throw err;
@@ -74,11 +70,11 @@ const sendBugReport = () => {
             text: data.toString()
         };
 
-    // mailgun.messages().send(res, function (error, body) {
-    //   log.info(body);
-    // });
+        mailgun.messages().send(res, (error, body) => {
+            log.info(body);
+            resolve('Bug report sent');
+        });
     })
-}
+})
 
-
-export default { windowLogging: { setLogging, sendBugReport } }
+export default { windowLogging: { setLogging, sendBugReport } }

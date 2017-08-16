@@ -7,14 +7,13 @@ import shell from 'shelljs';
 import rimraf from 'rimraf';
 import request from 'request';
 import log from 'electron-log';
-
 import { main } from '../config/config';
+
+const { httpPort, homeDir } = main;
+
 // Do not use import {spawn} >
 // https://discuss.atom.io/t/not-able-to-spawn-npm-modules-from-electron-package-in-os-x-solved/18905/9
 const spawn = require('child_process').spawn;
-
-
-const { httpPort, homeDir } = main;
 
 const startLivepeer = (sender) => {
     request(`http://localhost:${httpPort}/localStreams`, (err) => {
@@ -67,7 +66,7 @@ const resetLivepeer = (sender) => {
 const createStream = (sender) => new Promise((resolve, reject) => {
     request(`http://localhost:${httpPort}/createStream`, (err, res, body) => {
         if (err != null) {
-            sender.send('notifier', { error: 4 }); // return;
+            sender.send('notifier', { error: 4 });
             reject({ message: 'Having problem connecting to Livepeer.  Make sure your local node is running.', buttons: ['OK'] })
         }
         resolve({ rtmpStrmID: JSON.parse(body).streamID });
@@ -77,8 +76,8 @@ const createStream = (sender) => new Promise((resolve, reject) => {
 const getHlsStrmID = (sender) => {
     request(`http://localhost:${httpPort}/localStreams`, (err, res, body) => {
         if (err != null) {
-            // dialog.showMessageBox({ message: 'Having problem getting stream ID.  Make sure your local node is running.', buttons: ['OK'] });
-            return
+            sender.send('notifier', { error: 4 });
+            return;
         }
 
         const streams = JSON.parse(body);
