@@ -38,8 +38,8 @@ export const listener = (app, mainWindow) => {
         if (!fromState) {
             // create a stream, then startFFMpeg
             windowLivepeer.createStream(sender).then(({ rtmpStrmID }) => {
-                windowFFMpeg.startFFMpeg(sender, rtmpStrmID);
                 windowLivepeer.getHlsStrmID(sender);
+                windowFFMpeg.startFFMpeg(sender, rtmpStrmID);
             }).catch((err) => console.error(err));
         } else if (fromState) {
             windowFFMpeg.stopFFMpeg();

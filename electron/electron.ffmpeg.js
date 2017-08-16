@@ -3,11 +3,8 @@
 */
 
 import log from 'electron-log';
+import { spawn } from 'child_process';
 import { main } from '../config/config';
-
-// Do not use import {spawn} >
-// https://discuss.atom.io/t/not-able-to-spawn-npm-modules-from-electron-package-in-os-x-solved/18905/9
-const childProcess = require('child_process');
 
 const { rtmpPort, frameConfig } = main;
 
@@ -35,7 +32,7 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
         '-f', 'flv',
         `rtmp://localhost:${rtmpPort}/stream/${rtmpStrmID}`];
 
-    const broadcastProc = childProcess.spawn(global.ffmpegPath, FFMPeArgs);
+    const broadcastProc = spawn(global.ffmpegPath, FFMPeArgs);
     log.info(`Spawn ffmpeg ~ ${FFMPeArgs.join(' ')}`);
     global.sharedObj.ffmpegProc = broadcastProc;
 

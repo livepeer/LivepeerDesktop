@@ -7,13 +7,10 @@ import shell from 'shelljs';
 import rimraf from 'rimraf';
 import request from 'request';
 import log from 'electron-log';
+import { spawn } from 'child_process';
 import { main } from '../config/config';
 
 const { httpPort, homeDir } = main;
-
-// Do not use import {spawn} >
-// https://discuss.atom.io/t/not-able-to-spawn-npm-modules-from-electron-package-in-os-x-solved/18905/9
-const spawn = require('child_process').spawn;
 
 const startLivepeer = (sender) => {
     request(`http://localhost:${httpPort}/localStreams`, (err) => {
