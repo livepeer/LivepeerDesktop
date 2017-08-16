@@ -8963,12 +8963,14 @@ module.exports =
 	// global shared object
 	global.sharedObj = { ffmpegProc: null, livepeerProc: null };
 	
+	// add binaries path
 	if (false) {
 	    global.livepeerPath = require('livepeer-static').path;
-	    global.ffmpegPath = require('livepeer-static').path;
+	    global.ffmpegPath = require('ffmpeg-static').path;
 	} else {
 	    global.livepeerPath = __webpack_require__(421).path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked');
 	    global.ffmpegPath = __webpack_require__(422).path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked');
+	    console.log(global.ffmpegPath);
 	}
 	
 	var installExtensions = function () {

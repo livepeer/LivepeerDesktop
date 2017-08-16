@@ -18,12 +18,14 @@ let menu
 // global shared object
 global.sharedObj = { ffmpegProc: null, livepeerProc: null };
 
+// add binaries path
 if (process.env.NODE_ENV === 'development') {
     global.livepeerPath = require('livepeer-static').path;
-    global.ffmpegPath = require('livepeer-static').path;
+    global.ffmpegPath = require('ffmpeg-static').path;
 } else {
-    global.livepeerPath = require('livepeer-static').path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked')
-    global.ffmpegPath = require('ffmpeg-static').path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked')
+    global.livepeerPath = require('livepeer-static').path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked');
+    global.ffmpegPath = require('ffmpeg-static').path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked');
+    console.log(global.ffmpegPath);
 }
 
 const installExtensions = async () => {
