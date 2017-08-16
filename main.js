@@ -17318,8 +17318,15 @@ module.exports =
 	    var broadcastProc = (0, _child_process.spawn)(global.ffmpegPath, FFMPeArgs);
 	    global.sharedObj.ffmpegProc = broadcastProc;
 	
-	    broadcastProc.on('error', function (err) {
-	        _electronLog2.default.info('An error occurred: ' + err.message);
+	    broadcastProc.stdout.on('data', function (data) {
+	        _electronLog2.default.info('stdout: ' + data);
+	        return;
+	    });
+	
+	    broadcastProc.stderr.on('data', function (data) {
+	        // Don't do anything here, because ffmpeg mistakenly outputs everything to stderr
+	        _electronLog2.default.info('stderr: ' + data);
+	        return;
 	    });
 	
 	    broadcastProc.on('close', function (code, signal) {

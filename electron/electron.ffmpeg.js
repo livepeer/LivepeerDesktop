@@ -35,9 +35,16 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
     const broadcastProc = spawn(global.ffmpegPath, FFMPeArgs);
     global.sharedObj.ffmpegProc = broadcastProc;
 
-    broadcastProc.on('error', (err) => {
-        log.info(`An error occurred: ${err.message}`);
+    broadcastProc.stdout.on('data', (data) => {
+        log.info(`stdout: ${data}`);
+        return;
     });
+
+    broadcastProc.stderr.on('data', (data) => {
+      // Don't do anything here, because ffmpeg mistakenly outputs everything to stderr
+        log.info(`stderr: ${data}`);
+        return;
+    })
 
     broadcastProc.on('close', (code, signal) => {
         if (userStopFFmpeg) {
