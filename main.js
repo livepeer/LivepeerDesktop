@@ -8939,11 +8939,11 @@ module.exports =
 	
 	var _electron = __webpack_require__(330);
 	
-	var _electron2 = __webpack_require__(331);
-	
-	var _electronLog = __webpack_require__(333);
+	var _electronLog = __webpack_require__(331);
 	
 	var _electronLog2 = _interopRequireDefault(_electronLog);
+	
+	var _electron2 = __webpack_require__(349);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -8951,9 +8951,14 @@ module.exports =
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Bootstrap of Electron 🚀
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                           */
 	
-	// if (process.env.NODE_ENV === 'development') {
-	__webpack_require__(411)(); // eslint-disable-line global-require
-	// }
+	/* Handle binaries paths */
+	var livepeer = __webpack_require__(411).path;
+	var ffmpeg = __webpack_require__(412).path;
+	
+	var paths = { livepeer: livepeer, ffmpeg: ffmpeg };
+	var transformBinaryPath = function transformBinaryPath(name) {
+	    return paths[name].replace('bin', 'node_modules/' + name + '-static/bin').replace('app.asar', 'app.asar.unpacked');
+	};
 	
 	// Keep a global reference of the window object, if you don't, the window will
 	// be closed automatically when the JavaScript object is garbage collected.
@@ -8965,12 +8970,11 @@ module.exports =
 	
 	// add binaries path
 	if (false) {
-	    global.livepeerPath = require('livepeer-static').path;
-	    global.ffmpegPath = require('ffmpeg-static').path;
+	    global.livepeerPath = paths.livepeer;
+	    global.ffmpegPath = paths.ffmpeg;
 	} else {
-	    global.livepeerPath = __webpack_require__(421).path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked');
-	    global.ffmpegPath = __webpack_require__(422).path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked');
-	    console.log(global.ffmpegPath);
+	    global.livepeerPath = transformBinaryPath('livepeer');
+	    global.ffmpegPath = transformBinaryPath('ffmpeg');
 	}
 	
 	var installExtensions = function () {
@@ -8982,9 +8986,11 @@ module.exports =
 	                switch (_context.prev = _context.next) {
 	                    case 0:
 	                        if (true) {
-	                            _context.next = 35;
+	                            _context.next = 36;
 	                            break;
 	                        }
+	
+	                        __webpack_require__(413)();
 	
 	                        installer = __webpack_require__(423); // eslint-disable-line global-require
 	
@@ -8993,73 +8999,73 @@ module.exports =
 	                        _iteratorNormalCompletion = true;
 	                        _didIteratorError = false;
 	                        _iteratorError = undefined;
-	                        _context.prev = 7;
+	                        _context.prev = 8;
 	                        _iterator = extensions[Symbol.iterator]();
 	
-	                    case 9:
+	                    case 10:
 	                        if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-	                            _context.next = 21;
+	                            _context.next = 22;
 	                            break;
 	                        }
 	
 	                        name = _step.value;
-	                        _context.prev = 11;
-	                        _context.next = 14;
+	                        _context.prev = 12;
+	                        _context.next = 15;
 	                        return installer.default(installer[name], forceDownload);
 	
-	                    case 14:
-	                        _context.next = 18;
+	                    case 15:
+	                        _context.next = 19;
 	                        break;
 	
-	                    case 16:
-	                        _context.prev = 16;
-	                        _context.t0 = _context['catch'](11);
+	                    case 17:
+	                        _context.prev = 17;
+	                        _context.t0 = _context['catch'](12);
 	
-	                    case 18:
+	                    case 19:
 	                        _iteratorNormalCompletion = true;
-	                        _context.next = 9;
+	                        _context.next = 10;
 	                        break;
 	
-	                    case 21:
-	                        _context.next = 27;
+	                    case 22:
+	                        _context.next = 28;
 	                        break;
 	
-	                    case 23:
-	                        _context.prev = 23;
-	                        _context.t1 = _context['catch'](7);
+	                    case 24:
+	                        _context.prev = 24;
+	                        _context.t1 = _context['catch'](8);
 	                        _didIteratorError = true;
 	                        _iteratorError = _context.t1;
 	
-	                    case 27:
-	                        _context.prev = 27;
+	                    case 28:
 	                        _context.prev = 28;
+	                        _context.prev = 29;
 	
 	                        if (!_iteratorNormalCompletion && _iterator.return) {
 	                            _iterator.return();
 	                        }
 	
-	                    case 30:
-	                        _context.prev = 30;
+	                    case 31:
+	                        _context.prev = 31;
 	
 	                        if (!_didIteratorError) {
-	                            _context.next = 33;
+	                            _context.next = 34;
 	                            break;
 	                        }
 	
 	                        throw _iteratorError;
 	
-	                    case 33:
-	                        return _context.finish(30);
-	
 	                    case 34:
-	                        return _context.finish(27);
+	                        return _context.finish(31);
 	
 	                    case 35:
+	                        return _context.finish(28);
+	
+	                    case 36:
 	                    case 'end':
 	                        return _context.stop();
 	                }
 	            }
-	        }, _callee, undefined, [[7, 23, 27, 35], [11, 16], [28,, 30, 34]]);
+	        }, _callee, undefined, [[8, 24, 28, 36], [12, 17], [29,, 31, 35]]);
 	    }));
 	
 	    return function installExtensions() {
@@ -9165,192 +9171,14 @@ module.exports =
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _electron = __webpack_require__(332);
-	
-	Object.keys(_electron).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _electron[key];
-	    }
-	  });
-	});
-	
-	var _electron2 = __webpack_require__(405);
-	
-	Object.keys(_electron2).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _electron2[key];
-	    }
-	  });
-	});
-	
-	var _electron3 = __webpack_require__(406);
-	
-	Object.keys(_electron3).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _electron3[key];
-	    }
-	  });
-	});
-	
-	var _electron4 = __webpack_require__(409);
-	
-	Object.keys(_electron4).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _electron4[key];
-	    }
-	  });
-	});
-	
-	var _electron5 = __webpack_require__(410);
-	
-	Object.keys(_electron5).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _electron5[key];
-	    }
-	  });
-	});
-
-/***/ }),
-/* 332 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _electronLog = __webpack_require__(333);
-	
-	var _electronLog2 = _interopRequireDefault(_electronLog);
-	
-	var _shelljs = __webpack_require__(351);
-	
-	var _shelljs2 = _interopRequireDefault(_shelljs);
-	
-	var _fs = __webpack_require__(342);
-	
-	var _fs2 = _interopRequireDefault(_fs);
-	
-	var _os = __webpack_require__(340);
-	
-	var _os2 = _interopRequireDefault(_os);
-	
-	var _config = __webpack_require__(402);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var homeDir = _config.main.homeDir; /*
-	                                        Logging
-	                                    */
-	
-	var ifaces = _os2.default.networkInterfaces();
-	var apiKey = 'key-b3ca6551d733367cdb89b04ee6b51f08';
-	var domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
-	var mailgun = __webpack_require__(404)({ apiKey: apiKey, domain: domain });
-	
-	var setLogging = function setLogging() {
-	    // Same as for console transport
-	    _electronLog2.default.transports.file.level = 'info';
-	    _electronLog2.default.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
-	
-	    // Set approximate maximum log size in bytes. When it exceeds,
-	    // the archived log will be saved as the log.old.log file
-	    _electronLog2.default.transports.file.maxSize = 5 * 1024 * 1024;
-	
-	    // Write to this file, must be set before first logging
-	    // log.transports.file.file = __dirname + '/log.txt';
-	    _electronLog2.default.transports.file.file = homeDir + '/Livepeer/log.txt';
-	
-	    // fs.createWriteStream options, must be set before first logging
-	    _electronLog2.default.transports.file.streamConfig = { flags: 'w' };
-	
-	    // set existed file stream
-	    if (!_fs2.default.existsSync(homeDir + '/Livepeer/')) {
-	        _electronLog2.default.info('Making Logging Dir');
-	        _shelljs2.default.mkdir('-p', homeDir + '/Livepeer/');
-	    }
-	    // Remove log file
-	    if (_fs2.default.existsSync(homeDir + '/Livepeer/log.txt')) {
-	        _shelljs2.default.rm(homeDir + '/Livepeer/log.txt');
-	    }
-	    _electronLog2.default.transports.file.stream = _fs2.default.createWriteStream(homeDir + '/Livepeer/log.txt', { flags: 'a' });
-	
-	    _electronLog2.default.transports.file.appName = 'LivepeerDesktop';
-	
-	    _electronLog2.default.info('Logging started');
-	};
-	
-	var sendBugReport = function sendBugReport() {
-	    return new Promise(function (resolve) {
-	        _electronLog2.default.info('Sending logfile to Livepeer');
-	        // var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-	        // Local ip address that we're trying to calculate
-	        var address = void 0;
-	        for (var dev in ifaces) {
-	            // ... and find the one that matches the criteria
-	            var iface = ifaces[dev].filter(function (details) {
-	                return details.family === 'IPv4' && details.internal === false;
-	            });
-	            if (iface.length > 0) address = iface[0].address;
-	        }
-	
-	        _fs2.default.readFile(homeDir + '/Livepeer/log.txt', function (err, data) {
-	            if (err) {
-	                throw err;
-	            }
-	
-	            var res = {
-	                from: 'Bug Reporter ' + address + ' <user@sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org>',
-	                to: 'eric@livepeer.org',
-	                subject: 'Sending Bug Report',
-	                text: data.toString()
-	            };
-	
-	            mailgun.messages().send(res, function (error, body) {
-	                _electronLog2.default.info(body);
-	                resolve('Bug report sent');
-	            });
-	        });
-	    });
-	};
-	
-	exports.default = { windowLogging: { setLogging: setLogging, sendBugReport: sendBugReport } };
-	module.exports = exports['default'];
-
-/***/ }),
-/* 333 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
 	if (process.type === 'renderer') {
-	  module.exports = __webpack_require__(334);
+	  module.exports = __webpack_require__(332);
 	} else {
-	  module.exports = __webpack_require__(335);
+	  module.exports = __webpack_require__(333);
 	}
 
 /***/ }),
-/* 334 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9404,7 +9232,7 @@ module.exports =
 
 
 /***/ }),
-/* 335 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9416,11 +9244,11 @@ module.exports =
 	  electron = null;
 	}
 	
-	var log                      = __webpack_require__(336);
-	var transportConsole         = __webpack_require__(337);
-	var transportFile            = __webpack_require__(341);
-	var transportLogS            = __webpack_require__(346);
-	var transportRendererConsole = __webpack_require__(350);
+	var log                      = __webpack_require__(334);
+	var transportConsole         = __webpack_require__(335);
+	var transportFile            = __webpack_require__(339);
+	var transportLogS            = __webpack_require__(344);
+	var transportRendererConsole = __webpack_require__(348);
 	
 	var transports = {
 	  console: transportConsole,
@@ -9460,7 +9288,7 @@ module.exports =
 
 
 /***/ }),
-/* 336 */
+/* 334 */
 /***/ (function(module, exports) {
 
 	// jshint -W040
@@ -9507,12 +9335,12 @@ module.exports =
 	}
 
 /***/ }),
-/* 337 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var format = __webpack_require__(338);
+	var format = __webpack_require__(336);
 	
 	transport.level  = 'silly';
 	transport.format = formatFn;
@@ -9540,13 +9368,13 @@ module.exports =
 	}
 
 /***/ }),
-/* 338 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var util = __webpack_require__(339);
-	var EOL  = __webpack_require__(340).EOL;
+	var util = __webpack_require__(337);
+	var EOL  = __webpack_require__(338).EOL;
 	
 	module.exports = {
 	  format: format,
@@ -9586,28 +9414,28 @@ module.exports =
 	}
 
 /***/ }),
-/* 339 */
+/* 337 */
 /***/ (function(module, exports) {
 
 	module.exports = require("util");
 
 /***/ }),
-/* 340 */
+/* 338 */
 /***/ (function(module, exports) {
 
 	module.exports = require("os");
 
 /***/ }),
-/* 341 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var fs               = __webpack_require__(342);
-	var EOL              = __webpack_require__(340).EOL;
-	var format           = __webpack_require__(338);
-	var consoleTransport = __webpack_require__(337);
-	var findLogPath      = __webpack_require__(343);
+	var fs               = __webpack_require__(340);
+	var EOL              = __webpack_require__(338).EOL;
+	var format           = __webpack_require__(336);
+	var consoleTransport = __webpack_require__(335);
+	var findLogPath      = __webpack_require__(341);
 	
 	transport.findLogPath  = findLogPath;
 	transport.format       = formatFn;
@@ -9713,21 +9541,21 @@ module.exports =
 	}
 
 /***/ }),
-/* 342 */
+/* 340 */
 /***/ (function(module, exports) {
 
 	module.exports = require("fs");
 
 /***/ }),
-/* 343 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var fs   = __webpack_require__(342);
-	var path = __webpack_require__(344);
-	var os   = __webpack_require__(340);
-	var getAppName = __webpack_require__(345);
+	var fs   = __webpack_require__(340);
+	var path = __webpack_require__(342);
+	var os   = __webpack_require__(338);
+	var getAppName = __webpack_require__(343);
 	
 	module.exports = findLogPath;
 	
@@ -9821,13 +9649,13 @@ module.exports =
 
 
 /***/ }),
-/* 344 */
+/* 342 */
 /***/ (function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ }),
-/* 345 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// jshint -W074
@@ -9835,9 +9663,9 @@ module.exports =
 	
 	/** @name process.resourcesPath */
 	
-	var fs   = __webpack_require__(342);
-	var path = __webpack_require__(344);
-	var consoleTransport = __webpack_require__(337);
+	var fs   = __webpack_require__(340);
+	var path = __webpack_require__(342);
+	var consoleTransport = __webpack_require__(335);
 	
 	module.exports = getAppName;
 	
@@ -9923,15 +9751,15 @@ module.exports =
 	}
 
 /***/ }),
-/* 346 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// jshint -W074, -W089
 	'use strict';
 	
-	var http  = __webpack_require__(347);
-	var https = __webpack_require__(348);
-	var url   = __webpack_require__(349);
+	var http  = __webpack_require__(345);
+	var https = __webpack_require__(346);
+	var url   = __webpack_require__(347);
 	
 	transport.client = { name: 'electron-application' };
 	transport.depth  = 6;
@@ -10014,25 +9842,25 @@ module.exports =
 	}
 
 /***/ }),
-/* 347 */
+/* 345 */
 /***/ (function(module, exports) {
 
 	module.exports = require("http");
 
 /***/ }),
-/* 348 */
+/* 346 */
 /***/ (function(module, exports) {
 
 	module.exports = require("https");
 
 /***/ }),
-/* 349 */
+/* 347 */
 /***/ (function(module, exports) {
 
 	module.exports = require("url");
 
 /***/ }),
-/* 350 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10044,7 +9872,7 @@ module.exports =
 	  BrowserWindow = null;
 	}
 	
-	var format = __webpack_require__(338);
+	var format = __webpack_require__(336);
 	
 	transport.level  = BrowserWindow ? 'silly' : false;
 	transport.format = formatFn;
@@ -10069,6 +9897,184 @@ module.exports =
 	
 	  return '[' + time + '] ' + format.stringifyArray(msg.data);
 	}
+
+/***/ }),
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _electron = __webpack_require__(350);
+	
+	Object.keys(_electron).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _electron[key];
+	    }
+	  });
+	});
+	
+	var _electron2 = __webpack_require__(405);
+	
+	Object.keys(_electron2).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _electron2[key];
+	    }
+	  });
+	});
+	
+	var _electron3 = __webpack_require__(406);
+	
+	Object.keys(_electron3).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _electron3[key];
+	    }
+	  });
+	});
+	
+	var _electron4 = __webpack_require__(409);
+	
+	Object.keys(_electron4).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _electron4[key];
+	    }
+	  });
+	});
+	
+	var _electron5 = __webpack_require__(410);
+	
+	Object.keys(_electron5).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _electron5[key];
+	    }
+	  });
+	});
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _electronLog = __webpack_require__(331);
+	
+	var _electronLog2 = _interopRequireDefault(_electronLog);
+	
+	var _shelljs = __webpack_require__(351);
+	
+	var _shelljs2 = _interopRequireDefault(_shelljs);
+	
+	var _fs = __webpack_require__(340);
+	
+	var _fs2 = _interopRequireDefault(_fs);
+	
+	var _os = __webpack_require__(338);
+	
+	var _os2 = _interopRequireDefault(_os);
+	
+	var _config = __webpack_require__(402);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var homeDir = _config.main.homeDir; /*
+	                                        Logging
+	                                    */
+	
+	var ifaces = _os2.default.networkInterfaces();
+	var apiKey = 'key-b3ca6551d733367cdb89b04ee6b51f08';
+	var domain = 'sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org';
+	var mailgun = __webpack_require__(404)({ apiKey: apiKey, domain: domain });
+	
+	var setLogging = function setLogging() {
+	    // Same as for console transport
+	    _electronLog2.default.transports.file.level = 'info';
+	    _electronLog2.default.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
+	
+	    // Set approximate maximum log size in bytes. When it exceeds,
+	    // the archived log will be saved as the log.old.log file
+	    _electronLog2.default.transports.file.maxSize = 5 * 1024 * 1024;
+	
+	    // Write to this file, must be set before first logging
+	    // log.transports.file.file = __dirname + '/log.txt';
+	    _electronLog2.default.transports.file.file = homeDir + '/Livepeer/log.txt';
+	
+	    // fs.createWriteStream options, must be set before first logging
+	    _electronLog2.default.transports.file.streamConfig = { flags: 'w' };
+	
+	    // set existed file stream
+	    if (!_fs2.default.existsSync(homeDir + '/Livepeer/')) {
+	        _electronLog2.default.info('Making Logging Dir');
+	        _shelljs2.default.mkdir('-p', homeDir + '/Livepeer/');
+	    }
+	    // Remove log file
+	    if (_fs2.default.existsSync(homeDir + '/Livepeer/log.txt')) {
+	        _shelljs2.default.rm(homeDir + '/Livepeer/log.txt');
+	    }
+	    _electronLog2.default.transports.file.stream = _fs2.default.createWriteStream(homeDir + '/Livepeer/log.txt', { flags: 'a' });
+	
+	    _electronLog2.default.transports.file.appName = 'LivepeerDesktop';
+	
+	    _electronLog2.default.info('Logging started');
+	};
+	
+	var sendBugReport = function sendBugReport() {
+	    return new Promise(function (resolve) {
+	        _electronLog2.default.info('Sending logfile to Livepeer');
+	        // var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+	        // Local ip address that we're trying to calculate
+	        var address = void 0;
+	        for (var dev in ifaces) {
+	            // ... and find the one that matches the criteria
+	            var iface = ifaces[dev].filter(function (details) {
+	                return details.family === 'IPv4' && details.internal === false;
+	            });
+	            if (iface.length > 0) address = iface[0].address;
+	        }
+	
+	        _fs2.default.readFile(homeDir + '/Livepeer/log.txt', function (err, data) {
+	            if (err) {
+	                throw err;
+	            }
+	
+	            var res = {
+	                from: 'Bug Reporter ' + address + ' <user@sandboxd3a92ba5697e455bb770bf0142cdf741.mailgun.org>',
+	                to: 'eric@livepeer.org',
+	                subject: 'Sending Bug Report',
+	                text: data.toString()
+	            };
+	
+	            mailgun.messages().send(res, function (error, body) {
+	                _electronLog2.default.info(body);
+	                resolve('Bug report sent');
+	            });
+	        });
+	    });
+	};
+	
+	exports.default = { windowLogging: { setLogging: setLogging, sendBugReport: sendBugReport } };
+	module.exports = exports['default'];
 
 /***/ }),
 /* 351 */
@@ -10238,8 +10244,8 @@ module.exports =
 	/* eslint no-new-wrappers: 0 */
 	'use strict';
 	
-	var os = __webpack_require__(340);
-	var fs = __webpack_require__(342);
+	var os = __webpack_require__(338);
+	var fs = __webpack_require__(340);
 	var glob = __webpack_require__(353);
 	var shell = __webpack_require__(351);
 	
@@ -10748,13 +10754,13 @@ module.exports =
 	
 	module.exports = glob
 	
-	var fs = __webpack_require__(342)
+	var fs = __webpack_require__(340)
 	var rp = __webpack_require__(354)
 	var minimatch = __webpack_require__(356)
 	var Minimatch = minimatch.Minimatch
 	var inherits = __webpack_require__(360)
 	var EE = __webpack_require__(361).EventEmitter
-	var path = __webpack_require__(344)
+	var path = __webpack_require__(342)
 	var assert = __webpack_require__(362)
 	var isAbsolute = __webpack_require__(363)
 	var globSync = __webpack_require__(364)
@@ -10764,7 +10770,7 @@ module.exports =
 	var setopts = common.setopts
 	var ownProp = common.ownProp
 	var inflight = __webpack_require__(366)
-	var util = __webpack_require__(339)
+	var util = __webpack_require__(337)
 	var childrenIgnored = common.childrenIgnored
 	var isIgnored = common.isIgnored
 	
@@ -11509,7 +11515,7 @@ module.exports =
 	realpath.monkeypatch = monkeypatch
 	realpath.unmonkeypatch = unmonkeypatch
 	
-	var fs = __webpack_require__(342)
+	var fs = __webpack_require__(340)
 	var origRealpath = fs.realpath
 	var origRealpathSync = fs.realpathSync
 	
@@ -11595,9 +11601,9 @@ module.exports =
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var pathModule = __webpack_require__(344);
+	var pathModule = __webpack_require__(342);
 	var isWindows = process.platform === 'win32';
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	// JavaScript implementation of realpath, ported from node pre-v6
 	
@@ -11888,7 +11894,7 @@ module.exports =
 	
 	var path = { sep: '/' }
 	try {
-	  path = __webpack_require__(344)
+	  path = __webpack_require__(342)
 	} catch (er) {}
 	
 	var GLOBSTAR = minimatch.GLOBSTAR = Minimatch.GLOBSTAR = {}
@@ -13173,13 +13179,13 @@ module.exports =
 	module.exports = globSync
 	globSync.GlobSync = GlobSync
 	
-	var fs = __webpack_require__(342)
+	var fs = __webpack_require__(340)
 	var rp = __webpack_require__(354)
 	var minimatch = __webpack_require__(356)
 	var Minimatch = minimatch.Minimatch
 	var Glob = __webpack_require__(353).Glob
-	var util = __webpack_require__(339)
-	var path = __webpack_require__(344)
+	var util = __webpack_require__(337)
+	var path = __webpack_require__(342)
 	var assert = __webpack_require__(362)
 	var isAbsolute = __webpack_require__(363)
 	var common = __webpack_require__(365)
@@ -13676,7 +13682,7 @@ module.exports =
 	  return Object.prototype.hasOwnProperty.call(obj, field)
 	}
 	
-	var path = __webpack_require__(344)
+	var path = __webpack_require__(342)
 	var minimatch = __webpack_require__(356)
 	var isAbsolute = __webpack_require__(363)
 	var Minimatch = minimatch.Minimatch
@@ -14173,7 +14179,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('cat', _cat, {
 	  canReceivePipe: true,
@@ -14220,7 +14226,7 @@ module.exports =
 /* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	var common = __webpack_require__(352);
 	
 	common.register('cd', _cd, {});
@@ -14265,8 +14271,8 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	
 	var PERMS = (function (base) {
 	  return {
@@ -14486,8 +14492,8 @@ module.exports =
 /* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	var common = __webpack_require__(352);
 	
 	common.register('cp', _cp, {
@@ -14793,7 +14799,7 @@ module.exports =
 
 	var common = __webpack_require__(352);
 	var _cd = __webpack_require__(372);
-	var path = __webpack_require__(344);
+	var path = __webpack_require__(342);
 	
 	common.register('dirs', _dirs, {
 	  wrapOutput: false,
@@ -15060,8 +15066,8 @@ module.exports =
 	var common = __webpack_require__(352);
 	var _tempDir = __webpack_require__(379);
 	var _pwd = __webpack_require__(380);
-	var path = __webpack_require__(344);
-	var fs = __webpack_require__(342);
+	var path = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	var child = __webpack_require__(381);
 	
 	var DEFAULT_MAXBUFFER_SIZE = 20 * 1024 * 1024;
@@ -15359,8 +15365,8 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var os = __webpack_require__(340);
-	var fs = __webpack_require__(342);
+	var os = __webpack_require__(338);
+	var fs = __webpack_require__(340);
 	
 	common.register('tempdir', _tempDir, {
 	  allowGlobbing: false,
@@ -15424,7 +15430,7 @@ module.exports =
 /* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(344);
+	var path = __webpack_require__(342);
 	var common = __webpack_require__(352);
 	
 	common.register('pwd', _pwd, {
@@ -15451,8 +15457,8 @@ module.exports =
 /* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	var common = __webpack_require__(352);
 	var _ls = __webpack_require__(383);
 	
@@ -15518,8 +15524,8 @@ module.exports =
 /* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(344);
-	var fs = __webpack_require__(342);
+	var path = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	var common = __webpack_require__(352);
 	var glob = __webpack_require__(353);
 	
@@ -15651,7 +15657,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('grep', _grep, {
 	  globStart: 2, // don't glob-expand the regex
@@ -15724,7 +15730,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('head', _head, {
 	  canReceivePipe: true,
@@ -15840,8 +15846,8 @@ module.exports =
 /* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	var common = __webpack_require__(352);
 	
 	common.register('ln', _ln, {
@@ -15919,8 +15925,8 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	
 	common.register('mkdir', _mkdir, {
 	  cmdOptions: {
@@ -16023,8 +16029,8 @@ module.exports =
 /* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	var common = __webpack_require__(352);
 	var cp = __webpack_require__(374);
 	var rm = __webpack_require__(389);
@@ -16147,7 +16153,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('rm', _rm, {
 	  cmdOptions: {
@@ -16367,7 +16373,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('sed', _sed, {
 	  globStart: 3, // don't glob-expand regexes
@@ -16520,7 +16526,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('sort', _sort, {
 	  canReceivePipe: true,
@@ -16624,7 +16630,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('tail', _tail, {
 	  canReceivePipe: true,
@@ -16709,7 +16715,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('test', _test, {
 	  cmdOptions: {
@@ -16799,8 +16805,8 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	
 	common.register('to', _to, {
 	  pipeOnly: true,
@@ -16842,8 +16848,8 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	
 	common.register('toEnd', _toEnd, {
 	  pipeOnly: true,
@@ -16884,7 +16890,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	common.register('touch', _touch, {
 	  cmdOptions: {
@@ -17000,7 +17006,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
+	var fs = __webpack_require__(340);
 	
 	// add c spaces to the left of str
 	function lpad(c, str) {
@@ -17097,8 +17103,8 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(352);
-	var fs = __webpack_require__(342);
-	var path = __webpack_require__(344);
+	var fs = __webpack_require__(340);
+	var path = __webpack_require__(342);
 	
 	common.register('which', _which, {
 	  allowGlobbing: false,
@@ -17210,7 +17216,7 @@ module.exports =
 	    Configuration store for the dependencies and frame config
 	*/
 	
-	var homeDir = __webpack_require__(340).homedir();
+	var homeDir = __webpack_require__(338).homedir();
 	var appRootDir = __webpack_require__(403).get();
 	
 	var frameConfig = [{ framerate: 15, keyint: 75 }, { framerate: 30, keyint: 150 }, { framerate: 60, keyint: 300 }];
@@ -17236,8 +17242,8 @@ module.exports =
 	    }
 	
 	    if (_rootDir === undefined) {
-	        var fs = __webpack_require__(342);
-	        var path = __webpack_require__(344);
+	        var fs = __webpack_require__(340);
+	        var path = __webpack_require__(342);
 	        var NODE_MODULES = path.sep + 'node_modules' + path.sep;
 	        var cwd = process.cwd();
 	        var pos = cwd.indexOf(NODE_MODULES);
@@ -17279,7 +17285,7 @@ module.exports =
 	    value: true
 	});
 	
-	var _electronLog = __webpack_require__(333);
+	var _electronLog = __webpack_require__(331);
 	
 	var _electronLog2 = _interopRequireDefault(_electronLog);
 	
@@ -17386,7 +17392,7 @@ module.exports =
 	
 	var _request2 = _interopRequireDefault(_request);
 	
-	var _electronLog = __webpack_require__(333);
+	var _electronLog = __webpack_require__(331);
 	
 	var _electronLog2 = _interopRequireDefault(_electronLog);
 	
@@ -17518,8 +17524,8 @@ module.exports =
 	rimraf.sync = rimrafSync
 	
 	var assert = __webpack_require__(362)
-	var path = __webpack_require__(344)
-	var fs = __webpack_require__(342)
+	var path = __webpack_require__(342)
+	var fs = __webpack_require__(340)
 	var glob = __webpack_require__(353)
 	
 	var defaultGlobOpts = {
@@ -18112,7 +18118,7 @@ module.exports =
 	
 	var _request2 = _interopRequireDefault(_request);
 	
-	var _ = __webpack_require__(331);
+	var _ = __webpack_require__(349);
 	
 	var _config = __webpack_require__(402);
 	
@@ -18267,10 +18273,70 @@ module.exports =
 /* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	const os = __webpack_require__(338)
+	const path = __webpack_require__(342)
+	
+	const platform = os.platform()
+	if (platform !== 'linux' && platform !== 'darwin' && platform !== 'win32') {
+	    console.error('Unsupported platform.')
+	    process.exit(1)
+	}
+	
+	const arch = os.arch()
+	if (platform === 'darwin' && arch !== 'x64') {
+	    console.error('Unsupported architecture.')
+	    process.exit(1)
+	}
+	
+	const livepeerPath = path.join(
+	  __dirname,
+	  'bin',
+	  platform,
+	  arch,
+	  platform === 'win32' ? 'livepeer.exe' : 'livepeer'
+	)
+	
+	exports.path = livepeerPath;
+
+
+/***/ }),
+/* 412 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var os = __webpack_require__(338)
+	var path = __webpack_require__(342)
+	
+	var platform = os.platform()
+	if (platform !== 'linux' && platform !== 'darwin' && platform !== 'win32') {
+	  console.error('Unsupported platform.')
+	  process.exit(1)
+	}
+	
+	var arch = os.arch()
+	if (platform === 'darwin' && arch !== 'x64') {
+	  console.error('Unsupported architecture.')
+	  process.exit(1)
+	}
+	
+	var ffmpegPath = path.join(
+	  __dirname,
+	  'bin',
+	  platform,
+	  arch,
+	  platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg'
+	)
+	
+	exports.path = ffmpegPath;
+
+
+/***/ }),
+/* 413 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 	const electron = __webpack_require__(330);
-	const localShortcut = __webpack_require__(412);
-	const isDev = __webpack_require__(419);
+	const localShortcut = __webpack_require__(414);
+	const isDev = __webpack_require__(421);
 	
 	const app = electron.app;
 	const BrowserWindow = electron.BrowserWindow;
@@ -18340,7 +18406,7 @@ module.exports =
 					{}.hasOwnProperty.call(BrowserWindow.getDevToolsExtensions(), 'devtron');
 	
 				if (!devtronAlreadyAdded) {
-					BrowserWindow.addDevToolsExtension(__webpack_require__(420).path);
+					BrowserWindow.addDevToolsExtension(__webpack_require__(422).path);
 				}
 			} catch (err) {}
 	
@@ -18359,15 +18425,15 @@ module.exports =
 
 
 /***/ }),
-/* 412 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	const {app, BrowserWindow} = __webpack_require__(330);
-	const isAccelerator = __webpack_require__(413);
-	const equals = __webpack_require__(414);
-	const {toKeyEvent} = __webpack_require__(415);
-	const _debug = __webpack_require__(416);
+	const isAccelerator = __webpack_require__(415);
+	const equals = __webpack_require__(416);
+	const {toKeyEvent} = __webpack_require__(417);
+	const _debug = __webpack_require__(418);
 	
 	const debug = _debug('electron-localshortcut');
 	
@@ -18673,7 +18739,7 @@ module.exports =
 
 
 /***/ }),
-/* 413 */
+/* 415 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -18700,7 +18766,7 @@ module.exports =
 
 
 /***/ }),
-/* 414 */
+/* 416 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -18745,7 +18811,7 @@ module.exports =
 
 
 /***/ }),
-/* 415 */
+/* 417 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -18946,7 +19012,7 @@ module.exports =
 
 
 /***/ }),
-/* 416 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18955,7 +19021,7 @@ module.exports =
 	 * Expose `debug()` as the module.
 	 */
 	
-	exports = module.exports = __webpack_require__(417);
+	exports = module.exports = __webpack_require__(419);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -19137,7 +19203,7 @@ module.exports =
 
 
 /***/ }),
-/* 417 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -19153,7 +19219,7 @@ module.exports =
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(418);
+	exports.humanize = __webpack_require__(420);
 	
 	/**
 	 * The currently active debug mode names, and names to skip.
@@ -19345,7 +19411,7 @@ module.exports =
 
 
 /***/ }),
-/* 418 */
+/* 420 */
 /***/ (function(module, exports) {
 
 	/**
@@ -19503,7 +19569,7 @@ module.exports =
 
 
 /***/ }),
-/* 419 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19514,7 +19580,7 @@ module.exports =
 
 
 /***/ }),
-/* 420 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	const electron = __webpack_require__(330)
@@ -19551,66 +19617,6 @@ module.exports =
 
 
 /***/ }),
-/* 421 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	const os = __webpack_require__(340)
-	const path = __webpack_require__(344)
-	
-	const platform = os.platform()
-	if (platform !== 'linux' && platform !== 'darwin' && platform !== 'win32') {
-	    console.error('Unsupported platform.')
-	    process.exit(1)
-	}
-	
-	const arch = os.arch()
-	if (platform === 'darwin' && arch !== 'x64') {
-	    console.error('Unsupported architecture.')
-	    process.exit(1)
-	}
-	
-	const livepeerPath = path.join(
-	  __dirname,
-	  'bin',
-	  platform,
-	  arch,
-	  platform === 'win32' ? 'livepeer.exe' : 'livepeer'
-	)
-	
-	exports.path = livepeerPath;
-
-
-/***/ }),
-/* 422 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var os = __webpack_require__(340)
-	var path = __webpack_require__(344)
-	
-	var platform = os.platform()
-	if (platform !== 'linux' && platform !== 'darwin' && platform !== 'win32') {
-	  console.error('Unsupported platform.')
-	  process.exit(1)
-	}
-	
-	var arch = os.arch()
-	if (platform === 'darwin' && arch !== 'x64') {
-	  console.error('Unsupported architecture.')
-	  process.exit(1)
-	}
-	
-	var ffmpegPath = path.join(
-	  __dirname,
-	  'bin',
-	  platform,
-	  arch,
-	  platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg'
-	)
-	
-	exports.path = ffmpegPath;
-
-
-/***/ }),
 /* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19627,11 +19633,11 @@ module.exports =
 	
 	var _electron2 = _interopRequireDefault(_electron);
 	
-	var _fs = __webpack_require__(342);
+	var _fs = __webpack_require__(340);
 	
 	var _fs2 = _interopRequireDefault(_fs);
 	
-	var _path = __webpack_require__(344);
+	var _path = __webpack_require__(342);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
@@ -21043,11 +21049,11 @@ module.exports =
 	  value: true
 	});
 	
-	var _fs = __webpack_require__(342);
+	var _fs = __webpack_require__(340);
 	
 	var _fs2 = _interopRequireDefault(_fs);
 	
-	var _path = __webpack_require__(344);
+	var _path = __webpack_require__(342);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
@@ -21166,7 +21172,7 @@ module.exports =
 /* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var resolve = __webpack_require__(344).resolve
+	var resolve = __webpack_require__(342).resolve
 	var bin = __webpack_require__(428).bin
 	
 	module.exports = map_obj(bin, function(v){
@@ -21202,15 +21208,15 @@ module.exports =
 	
 	var _electron2 = _interopRequireDefault(_electron);
 	
-	var _fs = __webpack_require__(342);
+	var _fs = __webpack_require__(340);
 	
 	var _fs2 = _interopRequireDefault(_fs);
 	
-	var _path = __webpack_require__(344);
+	var _path = __webpack_require__(342);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
-	var _https = __webpack_require__(348);
+	var _https = __webpack_require__(346);
 	
 	var _https2 = _interopRequireDefault(_https);
 	

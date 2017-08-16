@@ -2,13 +2,16 @@
     Bootstrap of Electron 🚀
 */
 
-import { app, BrowserWindow, Menu, shell, ipcMain, ipcRenderer } from 'electron';
-import { windowMenu, windowFFMpeg, windowLivepeer, windowLogging, listener } from './electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import log from 'electron-log';
+import { windowMenu, windowFFMpeg, windowLivepeer, listener } from './electron';
 
-// if (process.env.NODE_ENV === 'development') {
-require('electron-debug')(); // eslint-disable-line global-require
-// }
+/* Handle binaries paths */
+const livepeer = require('livepeer-static').path;
+const ffmpeg = require('ffmpeg-static').path;
+
+const paths = { livepeer, ffmpeg };
+const transformBinaryPath = (name) => paths[name].replace('bin', `node_modules/${name}-static/bin`).replace('app.asar', 'app.asar.unpacked')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,16 +23,17 @@ global.sharedObj = { ffmpegProc: null, livepeerProc: null };
 
 // add binaries path
 if (process.env.NODE_ENV === 'development') {
-    global.livepeerPath = require('livepeer-static').path;
-    global.ffmpegPath = require('ffmpeg-static').path;
+    global.livepeerPath = paths.livepeer;
+    global.ffmpegPath = paths.ffmpeg;
 } else {
-    global.livepeerPath = require('livepeer-static').path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked');
-    global.ffmpegPath = require('ffmpeg-static').path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked');
-    console.log(global.ffmpegPath);
+    global.livepeerPath = transformBinaryPath('livepeer');
+    global.ffmpegPath = transformBinaryPath('ffmpeg');
 }
 
 const installExtensions = async () => {
     if (process.env.NODE_ENV === 'development') {
+        require('electron-debug')();
+
         const installer = require('electron-devtools-installer') // eslint-disable-line global-require
 
         const extensions = ['REACT_DEVELOPER_TOOLS', 'REACT_PERF']
