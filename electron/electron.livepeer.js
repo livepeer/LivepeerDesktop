@@ -7,20 +7,14 @@ import shell from 'shelljs';
 import rimraf from 'rimraf';
 import request from 'request';
 import log from 'electron-log';
-import path from 'path';
+
 import { main } from '../config/config';
 // Do not use import {spawn} >
 // https://discuss.atom.io/t/not-able-to-spawn-npm-modules-from-electron-package-in-os-x-solved/18905/9
-const childProcess = require('child_process');
+const spawn = require('child_process').spawn;
 
-const { httpPort, appRootDir, homeDir } = main;
 
-const getWithExt = (name) => {
-    if (process.platform === 'win32') {
-        return `${name}.exe`;
-    }
-    return name
-}
+const { httpPort, homeDir } = main;
 
 const startLivepeer = (sender) => {
     request(`http://localhost:${httpPort}/localStreams`, (err) => {
@@ -28,13 +22,11 @@ const startLivepeer = (sender) => {
             global.sharedObj.livepeerProc = 'local';
             log.info('LivePeer is already running.');
         } else if (global.sharedObj.livepeerProc == null) {
-            const LPPath = path.join(appRootDir, 'node_modules', 'livepeer', getWithExt('livepeer'));
-            const FFMPegPath = path.join(appRootDir, 'node_modules', 'ffmpeg', getWithExt('ffmpeg'));
             const args = [
-                '--ffmpegPath', FFMPegPath,
+                '--ffmpegPath', global.ffmpegPath,
                 '--datadir', `${homeDir}/Livepeer/livepeernet`
             ];
-            const livepeerProc = childProcess.spawn(LPPath, args)
+            const livepeerProc = spawn(global.livepeerPath, args)
             livepeerProc.stdin.write('\n\n\n\n\n')
             global.sharedObj.livepeerProc = livepeerProc;
 

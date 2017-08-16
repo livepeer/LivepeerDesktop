@@ -3,14 +3,8 @@
 */
 
 import { app, BrowserWindow, Menu, shell, ipcMain, ipcRenderer } from 'electron';
-import log from 'electron-log';
-import path from 'path';
-import request from 'request';
-import { main } from './config/config';
-
-const { httpPort } = main;
 import { windowMenu, windowFFMpeg, windowLivepeer, windowLogging, listener } from './electron';
-
+import log from 'electron-log';
 
 // if (process.env.NODE_ENV === 'development') {
 require('electron-debug')(); // eslint-disable-line global-require
@@ -23,6 +17,14 @@ let menu
 
 // global shared object
 global.sharedObj = { ffmpegProc: null, livepeerProc: null };
+
+if (process.env.NODE_ENV === 'development') {
+    global.livepeerPath = require('livepeer-static').path;
+    global.ffmpegPath = require('livepeer-static').path;
+} else {
+    global.livepeerPath = require('livepeer-static').path.replace('bin', 'node_modules/livepeer-static/bin').replace('app.asar', 'app.asar.unpacked')
+    global.ffmpegPath = require('ffmpeg-static').path.replace('bin', 'node_modules/ffmpeg-static/bin').replace('app.asar', 'app.asar.unpacked')
+}
 
 const installExtensions = async () => {
     if (process.env.NODE_ENV === 'development') {

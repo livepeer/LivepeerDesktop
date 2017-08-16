@@ -12,8 +12,6 @@ npm install
 npm start
 ```
 
-:warning: make sure the postinstall shell script copy the **`./vendors`** (livepeer and ffmpeg) into **`./node_modules`**
-
 #### Development Commands list
 
 | command  | task performed  |

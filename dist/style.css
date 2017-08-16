@@ -64,7 +64,7 @@ code {
 
 /* Make child vertical and horizontal centered */
 
-.flexCenter, .Placeholder-logo, .toggler__wrapper, .toggler__broadcaster, .toggler__player, [class*='toggler__player-button'], .control-actions, .control-action, .control-action > *, .control-action > * > [class*='-icon'] {
+.flexCenter, .toggler__wrapper, .toggler__broadcaster, .toggler__player, [class*='toggler__player-button'], .Placeholder-logo, .control-actions, .control-action, .control-action > *, .control-action > * > [class*='-icon'] {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -94,8 +94,8 @@ code {
 
 .txt {
     -webkit-app-region: none !important;
-  -webkit-user-select: none !important;
-  cursor: default !important;
+    -webkit-user-select: none !important;
+    cursor: default !important;
 }
 
 /*
@@ -178,73 +178,6 @@ body {
 
 a {
     text-decoration: underline;
-}
-
-.Placeholder {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
-    font-size: 2.4em;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-.Placeholder-logo {
-    -webkit-transform: rotate(-80deg);
-            transform: rotate(-80deg);
-}
-
-.Placeholder-logo svg {
-    width: 100px;
-    height: 100px;
-    -webkit-transform: scale(1.8) rotate(80deg);
-            transform: scale(1.8) rotate(80deg);
-}
-
-.Placeholder-logo svg path { fill: #6159FF }
-
-.Placeholder-tagline {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    z-index: 1;
-}
-
-.Placeholder-text {
-    font-weight: 300;
-    font-size: 1.5em;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-.Placeholder-text-sub {
-    margin: 0;
-    font-weight: normal;
-    text-transform: uppercase;
-    text-align: center;
-    font-size: .48em;
-    display: none;
 }
 
 .window__controls {
@@ -703,7 +636,7 @@ button svg {
 .Openexternal-icon { margin-right: 5px }
 
 /*
-  Label Styling Component ✏️
+  Form Styling Component ✏️
   ----
   - Super small, but styles the labels
 */
@@ -879,6 +812,73 @@ button svg {
     opacity: 0;
 }
 
+.Placeholder {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    font-size: 2.4em;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.Placeholder-logo {
+    -webkit-transform: rotate(-80deg);
+            transform: rotate(-80deg);
+}
+
+.Placeholder-logo svg {
+    width: 100px;
+    height: 100px;
+    -webkit-transform: scale(1.8) rotate(80deg);
+            transform: scale(1.8) rotate(80deg);
+}
+
+.Placeholder-logo svg path { fill: #6159FF }
+
+.Placeholder-tagline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    z-index: 1;
+}
+
+.Placeholder-text {
+    font-weight: 300;
+    font-size: 1.5em;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.Placeholder-text-sub {
+    margin: 0;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: .48em;
+    display: none;
+}
+
 .controls-container, .control-container { width: 100% }
 
 .control-actions {
@@ -899,7 +899,7 @@ button svg {
     font-size: 1em;
 }
 
-.control-action > label { margin-right: 5px }
+.control-action > [class*='-label'] { margin-right: 5px }
 
 .control-action > * > [class*='-icon'] {
     margin-right: 5px;
@@ -914,7 +914,7 @@ button svg {
 
 .control-action-item__stop-icon svg {
     border-radius: 4px;
-    fill: #F33C3C !important 
+    fill: #F33C3C !important
 }
 
 .control-action-item__timer-label {
@@ -1075,8 +1075,6 @@ video { min-height: 100vh }
 }
 
 .modal.modal-open { bottom: 0 }
-
-/* Body */
 
 body {
   -webkit-transition: all .2s ease;

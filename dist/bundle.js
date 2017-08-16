@@ -47,8 +47,6 @@ module.exports =
 
 	'use strict';
 
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
-
 	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -75,7 +73,6 @@ module.exports =
 
 	/* CSS Entry point */
 
-
 	if (false) {
 	  /* hotmodule replacement for extracted CSS */
 	  var cssNode = document.getElementById('css-bundle');
@@ -100,20 +97,18 @@ module.exports =
 	  );
 	};
 
-	var Routes = _jsx(_reactRouter.Route, {
-	  path: '/',
-	  component: App
-	}, void 0, _jsx(_reactRouter.IndexRoute, {
-	  component: _containers.Home
-	}), _jsx(_reactRouter.Route, {
-	  path: '/counter',
-	  component: _containers.Counter
-	}));
+	var Routes = _react2.default.createElement(
+	  _reactRouter.Route,
+	  { path: '/', component: App },
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _containers.Home }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/counter', component: _containers.Counter })
+	);
 
-	(0, _reactDom.render)(_jsx('div', {}, void 0, _jsx(_reactRouter.Router, {
-	  history: _reactRouter.hashHistory,
-	  routes: Routes
-		})), document.getElementById('root'));
+	(0, _reactDom.render)(_react2.default.createElement(
+	  'div',
+	  null,
+	  _react2.default.createElement(_reactRouter.Router, { history: _reactRouter.hashHistory, routes: Routes })
+		), document.getElementById('root'));
 
 /***/ }),
 /* 1 */
@@ -7334,10 +7329,12 @@ module.exports =
 	        },
 	        2: {
 	            message: 'LivePeer exited',
-	            loadingKeys: [1]
+	            loadingKeys: [1],
+	            critical: true
 	        },
 	        3: {
-	            message: 'FFMPeg Broadcast failed'
+	            message: 'FFMPeg Broadcast failed',
+	            critical: true
 	        },
 	        4: {
 	            message: 'Having problem connecting to Livepeer.  Make sure your local node is running.'
@@ -12288,13 +12285,11 @@ module.exports =
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -12330,108 +12325,117 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx("span", {
-		className: "toggler__broadcaster-label"
-	}, void 0, "Rec");
+	var Toggler = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	    _inherits(Toggler, _React$Component);
 
-	var _ref2 = _jsx("span", {
-		className: "toggler__broadcaster_recording-label"
-	}, void 0, "Stop");
+	    function Toggler(props) {
+	        _classCallCheck(this, Toggler);
 
-	var _ref3 = _jsx("label", {
-		className: "toggler__player-button-label"
-	}, void 0, "View");
+	        var _this = _possibleConstructorReturn(this, (Toggler.__proto__ || Object.getPrototypeOf(Toggler)).call(this, props));
 
-	var Toggler = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-		_inherits(Toggler, _React$Component);
+	        _this.getClassState = function () {
+	            return (0, _classnames2.default)({
+	                toggler__wrapper: true,
+	                'toggler__wrapper-playerFocused': _this.state.focus
+	            });
+	        };
 
-		function Toggler(props) {
-			_classCallCheck(this, Toggler);
+	        _this.toggleRecord = function () {
+	            var toggleBroadcasting = _this.props.video.toggleBroadcasting;
 
-			var _this = _possibleConstructorReturn(this, (Toggler.__proto__ || Object.getPrototypeOf(Toggler)).call(this, props));
+	            return toggleBroadcasting();
+	        };
 
-			_this.getClassState = function () {
+	        _this.toggleFocus = function (focus) {
+	            if (_this.state.processSubmit) {
+	                return;
+	            }
+	            if (!focus) {
+	                _this.playerID.innerText = '';
+	            }
+	            _this.setState({ focus: focus });
+	        };
 
-				return (0, _classnames2.default)({
-					'toggler__wrapper': true,
-					'toggler__wrapper-playerFocused': _this.state.focus
-				});
-			};
+	        _this.submitForm = function () {
+	            _this.setState({ processSubmit: true });
+	            var strmID = _this.playerID.innerText;
+	            _this.props.video.togglePlayer(strmID);
+	        };
 
-			_this.toggleRecord = function () {
-				var toggleBroadcasting = _this.props.video.toggleBroadcasting;
+	        _this.state = {
+	            focus: false,
+	            processSubmit: false
+	        };
+	        return _this;
+	    }
 
-				return toggleBroadcasting();
-			};
+	    _createClass(Toggler, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
 
-			_this.toggleFocus = function (focus) {
-				if (_this.state.processSubmit) {
-					return;
-				}
-				if (!focus) {
-					_this.refs.player_ID.innerText = '';
-				}
-				_this.setState({ focus: focus });
-			};
+	            return _react2.default.createElement(
+	                'div',
+	                { className: this.getClassState() },
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'toggler__broadcaster', onClick: function onClick() {
+	                            return _this2.toggleRecord();
+	                        } },
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'toggler__broadcaster-label' },
+	                        'Rec'
+	                    ),
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'toggler__broadcaster_recording-label' },
+	                        'Stop'
+	                    ),
+	                    _react2.default.createElement('i', { className: 'toggler__broadcaster-icon', dangerouslySetInnerHTML: { __html: _stop2.default } })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'toggler__player' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'toggler__player-button-cancel ' },
+	                        _react2.default.createElement('i', { className: 'toggler__player-button-icon', dangerouslySetInnerHTML: { __html: _close2.default } })
+	                    ),
+	                    _react2.default.createElement('span', {
+	                        ref: function ref(c) {
+	                            _this2.playerID = c;
+	                        },
+	                        onFocus: function onFocus() {
+	                            return _this2.toggleFocus(true);
+	                        },
+	                        onBlur: function onBlur() {
+	                            return _this2.toggleFocus(false);
+	                        },
+	                        contentEditable: true,
+	                        'data-tooltip': 'or You have a Stream ID?', placeholder: 'Paste here your Stream ID'
+	                    }),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onMouseDown: function onMouseDown(e) {
+	                                return _this2.submitForm(e);
+	                            }, className: 'toggler__player-button-send withBorder', type: 'submit' },
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'toggler__player-button-label' },
+	                            'View'
+	                        ),
+	                        _react2.default.createElement('i', { className: 'toggler__player-button-icon', dangerouslySetInnerHTML: { __html: _arrowRight2.default } })
+	                    )
+	                )
+	            );
+	        }
+	    }]);
 
-			_this.submitForm = function (e) {
-				_this.setState({ processSubmit: true });
-				var strmID = _this.refs.player_ID.innerText;
-				_this.props.video.togglePlayer(strmID);
-			};
-
-			_this.state = {
-				focus: false,
-				processSubmit: false
-			};
-			return _this;
-		}
-
-		_createClass(Toggler, [{
-			key: "render",
-			value: function render() {
-				var _this2 = this;
-
-				var broadcasting = this.props.video.broadcasting;
-
-				return _jsx("div", {
-					className: this.getClassState()
-				}, void 0, _jsx("button", {
-					className: "toggler__broadcaster",
-					onClick: function onClick() {
-						return _this2.toggleRecord();
-					}
-				}, void 0, _ref, _ref2, _jsx("i", {
-					className: "toggler__broadcaster-icon",
-					dangerouslySetInnerHTML: { __html: _stop2.default }
-				})), _jsx("div", {
-					className: "toggler__player"
-				}, void 0, _jsx("button", {
-					className: "toggler__player-button-cancel "
-				}, void 0, _jsx("i", {
-					className: "toggler__player-button-icon",
-					dangerouslySetInnerHTML: { __html: _close2.default }
-				})), _react2.default.createElement("span", { ref: "player_ID", onFocus: function onFocus() {
-						return _this2.toggleFocus(true);
-					}, onBlur: function onBlur() {
-						return _this2.toggleFocus(false);
-					}, contentEditable: true, "data-tooltip": "or You have a Stream ID?", placeholder: "Paste here your Stream ID" }), _jsx("button", {
-					onMouseDown: function onMouseDown(e) {
-						return _this2.submitForm(e);
-					},
-					className: "toggler__player-button-send withBorder",
-					type: "submit"
-				}, void 0, _ref3, _jsx("i", {
-					className: "toggler__player-button-icon",
-					dangerouslySetInnerHTML: { __html: _arrowRight2.default }
-				}))));
-			}
-		}]);
-
-		return Toggler;
+	    return Toggler;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = Toggler;
-	module.exports = exports["default"];
+	module.exports = exports['default'];
 
 /***/ }),
 /* 76 */
@@ -12440,10 +12444,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -12481,115 +12483,159 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx('span', {}, void 0, 'LIVE');
+	var ControlsBrodcast = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	  _inherits(ControlsBrodcast, _React$Component);
 
-	var _ref2 = _jsx('span', {}, void 0, 'PEER');
+	  function ControlsBrodcast(props) {
+	    _classCallCheck(this, ControlsBrodcast);
 
-	var _ref3 = _jsx('strong', {}, void 0, 'Share');
+	    var _this = _possibleConstructorReturn(this, (ControlsBrodcast.__proto__ || Object.getPrototypeOf(ControlsBrodcast)).call(this, props));
 
-	var _ref4 = _jsx('h1', {}, void 0, 'Share');
+	    _this.toggleShare = function () {
+	      _this.setState({
+	        isShareOpen: !_this.state.isShareOpen
+	      });
+	    };
 
-	var _ref5 = _jsx('u', {}, void 0, 'Stream ID');
+	    _this.state = {
+	      url: '',
+	      isShareOpen: false
+	    };
+	    return _this;
+	  }
 
-	var _ref6 = _jsx('div', {
-		className: 'note'
-	}, void 0, _jsx('b', {}, void 0, 'Note: '), 'Any connected peer can copy the stream ID into the Livepeer Desktop to see the stream.');
+	  _createClass(ControlsBrodcast, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
 
-	var _ref7 = _jsx('u', {}, void 0, 'Web Player');
+	      var _props$video = this.props.video,
+	          peerCount = _props$video.peerCount,
+	          broadcasting = _props$video.broadcasting,
+	          timer = _props$video.timer;
 
-	var ControlsBrodcast = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-		_inherits(ControlsBrodcast, _React$Component);
+	      var playerURL = '' + _constants2.default.webURL + broadcasting;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'control-container' },
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'control-actions' },
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'control-action' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'control-action-item__timer-label' },
+	              _react2.default.createElement('i', { className: 'control-action-item__timer-icon', dangerouslySetInnerHTML: { __html: _camera2.default } }),
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'LIVE'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'strong',
+	              { className: 'control-action-item__timer-time' },
+	              timer || '00:00'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'control-action' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'control-action-item__counter-label' },
+	              _react2.default.createElement('i', { className: 'control-action-item__counter-icon', dangerouslySetInnerHTML: { __html: _peer2.default } }),
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'PEER'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              peerCount
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'control-action' },
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  return _this2.toggleShare();
+	                }, className: 'control-action-item__share-label withBorder' },
+	              _react2.default.createElement('i', { className: 'control-action-item__share-icon', dangerouslySetInnerHTML: { __html: _share2.default } }),
+	              _react2.default.createElement(
+	                'strong',
+	                null,
+	                'Share'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          _.Modal,
+	          { show: this.state.isShareOpen, onClose: this.toggleShare },
+	          _react2.default.createElement('i', { className: 'modal-icon', dangerouslySetInnerHTML: { __html: _share2.default } }),
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Share'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'fieldset' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'legend' },
+	              _react2.default.createElement(
+	                'u',
+	                null,
+	                'Stream ID'
+	              ),
+	              _react2.default.createElement(_.Clipboard, { copyLabel: 'Copy ID', value: broadcasting })
+	            ),
+	            _react2.default.createElement(
+	              'code',
+	              { className: 'breakWord txt' },
+	              broadcasting
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'note' },
+	              _react2.default.createElement(
+	                'b',
+	                null,
+	                'Note: '
+	              ),
+	              'Any connected peer can copy the stream ID into the Livepeer Desktop to see the stream.'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'fieldset' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'legend' },
+	              _react2.default.createElement(
+	                'u',
+	                null,
+	                'Web Player'
+	              ),
+	              _react2.default.createElement(_.Clipboard, { copyLabel: 'Copy url', value: playerURL }),
+	              ' ',
+	              _react2.default.createElement(_.Openexternal, { 'class': 'withBorder withBorder-light', url: playerURL })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
 
-		function ControlsBrodcast(props) {
-			_classCallCheck(this, ControlsBrodcast);
-
-			var _this = _possibleConstructorReturn(this, (ControlsBrodcast.__proto__ || Object.getPrototypeOf(ControlsBrodcast)).call(this, props));
-
-			_this.toggleShare = function () {
-				_this.setState({
-					isShareOpen: !_this.state.isShareOpen
-				});
-			};
-
-			_this.state = {
-				url: '',
-				isShareOpen: false
-			};
-			return _this;
-		}
-
-		_createClass(ControlsBrodcast, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
-
-				var _props$video = this.props.video,
-				    playing = _props$video.playing,
-				    peerCount = _props$video.peerCount,
-				    broadcasting = _props$video.broadcasting,
-				    timer = _props$video.timer;
-
-				var playerURL = '' + _constants2.default.webURL + broadcasting;
-				return _jsx('div', {
-					className: 'control-container'
-				}, void 0, _jsx('ul', {
-					className: 'control-actions'
-				}, void 0, _jsx('li', {
-					className: 'control-action'
-				}, void 0, _jsx('label', {
-					className: 'control-action-item__timer-label'
-				}, void 0, _jsx('i', {
-					className: 'control-action-item__timer-icon',
-					dangerouslySetInnerHTML: { __html: _camera2.default }
-				}), _ref), _jsx('strong', {
-					className: 'control-action-item__timer-time'
-				}, void 0, timer || '00:00')), _jsx('li', {
-					className: 'control-action'
-				}, void 0, _jsx('label', {
-					className: 'control-action-item__counter-label'
-				}, void 0, _jsx('i', {
-					className: 'control-action-item__counter-icon',
-					dangerouslySetInnerHTML: { __html: _peer2.default }
-				}), _ref2), _jsx('strong', {}, void 0, peerCount)), _jsx('li', {
-					className: 'control-action'
-				}, void 0, _jsx('button', {
-					onClick: function onClick() {
-						return _this2.toggleShare();
-					},
-					className: 'control-action-item__share-label withBorder'
-				}, void 0, _jsx('i', {
-					className: 'control-action-item__share-icon',
-					dangerouslySetInnerHTML: { __html: _share2.default }
-				}), _ref3))), _jsx(_.Modal, {
-					show: this.state.isShareOpen,
-					onClose: this.toggleShare
-				}, void 0, _jsx('i', {
-					className: 'modal-icon',
-					dangerouslySetInnerHTML: { __html: _share2.default }
-				}), _ref4, _jsx('div', {
-					className: 'fieldset'
-				}, void 0, _jsx('div', {
-					className: 'legend'
-				}, void 0, _ref5, _jsx(_.Clipboard, {
-					copyLabel: 'Copy ID',
-					value: broadcasting
-				})), _jsx('code', {
-					className: 'breakWord txt'
-				}, void 0, broadcasting), _ref6), _jsx('div', {
-					className: 'fieldset'
-				}, void 0, _jsx('div', {
-					className: 'legend'
-				}, void 0, _ref7, _jsx(_.Clipboard, {
-					copyLabel: 'Copy url',
-					value: playerURL
-				}), ' ', _jsx(_.Openexternal, {
-					'class': 'withBorder withBorder-light',
-					url: playerURL
-				})))));
-			}
-		}]);
-
-		return ControlsBrodcast;
+	  return ControlsBrodcast;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = ControlsBrodcast;
 	module.exports = exports['default'];
@@ -17062,10 +17108,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17089,44 +17133,46 @@ module.exports =
 	    clipboard = _require.clipboard;
 
 	var Clipboard = function (_React$Component) {
-		_inherits(Clipboard, _React$Component);
+	    _inherits(Clipboard, _React$Component);
 
-		function Clipboard(props) {
-			_classCallCheck(this, Clipboard);
+	    function Clipboard(props) {
+	        _classCallCheck(this, Clipboard);
 
-			var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this, props));
 
-			_this.copyToClipboard = function (e) {
+	        _this.copyToClipboard = function () {
+	            clipboard.writeText(_this.props.value);
+	            _this.setState({ copySuccess: 'Copied!' });
+	            setTimeout(function () {
+	                return _this.setState({ copySuccess: _this.props.copyLabel || 'Copy' });
+	            }, 2000);
+	        };
 
-				clipboard.writeText(_this.props.value);
-				_this.setState({ copySuccess: 'Copied!' });
-				setTimeout(function () {
-					return _this.setState({ copySuccess: _this.props.copyLabel || 'Copy' });
-				}, 2000);
-			};
+	        _this.state = { copySuccess: _this.props.copyLabel || 'Copy' };
+	        return _this;
+	    }
 
-			_this.state = { copySuccess: _this.props.copyLabel || 'Copy' };
-			return _this;
-		}
+	    _createClass(Clipboard, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
 
-		_createClass(Clipboard, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
+	            return _react2.default.createElement(
+	                'button',
+	                { onClick: function onClick(e) {
+	                        return _this2.copyToClipboard(e);
+	                    }, className: 'Clipboard withBorder withBorder-light' },
+	                _react2.default.createElement('i', { className: 'Clipboard-icon', dangerouslySetInnerHTML: { __html: _copy2.default } }),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    this.state.copySuccess
+	                )
+	            );
+	        }
+	    }]);
 
-				return _jsx('button', {
-					onClick: function onClick(e) {
-						return _this2.copyToClipboard(e);
-					},
-					className: 'Clipboard withBorder withBorder-light'
-				}, void 0, _jsx('i', {
-					className: 'Clipboard-icon',
-					dangerouslySetInnerHTML: { __html: _copy2.default }
-				}), _jsx('label', {}, void 0, this.state.copySuccess));
-			}
-		}]);
-
-		return Clipboard;
+	    return Clipboard;
 	}(_react2.default.Component);
 
 	exports.default = Clipboard;
@@ -17139,10 +17185,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17167,46 +17211,49 @@ module.exports =
 	var defaultLabel = 'Open in browser';
 
 	var Openexternal = function (_React$Component) {
-		_inherits(Openexternal, _React$Component);
+	    _inherits(Openexternal, _React$Component);
 
-		function Openexternal(props) {
-			_classCallCheck(this, Openexternal);
+	    function Openexternal(props) {
+	        _classCallCheck(this, Openexternal);
 
-			var _this = _possibleConstructorReturn(this, (Openexternal.__proto__ || Object.getPrototypeOf(Openexternal)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Openexternal.__proto__ || Object.getPrototypeOf(Openexternal)).call(this, props));
 
-			_this.openBrowser = function (event) {
-				_electron.shell.openExternal(_this.props.url);
-				_this.setState({ openSuccess: 'Opening!' });
-				setTimeout(function () {
-					return _this.setState({ openSuccess: defaultLabel });
-				}, 2000);
-			};
+	        _this.openBrowser = function () {
+	            _electron.shell.openExternal(_this.props.url);
+	            _this.setState({ openSuccess: 'Opening!' });
+	            setTimeout(function () {
+	                return _this.setState({ openSuccess: defaultLabel });
+	            }, 2000);
+	        };
 
-			_this.state = { openSuccess: defaultLabel };
-			return _this;
-		}
+	        _this.state = { openSuccess: defaultLabel };
+	        return _this;
+	    }
 
-		_createClass(Openexternal, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
+	    _createClass(Openexternal, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
 
-				var classe = this.props.class || '';
-				var classNames = 'Openexternal ' + classe;
+	            var classe = this.props.class || '';
+	            var classNames = 'Openexternal ' + classe;
 
-				return _jsx('button', {
-					onClick: function onClick(e) {
-						return _this2.openBrowser(e);
-					},
-					className: classNames
-				}, void 0, _jsx('i', {
-					className: 'Openexternal-icon',
-					dangerouslySetInnerHTML: { __html: _browser2.default }
-				}), _jsx('label', {}, void 0, this.state.openSuccess));
-			}
-		}]);
+	            return _react2.default.createElement(
+	                'button',
+	                { onClick: function onClick(e) {
+	                        return _this2.openBrowser(e);
+	                    }, className: classNames },
+	                _react2.default.createElement('i', { className: 'Openexternal-icon', dangerouslySetInnerHTML: { __html: _browser2.default } }),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    this.state.openSuccess
+	                )
+	            );
+	        }
+	    }]);
 
-		return Openexternal;
+	    return Openexternal;
 	}(_react2.default.Component);
 
 	exports.default = Openexternal;
@@ -17221,8 +17268,6 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17252,19 +17297,13 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx(_Toggler2.default, {});
-
-	var _ref2 = _jsx(_ControlsBrodcast2.default, {});
-
-	var _ref3 = _jsx(_ControlsBrodcast2.default, {});
-
-	var Controls = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	var Controls = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
 	  _inherits(Controls, _React$Component);
 
-	  function Controls(props) {
+	  function Controls() {
 	    _classCallCheck(this, Controls);
 
-	    return _possibleConstructorReturn(this, (Controls.__proto__ || Object.getPrototypeOf(Controls)).call(this, props));
+	    return _possibleConstructorReturn(this, (Controls.__proto__ || Object.getPrototypeOf(Controls)).apply(this, arguments));
 	  }
 
 	  _createClass(Controls, [{
@@ -17275,9 +17314,13 @@ module.exports =
 	          playing = _props$video.playing;
 
 
-	      return _jsx('div', {
-	        className: 'controls-container'
-	      }, void 0, _ref, broadcasting !== 0 && _ref2, playing !== 0 && _ref3);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'controls-container' },
+	        _react2.default.createElement(_Toggler2.default, null),
+	        broadcasting !== 0 && _react2.default.createElement(_ControlsBrodcast2.default, null),
+	        playing !== 0 && _react2.default.createElement(_ControlsBrodcast2.default, null)
+	      );
 	    }
 	  }]);
 
@@ -17290,13 +17333,11 @@ module.exports =
 /* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17330,59 +17371,69 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Footer = (_dec = (0, _mobxReact.inject)("win"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-	  _inherits(Footer, _React$Component);
+	var Footer = (_dec = (0, _mobxReact.inject)('win'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	    _inherits(Footer, _React$Component);
 
-	  function Footer(props) {
-	    _classCallCheck(this, Footer);
+	    function Footer() {
+	        var _ref;
 
-	    var _this = _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this, props));
+	        var _temp, _this, _ret;
 
-	    _this.getClassState = function () {
-	      var fullscreen = _this.props.win.fullscreen;
+	        _classCallCheck(this, Footer);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Footer.__proto__ || Object.getPrototypeOf(Footer)).call.apply(_ref, [this].concat(args))), _this), _this.getClassState = function () {
+	            var fullscreen = _this.props.win.fullscreen;
 
 
-	      return (0, _classnames2.default)({
-	        'window-footer': true,
-	        'window-footer__visible': true,
-	        'fullscreen': fullscreen
-	      });
-	    };
+	            return (0, _classnames2.default)({
+	                'window-footer': true,
+	                'window-footer__visible': true,
+	                fullscreen: fullscreen
+	            });
+	        }, _this.toggleFullscreen = function () {
+	            var toggle = _this.props.win.toggle;
 
-	    _this.toggleFullscreen = function () {
-	      var toggle = _this.props.win.toggle;
-
-	      return toggle();
-	    };
-
-	    return _this;
-	  }
-
-	  _createClass(Footer, [{
-	    key: "render",
-	    value: function render() {
-	      var _this2 = this;
-
-	      var fullscreen = this.props.win.fullscreen;
-
-	      return _jsx("footer", {
-	        className: this.getClassState()
-	      }, void 0, _jsx("ul", {}, void 0, _jsx("li", {
-	        className: "window__controls"
-	      }, void 0, _jsx("button", {
-	        onClick: function onClick() {
-	          return _this2.toggleFullscreen();
-	        },
-	        className: "window__controls-fullscreen",
-	        dangerouslySetInnerHTML: { __html: fullscreen ? _fullscreenExit2.default : _fullscreen2.default }
-	      }))));
+	            return toggle();
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
-	  }]);
 
-	  return Footer;
+	    _createClass(Footer, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            var fullscreen = this.props.win.fullscreen;
+
+	            return _react2.default.createElement(
+	                'footer',
+	                { className: this.getClassState() },
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'window__controls' },
+	                        _react2.default.createElement('button', {
+	                            onClick: function onClick() {
+	                                return _this2.toggleFullscreen();
+	                            },
+	                            className: 'window__controls-fullscreen',
+	                            dangerouslySetInnerHTML: { __html: fullscreen ? _fullscreenExit2.default : _fullscreen2.default }
+	                        })
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Footer;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = Footer;
-	module.exports = exports["default"];
+	module.exports = exports['default'];
 
 /***/ }),
 /* 129 */
@@ -17391,10 +17442,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17420,55 +17469,63 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx('li', {
-	    className: 'window__title'
-	});
-
 	var Header = function (_React$Component) {
-	    _inherits(Header, _React$Component);
+	  _inherits(Header, _React$Component);
 
-	    function Header(props) {
-	        _classCallCheck(this, Header);
+	  function Header() {
+	    var _ref;
 
-	        var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+	    var _temp, _this, _ret;
 
-	        _this.closeWindow = function (event) {
-	            _electron.ipcRenderer.send('close');
-	        };
+	    _classCallCheck(this, Header);
 
-	        _this.minimizeWindow = function () {
-	            _electron.ipcRenderer.send('minimize');
-	        };
-
-	        return _this;
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
 	    }
 
-	    _createClass(Header, [{
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Header.__proto__ || Object.getPrototypeOf(Header)).call.apply(_ref, [this].concat(args))), _this), _this.closeWindow = function (event) {
+	      _electron.ipcRenderer.send('close');
+	    }, _this.minimizeWindow = function () {
+	      _electron.ipcRenderer.send('minimize');
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
 
-	            return _jsx('header', {
-	                className: 'window-header'
-	            }, void 0, _jsx('ul', {}, void 0, _jsx('li', {
-	                className: 'window__controls'
-	            }, void 0, _jsx('a', {
-	                onClick: function onClick(event) {
-	                    return _this2.closeWindow(event);
-	                },
-	                className: 'window__controls-close',
-	                dangerouslySetInnerHTML: { __html: _trafficLightClose2.default }
-	            }), _jsx('a', {
-	                onClick: function onClick() {
-	                    return _this2.minimizeWindow();
-	                },
-	                className: 'window__controls-minimize',
-	                dangerouslySetInnerHTML: { __html: _trafficLightMinimize2.default }
-	            })), _ref));
-	        }
-	    }]);
+	  _createClass(Header, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
 
-	    return Header;
+	      return _react2.default.createElement(
+	        'header',
+	        { className: 'window-header' },
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'window__controls' },
+	            _react2.default.createElement('a', {
+	              onClick: function onClick(event) {
+	                return _this2.closeWindow(event);
+	              },
+	              className: 'window__controls-close',
+	              dangerouslySetInnerHTML: { __html: _trafficLightClose2.default }
+	            }),
+	            _react2.default.createElement('a', {
+	              onClick: function onClick() {
+	                return _this2.minimizeWindow();
+	              },
+	              className: 'window__controls-minimize',
+	              dangerouslySetInnerHTML: { __html: _trafficLightMinimize2.default }
+	            })
+	          ),
+	          _react2.default.createElement('li', { className: 'window__title' })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Header;
 	}(_react2.default.Component);
 
 	exports.default = Header;
@@ -17478,13 +17535,11 @@ module.exports =
 /* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17512,51 +17567,63 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Loader = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-		_inherits(Loader, _React$Component);
+	var Loader = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	    _inherits(Loader, _React$Component);
 
-		function Loader(props) {
-			_classCallCheck(this, Loader);
+	    function Loader() {
+	        var _ref;
 
-			var _this = _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).call(this, props));
+	        var _temp, _this, _ret;
 
-			_this.getClassState = function () {
-				var loading = _this.props.video.loader.store;
+	        _classCallCheck(this, Loader);
 
-				return (0, _classnames2.default)({
-					'loader': true
-				});
-			};
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
 
-			return _this;
-		}
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Loader.__proto__ || Object.getPrototypeOf(Loader)).call.apply(_ref, [this].concat(args))), _this), _this.getClassState = function () {
+	            return (0, _classnames2.default)({
+	                loader: true
+	            });
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
+	    }
 
-		_createClass(Loader, [{
-			key: "render",
-			value: function render() {
-				var loading = this.props.video.loader.store;
-				var errors = this.props.video.notifier.errors;
+	    _createClass(Loader, [{
+	        key: 'render',
+	        value: function render() {
+	            var loading = this.props.video.loader.store;
+	            var errors = this.props.video.notifier.errors;
 
 
-				if (errors.length > 0) {
-					// don't display loader when there is an error...
-					return null;
-				}
+	            if (errors.length > 0) {
+	                // don't display loader when there is an error...
+	                return null;
+	            }
 
-				var listItems = loading.map(function (key, i) {
-					return _jsx("li", {}, i, _constants2.default.loading[key]);
-				});
+	            var listItems = loading.map(function (key, i) {
+	                return _react2.default.createElement(
+	                    'li',
+	                    { key: i },
+	                    _constants2.default.loading[key]
+	                );
+	            });
 
-				return _jsx("div", {
-					className: this.getClassState()
-				}, void 0, _jsx("ul", {}, void 0, listItems));
-			}
-		}]);
+	            return _react2.default.createElement(
+	                'div',
+	                { className: this.getClassState() },
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    listItems
+	                )
+	            );
+	        }
+	    }]);
 
-		return Loader;
+	    return Loader;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = Loader;
-	module.exports = exports["default"];
+	module.exports = exports['default'];
 
 /***/ }),
 /* 131 */
@@ -17565,10 +17632,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17593,52 +17658,66 @@ module.exports =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Modal = function (_React$Component) {
-		_inherits(Modal, _React$Component);
+	  _inherits(Modal, _React$Component);
 
-		function Modal(props) {
-			_classCallCheck(this, Modal);
+	  function Modal() {
+	    var _ref;
 
-			var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
+	    var _temp, _this, _ret;
 
-			_this.getClassState = function () {
-				// toDo animation via ReactCSSTransitionGroup
-				return (0, _classnames2.default)({
-					'modal': true,
-					'modal-open': _this.props.show
-				});
-			};
+	    _classCallCheck(this, Modal);
 
-			return _this;
-		}
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
 
-		_createClass(Modal, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.getClassState = function () {
+	      return (
+	        // toDo animation via ReactCSSTransitionGroup
+	        (0, _classnames2.default)({
+	          modal: true,
+	          'modal-open': _this.props.show
+	        })
+	      );
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
 
-				// Render nothing if the "show" prop is false
-				if (!this.props.show) {
-					return null;
-				}
-				return _jsx('section', {
-					className: this.getClassState()
-				}, void 0, _jsx('header', {
-					className: 'modal-header'
-				}, void 0, _jsx('button', {
-					className: 'modal-btn-close withBorder withBorder-light circle',
-					onClick: function onClick() {
-						return _this2.props.onClose();
-					}
-				}, void 0, _jsx('i', {
-					className: 'modal-btn-close-icon',
-					dangerouslySetInnerHTML: { __html: _close2.default }
-				}))), _jsx('content', {
-					className: 'modal-content'
-				}, void 0, this.props.children));
-			}
-		}]);
+	  _createClass(Modal, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
 
-		return Modal;
+	      // Render nothing if the "show" prop is false
+	      if (!this.props.show) {
+	        return null;
+	      }
+	      return _react2.default.createElement(
+	        'section',
+	        { className: this.getClassState() },
+	        _react2.default.createElement(
+	          'header',
+	          { className: 'modal-header' },
+	          _react2.default.createElement(
+	            'button',
+	            {
+	              className: 'modal-btn-close withBorder withBorder-light circle',
+	              onClick: function onClick() {
+	                return _this2.props.onClose();
+	              }
+	            },
+	            _react2.default.createElement('i', { className: 'modal-btn-close-icon', dangerouslySetInnerHTML: { __html: _close2.default } })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'content',
+	          { className: 'modal-content' },
+	          this.props.children
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Modal;
 	}(_react2.default.Component);
 
 	exports.default = Modal;
@@ -17648,13 +17727,11 @@ module.exports =
 /* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17686,85 +17763,100 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Notifier = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-		_inherits(Notifier, _React$Component);
+	var Notifier = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	    _inherits(Notifier, _React$Component);
 
-		function Notifier(props) {
-			_classCallCheck(this, Notifier);
+	    function Notifier(props) {
+	        _classCallCheck(this, Notifier);
 
-			var _this = _possibleConstructorReturn(this, (Notifier.__proto__ || Object.getPrototypeOf(Notifier)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Notifier.__proto__ || Object.getPrototypeOf(Notifier)).call(this, props));
 
-			_this.getClassState = function () {
-				var errors = _this.props.video.notifier.errors;
+	        _this.getClassState = function () {
+	            var errors = _this.props.video.notifier.errors;
 
 
-				return (0, _classnames2.default)({
-					'notifier': true,
-					'notifier-error': errors.length > 0,
-					'notifier-critical': _this.state.isCritical
-				});
-			};
+	            return (0, _classnames2.default)({
+	                notifier: true,
+	                'notifier-error': errors.length > 0,
+	                'notifier-critical': _this.state.isCritical
+	            });
+	        };
 
-			_this.componentWillReact = function () {
-				var errors = _this.props.video.notifier.errors;
-				/* critical mean an app restart is required (eg: camera is busy) */
+	        _this.componentWillReact = function () {
+	            var errors = _this.props.video.notifier.errors;
+	            /* critical mean an app restart is required (eg: camera is busy) */
 
-				var isCritical = void 0;
-				var listErrors = errors.map(function (key, i) {
-					if (_constants2.default.error[key].critical) {
-						isCritical = true;
-					}
-					return _jsx("li", {}, i, _constants2.default.error[key].message);
-				});
+	            var isCritical = void 0;
+	            var listErrors = errors.map(function (key, i) {
+	                if (_constants2.default.error[key].critical) {
+	                    isCritical = true;
+	                }
+	                return _react2.default.createElement(
+	                    'li',
+	                    { key: i },
+	                    _constants2.default.error[key].message
+	                );
+	            });
 
-				_this.setState({ listErrors: listErrors, isCritical: isCritical });
-			};
+	            _this.setState({ listErrors: listErrors, isCritical: isCritical });
+	        };
 
-			_this.state = {
-				critical: false,
-				listErrors: []
-			};
-			return _this;
-		}
+	        _this.state = {
+	            critical: false,
+	            listErrors: []
+	        };
+	        return _this;
+	    }
 
-		_createClass(Notifier, [{
-			key: "render",
-			value: function render() {
-				var _props$video$notifier = this.props.video.notifier,
-				    errors = _props$video$notifier.errors,
-				    clearAllErrors = _props$video$notifier.clearAllErrors,
-				    refreshApp = _props$video$notifier.refreshApp;
+	    _createClass(Notifier, [{
+	        key: 'render',
+	        value: function render() {
+	            var _props$video$notifier = this.props.video.notifier,
+	                errors = _props$video$notifier.errors,
+	                clearAllErrors = _props$video$notifier.clearAllErrors,
+	                refreshApp = _props$video$notifier.refreshApp;
 
-				console.log(this.getClassState());
-				return _jsx("div", {
-					className: this.getClassState()
-				}, void 0, _jsx("div", {
-					className: "notifier-title"
-				}, void 0, _jsx("i", {
-					className: "notifier-title-icon",
-					dangerouslySetInnerHTML: { __html: _angry2.default }
-				}), _jsx("h1", {
-					className: "notifier-title-text"
-				}, void 0, this.state.isCritical ? "That's bad!" : "Sorry!")), _jsx("ul", {
-					className: "notifier-list"
-				}, void 0, this.state.listErrors, !this.state.isCritical && _jsx("button", {
-					onClick: function onClick() {
-						return clearAllErrors();
-					},
-					className: "notifier-list-close"
-				}, void 0, "OK"), this.state.isCritical && _jsx("button", {
-					onClick: function onClick() {
-						return refreshApp();
-					},
-					className: "notifier-list-close"
-				}, void 0, "Retry")));
-			}
-		}]);
 
-		return Notifier;
+	            return _react2.default.createElement(
+	                'div',
+	                { className: this.getClassState() },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'notifier-title' },
+	                    _react2.default.createElement('i', { className: 'notifier-title-icon', dangerouslySetInnerHTML: { __html: _angry2.default } }),
+	                    _react2.default.createElement(
+	                        'h1',
+	                        { className: 'notifier-title-text' },
+	                        this.state.isCritical ? 'That\'s bad!' : 'Sorry!'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: 'notifier-list' },
+	                    this.state.listErrors,
+	                    !this.state.isCritical && _react2.default.createElement(
+	                        'button',
+	                        { onClick: function onClick() {
+	                                return clearAllErrors();
+	                            }, className: 'notifier-list-close' },
+	                        'OK'
+	                    ),
+	                    this.state.isCritical && _react2.default.createElement(
+	                        'button',
+	                        { onClick: function onClick() {
+	                                return refreshApp();
+	                            }, className: 'notifier-list-close' },
+	                        'Retry'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Notifier;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = Notifier;
-	module.exports = exports["default"];
+	module.exports = exports['default'];
 
 /***/ }),
 /* 133 */
@@ -17775,8 +17867,6 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17800,14 +17890,6 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx('h1', {
-	  className: 'Placeholder-text logoFont'
-	}, void 0, 'LIVEPEER');
-
-	var _ref2 = _jsx('h2', {
-	  className: 'Placeholder-text-sub'
-	}, void 0, 'Decentralized Live Video Broadcasting');
-
 	var Placeholder = function (_React$Component) {
 	  _inherits(Placeholder, _React$Component);
 
@@ -17820,14 +17902,25 @@ module.exports =
 	  _createClass(Placeholder, [{
 	    key: 'render',
 	    value: function render() {
-	      return _jsx('div', {
-	        className: 'Placeholder'
-	      }, void 0, _jsx('section', {
-	        className: 'Placeholder-tagline'
-	      }, void 0, _jsx('i', {
-	        className: 'Placeholder-logo',
-	        dangerouslySetInnerHTML: { __html: _favicon2.default }
-	      }), _ref, _ref2));
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'Placeholder' },
+	        _react2.default.createElement(
+	          'section',
+	          { className: 'Placeholder-tagline' },
+	          _react2.default.createElement('i', { className: 'Placeholder-logo', dangerouslySetInnerHTML: { __html: _favicon2.default } }),
+	          _react2.default.createElement(
+	            'h1',
+	            { className: 'Placeholder-text logoFont' },
+	            'LIVEPEER'
+	          ),
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'Placeholder-text-sub' },
+	            'Decentralized Live Video Broadcasting'
+	          )
+	        )
+	      );
 	    }
 	  }]);
 
@@ -17844,10 +17937,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17872,140 +17963,134 @@ module.exports =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var recorderProps = {
-		autoplay: true,
-		controls: false,
-		sources: [{
-			src: '',
-			type: 'video/mp4'
-		}]
+	    autoplay: true,
+	    controls: false,
+	    sources: [{
+	        src: '',
+	        type: 'video/mp4'
+	    }]
 	};
 
 	var playerProps = {
-		autoplay: true,
-		controls: true,
-		sources: [{
-			src: '',
-			type: 'application/x-mpegURL'
-		}]
+	    autoplay: true,
+	    controls: true,
+	    sources: [{
+	        src: '',
+	        type: 'application/x-mpegURL'
+	    }]
 	};
 
-	var VideoSwitcher = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-		_inherits(VideoSwitcher, _React$Component);
+	var VideoSwitcher = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	    _inherits(VideoSwitcher, _React$Component);
 
-		function VideoSwitcher(props) {
-			_classCallCheck(this, VideoSwitcher);
+	    function VideoSwitcher(props) {
+	        _classCallCheck(this, VideoSwitcher);
 
-			var _this = _possibleConstructorReturn(this, (VideoSwitcher.__proto__ || Object.getPrototypeOf(VideoSwitcher)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (VideoSwitcher.__proto__ || Object.getPrototypeOf(VideoSwitcher)).call(this, props));
 
-			_this.componentDidMount = function () {
-				var _this$props$video = _this.props.video,
-				    playing = _this$props$video.playing,
-				    broadcasting = _this$props$video.broadcasting;
+	        _this.componentDidMount = function () {
+	            var playing = _this.props.video.playing;
 
-				/* broadcasting state ?*/
+	            /* broadcasting state ?*/
 
-				if (!playing && navigator.getUserMedia) {
-					_this.webcamPrep();
-					// this.refs.camera.addEventListener("playing", this.isPlaying);
-				} else {
-						// not supported
+	            if (!playing && navigator.getUserMedia) {
+	                _this.webcamPrep();
+	            } else {
+	                // not supported
+	            }
+	        };
 
-					}
-			};
+	        _this.webcamPrep = function () {
+	            var self = _this;
+	            navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
+	                var newVideoSource = _this.props.video.newVideoSource;
 
-			_this.webcamPrep = function () {
-				var self = _this;
-				navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
-					var newVideoSource = _this.props.video.newVideoSource;
+	                for (var i = 0; i !== sourceInfos.length; ++i) {
+	                    if (sourceInfos[i].kind === 'videoinput') {
+	                        newVideoSource(sourceInfos[i]);
+	                    }
+	                }
+	                self.playVideo();
+	            });
+	        };
 
-					for (var i = 0; i != sourceInfos.length; ++i) {
-						if (sourceInfos[i].kind === 'videoinput') {
-							newVideoSource(sourceInfos[i]);
-						}
-					}
-					self.playVideo();
-				});
-			};
+	        _this.successCallback = function (stream) {
+	            var url = window.URL.createObjectURL(stream);
+	            var self = _this;
+	            var mediaStreamTrack = stream.getVideoTracks()[0];
+	            if (typeof mediaStreamTrack !== 'undefined') {
+	                mediaStreamTrack.onended = function () {
+	                    // for Chrome.
+	                    // busy camera
+	                    self.props.video.toggleCamera(false);
+	                    _electron.ipcRenderer.send('notifier', { error: 5 });
+	                };
 
-			_this.successCallback = function (stream) {
-				var url = window.URL.createObjectURL(stream);
-				var self = _this;
-				var mediaStreamTrack = stream.getVideoTracks()[0];
-				if (typeof mediaStreamTrack != "undefined") {
-					mediaStreamTrack.onended = function () {
-						//for Chrome.
-						// busy camera
-						self.props.video.toggleCamera(false);
-						_electron.ipcRenderer.send('notifier', { error: 5 });
-					};
+	                _this.setState({ url: url });
+	                // this.props.video.setVideoUrl(url);
+	                // this.refs.camera.play();
+	            } else {
+	                    // permission denied
+	                }
+	        };
 
-					_this.setState({ url: url });
-					// this.props.video.setVideoUrl(url);
-					// this.refs.camera.play();
-				} else {
-						// permission denied
-					}
-			};
+	        _this.errorCallback = function (err) {
+	            console.error('Rejected', err);
+	        };
 
-			_this.errorCallback = function (err) {
-				console.log('Rejected', err);
-			};
+	        _this.playVideo = function () {
+	            var self = _this;
 
-			_this.playVideo = function () {
-				var self = _this;
-				var videoIndex = _this.props.video.videoIndex;
+	            var constraints = {
+	                audio: false,
+	                video: true,
+	                optional: [{ width: 650 }, { width: { min: 650 } }, { frameRate: 60 }, { width: { max: 800 } }, { facingMode: 'user' }]
+	            };
 
+	            return navigator.webkitGetUserMedia(constraints, self.successCallback, self.errorCallback);
+	        };
 
-				var constraints = {
-					audio: false,
-					video: true,
-					optional: [{ width: 650 }, { width: { min: 650 } }, { frameRate: 60 }, { width: { max: 800 } }, { facingMode: "user" }]
-				};
+	        _this.isPlaying = function () {
+	            return _this.props.video.toggleCamera(true);
+	        };
 
-				return navigator.webkitGetUserMedia(constraints, self.successCallback, self.errorCallback);
-			};
+	        _this.state = {
+	            url: '',
+	            videoJsOptions: {}
+	        };
+	        return _this;
+	    }
 
-			_this.isPlaying = function () {
-				return _this.props.video.toggleCamera(true);
-			};
+	    _createClass(VideoSwitcher, [{
+	        key: 'render',
+	        value: function render() {
+	            var playing = this.props.video.playing;
 
-			_this.state = {
-				url: '',
-				videoJsOptions: {}
-			};
-			return _this;
-		}
+	            var props = void 0;
 
-		_createClass(VideoSwitcher, [{
-			key: 'render',
-			value: function render() {
-				var _props$video = this.props.video,
-				    playing = _props$video.playing,
-				    broadcasting = _props$video.broadcasting;
+	            if (!this.state.url && !playing) {
+	                /* url of media not yet ready...*/
+	                return null;
+	            }
 
-				var props = void 0;
+	            if (playing) {
+	                playerProps.sources[0].src = playing;
+	                props = playerProps;
+	            } else {
+	                recorderProps.sources[0].src = this.state.url;
+	                recorderProps.onPlaying = this.isPlaying;
+	                props = recorderProps;
+	            }
 
-				if (!this.state.url && !playing) {
-					/* url of media not yet ready...*/
-					return null;
-				}
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'video-wrapper' },
+	                _react2.default.createElement(_.Video, props)
+	            );
+	        }
+	    }]);
 
-				if (playing) {
-					playerProps.sources[0].src = playing;
-					props = playerProps;
-				} else {
-					recorderProps.sources[0].src = this.state.url;
-					recorderProps.onPlaying = this.isPlaying;
-					props = recorderProps;
-				}
-
-				return _jsx('div', {
-					className: 'video-wrapper'
-				}, void 0, _react2.default.createElement(_.Video, props));
-			}
-		}]);
-
-		return VideoSwitcher;
+	    return VideoSwitcher;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = VideoSwitcher;
 	module.exports = exports['default'];
@@ -18017,10 +18102,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18054,71 +18137,87 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx('span', {}, void 0, 'STOP');
+	var ControlsPlayer = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	  _inherits(ControlsPlayer, _React$Component);
 
-	var _ref2 = _jsx('span', {}, void 0, 'PEER');
+	  function ControlsPlayer(props) {
+	    _classCallCheck(this, ControlsPlayer);
 
-	var ControlsPlayer = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
-		_inherits(ControlsPlayer, _React$Component);
+	    var _this = _possibleConstructorReturn(this, (ControlsPlayer.__proto__ || Object.getPrototypeOf(ControlsPlayer)).call(this, props));
 
-		function ControlsPlayer(props) {
-			_classCallCheck(this, ControlsPlayer);
+	    _this.stopPlayer = function () {
+	      _this.props.video.togglePlayer(0);
+	    };
 
-			var _this = _possibleConstructorReturn(this, (ControlsPlayer.__proto__ || Object.getPrototypeOf(ControlsPlayer)).call(this, props));
+	    _this.state = {
+	      url: '',
+	      isShareOpen: false
+	    };
+	    return _this;
+	  }
 
-			_this.stopPlayer = function () {
-				_this.props.video.togglePlayer(0);
-			};
+	  _createClass(ControlsPlayer, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
 
-			_this.state = {
-				url: '',
-				isShareOpen: false
-			};
-			return _this;
-		}
+	      var _props$video = this.props.video,
+	          peerCount = _props$video.peerCount,
+	          broadcasting = _props$video.broadcasting;
 
-		_createClass(ControlsPlayer, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
+	      var playerURL = '' + _constants2.default.webURL + broadcasting;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'control-container' },
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'control-actions' },
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'control-action' },
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  return _this2.stopPlayer();
+	                }, className: 'control-action-item__stop-label' },
+	              _react2.default.createElement('i', { className: 'control-action-item__stop-icon', dangerouslySetInnerHTML: { __html: _stop2.default } }),
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'STOP'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'control-action' },
+	            _react2.default.createElement(_.Openexternal, { url: playerURL })
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'control-action' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'control-action-item__counter-label' },
+	              _react2.default.createElement('i', { className: 'control-action-item__counter-icon', dangerouslySetInnerHTML: { __html: _peer2.default } }),
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'PEER'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              peerCount
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
 
-				var _props$video = this.props.video,
-				    playing = _props$video.playing,
-				    peerCount = _props$video.peerCount,
-				    broadcasting = _props$video.broadcasting,
-				    timer = _props$video.timer;
-
-				var playerURL = '' + _constants2.default.webURL + broadcasting;
-				return _jsx('div', {
-					className: 'control-container'
-				}, void 0, _jsx('ul', {
-					className: 'control-actions'
-				}, void 0, _jsx('li', {
-					className: 'control-action'
-				}, void 0, _jsx('button', {
-					onClick: function onClick() {
-						return _this2.stopPlayer();
-					},
-					className: 'control-action-item__stop-label'
-				}, void 0, _jsx('i', {
-					className: 'control-action-item__stop-icon',
-					dangerouslySetInnerHTML: { __html: _stop2.default }
-				}), _ref)), _jsx('li', {
-					className: 'control-action'
-				}, void 0, _jsx(_.Openexternal, {
-					url: playerURL
-				})), _jsx('li', {
-					className: 'control-action'
-				}, void 0, _jsx('label', {
-					className: 'control-action-item__counter-label'
-				}, void 0, _jsx('i', {
-					className: 'control-action-item__counter-icon',
-					dangerouslySetInnerHTML: { __html: _peer2.default }
-				}), _ref2), _jsx('strong', {}, void 0, peerCount))));
-			}
-		}]);
-
-		return ControlsPlayer;
+	  return ControlsPlayer;
 	}(_react2.default.Component)) || _class) || _class);
 	exports.default = ControlsPlayer;
 	module.exports = exports['default'];
@@ -18130,10 +18229,8 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18150,69 +18247,68 @@ module.exports =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Video = function (_React$Component) {
-	  _inherits(Video, _React$Component);
+	    _inherits(Video, _React$Component);
 
-	  function Video() {
-	    var _ref;
+	    function Video() {
+	        var _ref;
 
-	    var _temp, _this, _ret;
+	        var _temp, _this, _ret;
 
-	    _classCallCheck(this, Video);
+	        _classCallCheck(this, Video);
 
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Video.__proto__ || Object.getPrototypeOf(Video)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillReceiveProps = function (props) {
-	      /* change video */
-	      _this.player.pause();
-	      _this.player.controls(props.controls);
-	      _this.player.controls(props.controls);
-	      _this.player.src(props.sources);
-	    }, _this.onReady = function (props) {
-	      console.log('onPlayerReady', _this.player);
-	      _this.player.on('playing', function () {
-	        if (props.onPlaying) {
-	          return props.onPlaying();
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
 	        }
-	      });
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
-	  }
 
-	  _createClass(Video, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      // instantiate video.js
-	      this.player = videojs(this.videoNode, this.props);
-	      this.player.ready(this.onReady(this.props));
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Video.__proto__ || Object.getPrototypeOf(Video)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillReceiveProps = function (props) {
+	            /* change video */
+	            _this.player.pause();
+	            _this.player.controls(props.controls);
+	            _this.player.controls(props.controls);
+	            _this.player.src(props.sources);
+	        }, _this.onReady = function (props) {
+	            _this.player.on('playing', function () {
+	                if (props.onPlaying) {
+	                    return props.onPlaying();
+	                }
+	            });
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
-	  }, {
-	    key: 'componentWillUnmount',
+
+	    _createClass(Video, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            // instantiate video.js
+	            this.player = videojs(this.videoNode, this.props);
+	            this.player.ready(this.onReady(this.props));
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
 
 
-	    // destroy player on unmount
-	    value: function componentWillUnmount() {
-	      this.player && this.player.dispose();
-	    }
-	  }, {
-	    key: 'render',
+	        // destroy player on unmount
+	        value: function componentWillUnmount() {
+	            this.player && this.player.dispose();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
 
+	            return _react2.default.createElement(
+	                'div',
+	                { 'data-vjs-player': true },
+	                _react2.default.createElement('video', {
+	                    ref: function ref(node) {
+	                        _this2.videoNode = node;
+	                    },
+	                    className: 'video-js'
+	                })
+	            );
+	        }
+	    }]);
 
-	    // wrap the player in a div with a `data-vjs-player` attribute
-	    // so videojs won't create additional wrapper in the DOM
-	    // see https://github.com/videojs/video.js/pull/3856
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _jsx('div', {
-	        'data-vjs-player': true
-	      }, void 0, _react2.default.createElement('video', { ref: function ref(node) {
-	          return _this2.videoNode = node;
-	        }, className: 'video-js' }));
-	    }
-	  }]);
-
-	  return Video;
+	    return Video;
 	}(_react2.default.Component);
 
 	exports.default = Video;
@@ -18227,8 +18323,6 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18254,21 +18348,7 @@ module.exports =
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ref = _jsx(_components.Header, {});
-
-	var _ref2 = _jsx(_components.Placeholder, {});
-
-	var _ref3 = _jsx(_components.Controls, {});
-
-	var _ref4 = _jsx(_components.Loader, {});
-
-	var _ref5 = _jsx(_components.Notifier, {});
-
-	var _ref6 = _jsx(_components.VideoSwitcher, {});
-
-	var _ref7 = _jsx(_components.Footer, {});
-
-	var Home = (_dec = (0, _mobxReact.inject)("video"), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
+	var Home = (_dec = (0, _mobxReact.inject)('video'), _dec(_class = (0, _mobxReact.observer)(_class = function (_React$Component) {
 	    _inherits(Home, _React$Component);
 
 	    function Home(props) {
@@ -18285,12 +18365,12 @@ module.exports =
 	            var hasLoading = loader.store.length;
 
 	            return (0, _classnames2.default)({
-	                'app': true,
+	                app: true,
 	                'content-container': true,
-	                'waiting': !playing && !broadcasting,
-	                'recording': broadcasting,
-	                'playing': playing,
-	                'loading': hasLoading
+	                waiting: !playing && !broadcasting,
+	                recording: broadcasting,
+	                playing: playing,
+	                loading: hasLoading
 	            });
 	        };
 
@@ -18307,18 +18387,25 @@ module.exports =
 
 	            var hasLoading = loader.store.length;
 
-	            return _jsx('content', {
-	                className: this.getClassState()
-	            }, void 0, _ref, (!broadcasting && !playing || hasLoading > 0) && _ref2, _jsx('div', {
-	                className: 'app-actions'
-	            }, void 0, hasLoading === 0 ? _ref3 : _ref4), _ref5, _ref6, _ref7);
+	            return _react2.default.createElement(
+	                'content',
+	                { className: this.getClassState() },
+	                _react2.default.createElement(_components.Header, null),
+	                (!broadcasting && !playing || hasLoading > 0) && _react2.default.createElement(_components.Placeholder, null),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'app-actions' },
+	                    hasLoading === 0 ? _react2.default.createElement(_components.Controls, null) : _react2.default.createElement(_components.Loader, null)
+	                ),
+	                _react2.default.createElement(_components.Notifier, null),
+	                _react2.default.createElement(_components.VideoSwitcher, null),
+	                _react2.default.createElement(_components.Footer, null)
+	            );
 	        }
 	    }]);
 
 	    return Home;
 	}(_react2.default.Component)) || _class) || _class);
-	;
-
 	exports.default = Home;
 	module.exports = exports['default'];
 
@@ -18463,7 +18550,7 @@ module.exports =
 /* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -18532,10 +18619,9 @@ module.exports =
 
 	    _classCallCheck(this, NotifierStore);
 
-	    _initDefineProp(this, "errors", _descriptor, this);
+	    _initDefineProp(this, 'errors', _descriptor, this);
 
 	    this.updateErrors = function (args) {
-
 	        var errorCode = args.error;
 	        var ghost = JSON.parse(JSON.stringify(_this.errors));
 	        ghost.indexOf(errorCode) === -1 && ghost.push(errorCode);
@@ -18568,14 +18654,14 @@ module.exports =
 	            _this.updateErrors(args);
 	        }
 	    });
-	}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "errors", [_mobx.observable], {
+	}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'errors', [_mobx.observable], {
 	    enumerable: true,
 	    initializer: function initializer() {
 	        return [];
 	    }
 	})), _class);
 	exports.default = NotifierStore;
-	module.exports = exports["default"];
+	module.exports = exports['default'];
 
 /***/ }),
 /* 142 */
@@ -18700,7 +18786,7 @@ module.exports =
 	        var hlsStrmID = _ref.hlsStrmID;
 
 	        _this.timer = hlsStrmID ? _this.startTimer() : clearInterval(clearTimer);
-	        _this.broadcasting = hlsStrmID ? hlsStrmID : 0;
+	        _this.broadcasting = hlsStrmID || 0;
 
 	        hlsStrmID && _this.loader.updateLoading({ type: 'delete', key: 3 });
 	    });
@@ -18710,7 +18796,7 @@ module.exports =
 
 	        videoURL && _this.loader.updateLoading({ type: 'delete', key: 4 });
 	        _this.broadcasting = 0;
-	        _this.playing = videoURL ? videoURL : 0;
+	        _this.playing = videoURL || 0;
 	    });
 	}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'name', [_mobx.observable], {
 	    enumerable: true,
@@ -18768,13 +18854,12 @@ module.exports =
 	        var _this2 = this;
 
 	        return function () {
-
 	            var self = _this2;
 	            var sec = 0;
 	            _this2.timer = 0;
 
 	            clearTimer = setInterval(function () {
-	                console.log("timer interval +1s");
+	                console.log('timer interval +1s');
 	                var seconds = (0, _helpers.pad)(++sec % 60);
 	                var minutes = (0, _helpers.pad)(parseInt(sec / 60, 10));
 	                self.timer = minutes + ':' + seconds;
@@ -18804,7 +18889,7 @@ module.exports =
 
 	        return function (strmID) {
 	            !_this4.broadcasting && _this4.loader.updateLoading({ type: 'add', key: 3 });
-	            _electron.ipcRenderer.send("broadcast", { fromState: _this4.broadcasting });
+	            _electron.ipcRenderer.send('broadcast', { fromState: _this4.broadcasting });
 	        };
 	    }
 	}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'togglePlayer', [_mobx.action], {
@@ -18814,7 +18899,7 @@ module.exports =
 
 	        return function (strmID) {
 	            strmID && _this5.loader.updateLoading({ type: 'add', key: 4 });
-	            _electron.ipcRenderer.send("play", { strmID: strmID });
+	            _electron.ipcRenderer.send('play', { strmID: strmID });
 	        };
 	    }
 	}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'setVideoUrl', [_mobx.action], {
@@ -18963,7 +19048,7 @@ module.exports =
 	    initializer: function initializer() {
 	        return function () {
 	            // Start livepeer
-	            _electron.ipcRenderer.send("startLivepeer");
+	            _electron.ipcRenderer.send('startLivepeer');
 	        };
 	    }
 	}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'toggle', [_mobx.action], {
