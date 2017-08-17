@@ -18,9 +18,10 @@ const startLivepeer = (sender) => {
             global.sharedObj.livepeerProc = 'local';
             log.info('LivePeer is already running.');
         } else if (global.sharedObj.livepeerProc == null) {
-            const args = [];
+            const args = [
+                '-monitor', true,
+                '-monitorhost', 'http://viz.livepeer.org:8081/metrics'];
             const livepeerProc = spawn(global.livepeerPath, args)
-            livepeerProc.stdin.write('\n\n\n\n\n')
             global.sharedObj.livepeerProc = livepeerProc;
 
             livepeerProc.stdout.on('data', (data) => {
@@ -30,7 +31,6 @@ const startLivepeer = (sender) => {
             livepeerProc.stderr.on('data', (data) => {
                 log.info(`stderr: ${data}`);
             });
-
 
             livepeerProc.on('close', (code) => {
                 log.info(`livepeer child process exited with code ${code}`);
