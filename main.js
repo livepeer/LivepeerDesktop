@@ -18125,20 +18125,16 @@ module.exports =
 	    // Start logging
 	    _.windowLogging.setLogging();
 	
-	    // is LP running [hacky] ?
-	    // missing ENDPOINT
-	    // const checkIfRunning = setInterval(
-	    // () => {
-	    //     request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
-	    //         if (err != null) {
-	    //             err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
-	    //             return
-	    //         }
-	    //         const peerCount = JSON.parse(body).count;
-	    //         mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
-	    //     })
-	    // }, 1500);
-	    var checkIfRunning = mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount: 0 });
+	    var checkIfRunning = setInterval(function () {
+	        (0, _request2.default)('http://localhost:' + httpPort + '/peersCount', function (err, res, body) {
+	            if (err != null) {
+	                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
+	                return;
+	            }
+	            var peerCount = JSON.parse(body).count;
+	            mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount: peerCount });
+	        });
+	    }, 1500);
 	
 	    /*
 	        Toggle the broadcaster state
