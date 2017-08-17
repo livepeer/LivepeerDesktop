@@ -17305,56 +17305,60 @@ module.exports =
 	
 	var userStopFFmpeg = false;
 	
-	var startFFMpeg = function startFFMpeg(sender, rtmpStrmID) {
-	    var configIdx = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+	var startFFMpeg = function startFFMpeg(sender) {
+	    var configIdx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	    return new Promise(function (resolve, reject) {
+	        _electronLog2.default.info('Launching FFmpeg with config: ' + configIdx);
+	        userStopFFmpeg = false; /* reset !!*/
 	
-	    _electronLog2.default.info('Launching FFmpeg with config: ' + configIdx);
-	    userStopFFmpeg = false; /* reset !!*/
+	        var framerate = frameConfig[configIdx].framerate;
+	        var keyint = frameConfig[configIdx].keyint;
+	        var FFMPeArgs = ['-f', 'avfoundation', '-framerate', framerate, '-pixel_format', 'uyvy422', '-i', '0:0', '-vcodec', 'libx264', '-tune', 'zerolatency', '-b', '900k', '-x264-params', 'keyint=' + keyint + ':min-keyint=' + keyint, '-acodec', 'aac', '-ac', '1', '-b:a', '96k', '-f', 'flv', 'rtmp://localhost:' + rtmpPort + '/movie'];
 	
-	    var framerate = frameConfig[configIdx].framerate;
-	    var keyint = frameConfig[configIdx].keyint;
-	    var FFMPeArgs = ['-f', 'avfoundation', '-framerate', framerate, '-pixel_format', 'uyvy422', '-i', '0:0', '-vcodec', 'libx264', '-tune', 'zerolatency', '-b', '900k', '-x264-params', 'keyint=' + keyint + ':min-keyint=' + keyint, '-acodec', 'aac', '-ac', '1', '-b:a', '96k', '-f', 'flv', 'rtmp://localhost:' + rtmpPort + '/stream/' + rtmpStrmID];
+	        var broadcastProc = (0, _child_process.spawn)(global.ffmpegPath, FFMPeArgs);
+	        global.sharedObj.ffmpegProc = broadcastProc;
 	
-	    var broadcastProc = (0, _child_process.spawn)(global.ffmpegPath, FFMPeArgs);
-	    global.sharedObj.ffmpegProc = broadcastProc;
+	        resolve({ success: 'ok' });
 	
-	    broadcastProc.stdout.on('data', function (data) {
-	        _electronLog2.default.info('stdout: ' + data);
-	        return;
+	        broadcastProc.stdout.on('data', function (data) {
+	            _electronLog2.default.info('stdout: ' + data);
+	            return;
+	        });
+	
+	        broadcastProc.stderr.on('data', function (data) {
+	            // Don't do anything here, because ffmpeg mistakenly outputs everything to stderr
+	            _electronLog2.default.info('stderr: ' + data);
+	            return;
+	        });
+	
+	        broadcastProc.on('close', function (code, signal) {
+	            if (userStopFFmpeg) {
+	                return _electronLog2.default.info('ffmpeg - terminated by the user (stopFFMpeg)');
+	            }
+	            _electronLog2.default.info('ffmpeg ~ ' + FFMPeArgs.join(' '));
+	            _electronLog2.default.info('ffmpeg ' + code + ' ~ child process terminated due to receipt of signal ' + signal);
+	
+	            if (configIdx < frameConfig.length - 1) {
+	                startFFMpeg(sender, configIdx + 1);
+	            } else {
+	                sender.send('notifier', { error: 3 });
+	                reject({ message: 'FFMpeg process closed' });
+	            }
+	        });
+	
+	        // Todo: Improve with promise like>
+	        // https://github.com/mifi/lossless-cut/blob/master/src/ffmpeg.js
+	        // const execa = require('execa');
+	        // function canExecuteFfmpeg(ffmpegPath) {
+	        //   return execa(ffmpegPath, ['-version']);
+	        // }
+	        // return canExecuteFfmpeg(internalFfmpeg)
+	        //   .then(() => internalFfmpeg)
+	        //   .catch(() => {
+	        //     console.log('Internal ffmpeg unavail');
+	        //     return which('ffmpeg');
+	        //   });
 	    });
-	
-	    broadcastProc.stderr.on('data', function (data) {
-	        // Don't do anything here, because ffmpeg mistakenly outputs everything to stderr
-	        _electronLog2.default.info('stderr: ' + data);
-	        return;
-	    });
-	
-	    broadcastProc.on('close', function (code, signal) {
-	        if (userStopFFmpeg) {
-	            return _electronLog2.default.info('ffmpeg - terminated by the user (stopFFMpeg)');
-	        }
-	        _electronLog2.default.info('ffmpeg ~ ' + FFMPeArgs.join(' '));
-	        _electronLog2.default.info('ffmpeg ' + code + ' ~ child process terminated due to receipt of signal ' + signal);
-	
-	        if (configIdx < frameConfig.length - 1) {
-	            startFFMpeg(sender, rtmpStrmID, configIdx + 1);
-	        } else {
-	            sender.send('notifier', { error: 3 });
-	        }
-	    });
-	
-	    // Todo: Improve with promise like>
-	    // https://github.com/mifi/lossless-cut/blob/master/src/ffmpeg.js
-	    // const execa = require('execa');
-	    // function canExecuteFfmpeg(ffmpegPath) {
-	    //   return execa(ffmpegPath, ['-version']);
-	    // }
-	    // return canExecuteFfmpeg(internalFfmpeg)
-	    //   .then(() => internalFfmpeg)
-	    //   .catch(() => {
-	    //     console.log('Internal ffmpeg unavail');
-	    //     return which('ffmpeg');
-	    //   });
 	};
 	
 	var stopFFMpeg = function stopFFMpeg() {
@@ -17416,15 +17420,23 @@ module.exports =
 	
 	
 	var startLivepeer = function startLivepeer(sender) {
-	    (0, _request2.default)('http://localhost:' + httpPort + '/localStreams', function (err) {
+	    (0, _request2.default)('http://localhost:' + httpPort, function (err) {
 	        if (err == null) {
 	            global.sharedObj.livepeerProc = 'local';
 	            _electronLog2.default.info('LivePeer is already running.');
 	        } else if (global.sharedObj.livepeerProc == null) {
-	            var args = ['--ffmpegPath', global.ffmpegPath, '--datadir', homeDir + '/Livepeer/livepeernet'];
+	            var args = [];
 	            var livepeerProc = (0, _child_process.spawn)(global.livepeerPath, args);
 	            livepeerProc.stdin.write('\n\n\n\n\n');
 	            global.sharedObj.livepeerProc = livepeerProc;
+	
+	            livepeerProc.stdout.on('data', function (data) {
+	                _electronLog2.default.info('stdout: ' + data);
+	            });
+	
+	            livepeerProc.stderr.on('data', function (data) {
+	                _electronLog2.default.info('stderr: ' + data);
+	            });
 	
 	            livepeerProc.on('close', function (code) {
 	                _electronLog2.default.info('livepeer child process exited with code ' + code);
@@ -17464,42 +17476,18 @@ module.exports =
 	    }
 	};
 	
-	var createStream = function createStream(sender) {
-	    return new Promise(function (resolve, reject) {
-	        (0, _request2.default)('http://localhost:' + httpPort + '/createStream', function (err, res, body) {
-	            if (err != null) {
-	                sender.send('notifier', { error: 4 });
-	                reject({ message: 'Having problem connecting to Livepeer.  Make sure your local node is running.', buttons: ['OK'] });
-	            }
-	            resolve({ rtmpStrmID: JSON.parse(body).streamID });
-	        });
-	    });
-	};
-	
 	var getHlsStrmID = function getHlsStrmID(sender) {
-	    (0, _request2.default)('http://localhost:' + httpPort + '/localStreams', function (err, res, body) {
-	        if (err != null) {
-	            sender.send('notifier', { error: 4 });
-	            return;
-	        }
-	
-	        var streams = JSON.parse(body);
-	        var hlsStrmID = void 0;
-	
-	        streams.forEach(function (s) {
-	            if (s.source === 'local' && s.format === 'hls') {
-	                hlsStrmID = s.streamID;
+	    return new Promise(function (resolve) {
+	        (0, _request2.default)('http://localhost:' + httpPort + '/streamID', function (err, res, hlsStrmID) {
+	            if (hlsStrmID === '') {
+	                setTimeout(function () {
+	                    return getHlsStrmID(sender);
+	                }, 1000);
+	                return;
 	            }
+	            sender.send('broadcast', { hlsStrmID: hlsStrmID });
+	            resolve({ hlsStrmID: hlsStrmID });
 	        });
-	
-	        if (hlsStrmID == null) {
-	            setTimeout(function () {
-	                return getHlsStrmID(sender);
-	            }, 1000);
-	            return;
-	        }
-	
-	        sender.send('broadcast', { hlsStrmID: hlsStrmID });
 	    });
 	};
 	
@@ -17516,7 +17504,7 @@ module.exports =
 	    });
 	};
 	
-	exports.default = { windowLivepeer: { startLivepeer: startLivepeer, stopLivepeer: stopLivepeer, resetLivepeer: resetLivepeer, createStream: createStream, getHlsStrmID: getHlsStrmID, getVideo: getVideo } };
+	exports.default = { windowLivepeer: { startLivepeer: startLivepeer, stopLivepeer: stopLivepeer, resetLivepeer: resetLivepeer, getHlsStrmID: getHlsStrmID, getVideo: getVideo } };
 	module.exports = exports['default'];
 
 /***/ }),
@@ -18138,16 +18126,19 @@ module.exports =
 	    _.windowLogging.setLogging();
 	
 	    // is LP running [hacky] ?
-	    var checkIfRunning = setInterval(function () {
-	        (0, _request2.default)('http://localhost:' + httpPort + '/peersCount', function (err, res, body) {
-	            if (err != null) {
-	                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
-	                return;
-	            }
-	            var peerCount = JSON.parse(body).count;
-	            mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount: peerCount });
-	        });
-	    }, 1500);
+	    // missing ENDPOINT
+	    // const checkIfRunning = setInterval(
+	    // () => {
+	    //     request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
+	    //         if (err != null) {
+	    //             err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
+	    //             return
+	    //         }
+	    //         const peerCount = JSON.parse(body).count;
+	    //         mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
+	    //     })
+	    // }, 1500);
+	    var checkIfRunning = mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount: 0 });
 	
 	    /*
 	        Toggle the broadcaster state
@@ -18158,11 +18149,8 @@ module.exports =
 	        var sender = event.sender;
 	        if (!fromState) {
 	            // create a stream, then startFFMpeg
-	            _.windowLivepeer.createStream(sender).then(function (_ref) {
-	                var rtmpStrmID = _ref.rtmpStrmID;
-	
+	            _.windowFFMpeg.startFFMpeg(sender).then(function () {
 	                _.windowLivepeer.getHlsStrmID(sender);
-	                _.windowFFMpeg.startFFMpeg(sender, rtmpStrmID);
 	            }).catch(function (err) {
 	                return console.error(err);
 	            });
