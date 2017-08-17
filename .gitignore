@@ -33,6 +33,5 @@ node_modules
 # App packaged
 main.js.map
 
-# do not duplicate bin, let postinstall handle it
-dist/livepeer
-dist/ffmpeg
+# Temp folder
+tmp

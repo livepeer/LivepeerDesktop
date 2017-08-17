@@ -11,7 +11,7 @@ const { rtmpPort, frameConfig } = main;
 /* track if user stopped the process */
 let userStopFFmpeg = false;
 
-const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
+const startFFMpeg = (sender, configIdx = 0) => new Promise((resolve, reject) => {
     log.info(`Launching FFmpeg with config: ${configIdx}`)
     userStopFFmpeg = false  /* reset !!*/
 
@@ -30,10 +30,12 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
         '-ac', '1',
         '-b:a', '96k',
         '-f', 'flv',
-        `rtmp://localhost:${rtmpPort}/stream/${rtmpStrmID}`];
+        `rtmp://localhost:${rtmpPort}/movie`];
 
     const broadcastProc = spawn(global.ffmpegPath, FFMPeArgs);
     global.sharedObj.ffmpegProc = broadcastProc;
+
+    resolve({ success: 'ok' });
 
     broadcastProc.stdout.on('data', (data) => {
         log.info(`stdout: ${data}`);
@@ -54,9 +56,10 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
         log.info(`ffmpeg ${code} ~ child process terminated due to receipt of signal ${signal}`);
 
         if (configIdx < frameConfig.length - 1) {
-            startFFMpeg(sender, rtmpStrmID, configIdx + 1)
+            startFFMpeg(sender, configIdx + 1)
         } else {
             sender.send('notifier', { error: 3 });
+            reject({ message: 'FFMpeg process closed' });
         }
     });
 
@@ -72,7 +75,7 @@ const startFFMpeg = (sender, rtmpStrmID, configIdx = 0) => {
     //     console.log('Internal ffmpeg unavail');
     //     return which('ffmpeg');
     //   });
-}
+});
 
 const stopFFMpeg = () => new Promise((resolve) => {
     const ffmpegProc = global.sharedObj.ffmpegProc

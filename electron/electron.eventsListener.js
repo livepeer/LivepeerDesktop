@@ -16,18 +16,19 @@ export const listener = (app, mainWindow) => {
     windowLogging.setLogging();
 
     // is LP running [hacky] ?
-    const checkIfRunning = setInterval(
-    () => {
-        request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
-            if (err != null) {
-                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
-                return
-            }
-            const peerCount = JSON.parse(body).count;
-            mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
-        })
-    }, 1500);
-
+    // missing ENDPOINT
+    // const checkIfRunning = setInterval(
+    // () => {
+    //     request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
+    //         if (err != null) {
+    //             err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
+    //             return
+    //         }
+    //         const peerCount = JSON.parse(body).count;
+    //         mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
+    //     })
+    // }, 1500);
+    const checkIfRunning = mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount: 0 });
 
     /*
         Toggle the broadcaster state
@@ -37,9 +38,8 @@ export const listener = (app, mainWindow) => {
         const sender = event.sender;
         if (!fromState) {
             // create a stream, then startFFMpeg
-            windowLivepeer.createStream(sender).then(({ rtmpStrmID }) => {
+            windowFFMpeg.startFFMpeg(sender).then(() => {
                 windowLivepeer.getHlsStrmID(sender);
-                windowFFMpeg.startFFMpeg(sender, rtmpStrmID);
             }).catch((err) => console.error(err));
         } else if (fromState) {
             windowFFMpeg.stopFFMpeg();

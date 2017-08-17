@@ -13,18 +13,24 @@ import { main } from '../config/config';
 const { httpPort, homeDir } = main;
 
 const startLivepeer = (sender) => {
-    request(`http://localhost:${httpPort}/localStreams`, (err) => {
+    request(`http://localhost:${httpPort}`, (err) => {
         if (err == null) {
             global.sharedObj.livepeerProc = 'local';
             log.info('LivePeer is already running.');
         } else if (global.sharedObj.livepeerProc == null) {
-            const args = [
-                '--ffmpegPath', global.ffmpegPath,
-                '--datadir', `${homeDir}/Livepeer/livepeernet`
-            ];
+            const args = [];
             const livepeerProc = spawn(global.livepeerPath, args)
             livepeerProc.stdin.write('\n\n\n\n\n')
             global.sharedObj.livepeerProc = livepeerProc;
+
+            livepeerProc.stdout.on('data', (data) => {
+                log.info(`stdout: ${data}`);
+            });
+
+            livepeerProc.stderr.on('data', (data) => {
+                log.info(`stderr: ${data}`);
+            });
+
 
             livepeerProc.on('close', (code) => {
                 log.info(`livepeer child process exited with code ${code}`);
@@ -60,40 +66,16 @@ const resetLivepeer = (sender) => {
     }
 }
 
-const createStream = (sender) => new Promise((resolve, reject) => {
-    request(`http://localhost:${httpPort}/createStream`, (err, res, body) => {
-        if (err != null) {
-            sender.send('notifier', { error: 4 });
-            reject({ message: 'Having problem connecting to Livepeer.  Make sure your local node is running.', buttons: ['OK'] })
-        }
-        resolve({ rtmpStrmID: JSON.parse(body).streamID });
-    });
-})
-
-const getHlsStrmID = (sender) => {
-    request(`http://localhost:${httpPort}/localStreams`, (err, res, body) => {
-        if (err != null) {
-            sender.send('notifier', { error: 4 });
-            return;
-        }
-
-        const streams = JSON.parse(body);
-        let hlsStrmID;
-
-        streams.forEach((s) => {
-            if (s.source === 'local' && s.format === 'hls') {
-                hlsStrmID = s.streamID;
-            }
-        })
-
-        if (hlsStrmID == null) {
+const getHlsStrmID = (sender) => new Promise((resolve) => {
+    request(`http://localhost:${httpPort}/streamID`, (err, res, hlsStrmID) => {
+        if (hlsStrmID === '') {
             setTimeout(() => getHlsStrmID(sender), 1000)
             return
         }
-
         sender.send('broadcast', { hlsStrmID });
+        resolve({ hlsStrmID });
     });
-}
+});
 
 
 const getVideo = ({ strmID }) => new Promise((resolve, reject) => {
@@ -107,4 +89,4 @@ const getVideo = ({ strmID }) => new Promise((resolve, reject) => {
 })
 
 
-export default { windowLivepeer: { startLivepeer, stopLivepeer, resetLivepeer, createStream, getHlsStrmID, getVideo } }
+export default { windowLivepeer: { startLivepeer, stopLivepeer, resetLivepeer, getHlsStrmID, getVideo } }
