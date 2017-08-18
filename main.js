@@ -9073,19 +9073,6 @@ module.exports =
 	    };
 	}();
 	
-	// Quit when all windows are closed.
-	_electron.app.on('window-all-closed', function () {
-	    // On OS X it is common for applications and their menu bar
-	    // to stay active until the user quits explicitly with Cmd + Q
-	    _electronLog2.default.info('All windows closed.  Shutting down FFMpeg and Livepeer...');
-	
-	    _electron2.windowFFMpeg.stopFFMpeg().then(function () {
-	        _electron2.windowLivepeer.stopLivepeer().then(function () {
-	            _electron.app.quit();
-	        });
-	    });
-	});
-	
 	_electron.app.on('ready', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
 	    return regeneratorRuntime.wrap(function _callee2$(_context2) {
 	        while (1) {
@@ -18140,6 +18127,20 @@ module.exports =
 	        });
 	    }, 1500);
 	
+	    // Close properly
+	    var close = function close() {
+	        // On OS X it is common for applications and their menu bar
+	        // to stay active until the user quits explicitly with Cmd + Q
+	        _electronLog2.default.info('All windows closed.  Shutting down FFMpeg and Livepeer...');
+	
+	        _.windowFFMpeg.stopFFMpeg().then(function () {
+	            _.windowLivepeer.stopLivepeer().then(function () {
+	                clearInterval(checkIfRunning);
+	                mainWindow.close();
+	            });
+	        });
+	    };
+	
 	    /*
 	        Toggle the broadcaster state
 	    */
@@ -18254,9 +18255,10 @@ module.exports =
 	    */
 	
 	    _electron.ipcMain.on('close', function () {
-	        /* Remove interval to prevent sending events on a destroyed window :-) */
-	        clearInterval(checkIfRunning);
-	        mainWindow.close();
+	        return close();
+	    });
+	    app.on('will-quit', function () {
+	        return close();
 	    });
 	};
 

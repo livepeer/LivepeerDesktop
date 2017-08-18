@@ -11,7 +11,6 @@ import { main } from '../config/config';
 
 const { httpPort } = main;
 
-
 export const listener = (app, mainWindow) => {
     // Start logging
     windowLogging.setLogging();
@@ -28,6 +27,21 @@ export const listener = (app, mainWindow) => {
             mainWindow.webContents.send('peerCount', { peerCount });
         })
     }, 1500);
+
+
+    // Close properly
+    const close = () => {
+        // On OS X it is common for applications and their menu bar
+        // to stay active until the user quits explicitly with Cmd + Q
+        log.info('All windows closed.  Shutting down FFMpeg and Livepeer...')
+
+        windowFFMpeg.stopFFMpeg().then(() => {
+            windowLivepeer.stopLivepeer().then(() => {
+                clearInterval(checkIfRunning);
+                mainWindow.close();
+            })
+        });
+    }
 
     /*
         Toggle the broadcaster state
@@ -132,9 +146,6 @@ export const listener = (app, mainWindow) => {
         Close window
     */
 
-    ipcMain.on('close', () => {
-        /* Remove interval to prevent sending events on a destroyed window :-) */
-        clearInterval(checkIfRunning);
-        mainWindow.close();
-    });
+    ipcMain.on('close', () => close());
+    app.on('will-quit', () => close());
 }
