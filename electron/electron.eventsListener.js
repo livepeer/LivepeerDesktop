@@ -4,6 +4,7 @@
 */
 
 import { ipcMain } from 'electron';
+import log from 'electron-log';
 import request from 'request';
 import { windowFFMpeg, windowLivepeer, windowLogging } from './';
 import { main } from '../config/config';
@@ -19,11 +20,12 @@ export const listener = (app, mainWindow) => {
     () => {
         request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
             if (err != null) {
-                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
+                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1 });
                 return
             }
             const peerCount = JSON.parse(body).count;
-            mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount });
+            mainWindow.webContents.send('loading', { type: 'delete', key: 1 });
+            mainWindow.webContents.send('peerCount', { peerCount });
         })
     }, 1500);
 

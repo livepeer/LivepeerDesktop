@@ -21,9 +21,7 @@ export default class LoaderStore {
         if (type === 'add') {
             ghost.indexOf(key) === -1 && ghost.push(key);
         }
-        if (args.peerCount) {
-            this.peerCount = args.peerCount;
-        }
+
         this.store = ghost;
     }
 }

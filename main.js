@@ -18105,6 +18105,10 @@ module.exports =
 	
 	var _electron = __webpack_require__(330);
 	
+	var _electronLog = __webpack_require__(331);
+	
+	var _electronLog2 = _interopRequireDefault(_electronLog);
+	
 	var _request = __webpack_require__(408);
 	
 	var _request2 = _interopRequireDefault(_request);
@@ -18115,12 +18119,11 @@ module.exports =
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/*
-	    Listener to dialog bettween dependencies (LivePeer, FFMpeg, Electron) and the app
-	    @return a events received in the stores
-	*/
+	var httpPort = _config.main.httpPort; /*
+	                                          Listener to dialog bettween dependencies (LivePeer, FFMpeg, Electron) and the app
+	                                          @return a events received in the stores
+	                                      */
 	
-	var httpPort = _config.main.httpPort;
 	var listener = exports.listener = function listener(app, mainWindow) {
 	    // Start logging
 	    _.windowLogging.setLogging();
@@ -18128,11 +18131,12 @@ module.exports =
 	    var checkIfRunning = setInterval(function () {
 	        (0, _request2.default)('http://localhost:' + httpPort + '/peersCount', function (err, res, body) {
 	            if (err != null) {
-	                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1, peerCount: 0 });
+	                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1 });
 	                return;
 	            }
 	            var peerCount = JSON.parse(body).count;
-	            mainWindow.webContents.send('loading', { type: 'delete', key: 1, peerCount: peerCount });
+	            mainWindow.webContents.send('loading', { type: 'delete', key: 1 });
+	            mainWindow.webContents.send('peerCount', { peerCount: peerCount });
 	        });
 	    }, 1500);
 	

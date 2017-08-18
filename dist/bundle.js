@@ -18526,9 +18526,7 @@ module.exports =
 	        if (type === 'add') {
 	            ghost.indexOf(key) === -1 && ghost.push(key);
 	        }
-	        if (args.peerCount) {
-	            _this.peerCount = args.peerCount;
-	        }
+
 	        _this.store = ghost;
 	    };
 
@@ -18796,6 +18794,12 @@ module.exports =
 	        videoURL && _this.loader.updateLoading({ type: 'delete', key: 4 });
 	        _this.broadcasting = 0;
 	        _this.playing = videoURL || 0;
+	    });
+
+	    _electron.ipcRenderer.on('peerCount', function (e, _ref3) {
+	        var peerCount = _ref3.peerCount;
+
+	        _this.peerCount = peerCount;
 	    });
 	}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'name', [_mobx.observable], {
 	    enumerable: true,

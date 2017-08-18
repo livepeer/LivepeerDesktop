@@ -39,6 +39,10 @@ export default class VideoStore {
             this.broadcasting = 0;
             this.playing = videoURL || 0;
         });
+
+        ipcRenderer.on('peerCount', (e, { peerCount }) => {
+            this.peerCount = peerCount;
+        });
     }
 
   @action startTimer = () => {
