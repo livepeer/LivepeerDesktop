@@ -19,8 +19,9 @@ const startLivepeer = (sender) => {
             log.info('LivePeer is already running.');
         } else if (global.sharedObj.livepeerProc == null) {
             const args = [
-                '-monitor', true,
+                '-monitor',
                 '-monitorhost', 'http://viz.livepeer.org:8081/metrics'];
+
             const livepeerProc = spawn(global.livepeerPath, args)
             global.sharedObj.livepeerProc = livepeerProc;
 

@@ -17425,9 +17425,9 @@ module.exports =
 	            global.sharedObj.livepeerProc = 'local';
 	            _electronLog2.default.info('LivePeer is already running.');
 	        } else if (global.sharedObj.livepeerProc == null) {
-	            var args = [];
+	            var args = ['-monitor', '-monitorhost', 'http://viz.livepeer.org:8081/metrics'];
+	
 	            var livepeerProc = (0, _child_process.spawn)(global.livepeerPath, args);
-	            livepeerProc.stdin.write('\n\n\n\n\n');
 	            global.sharedObj.livepeerProc = livepeerProc;
 	
 	            livepeerProc.stdout.on('data', function (data) {
