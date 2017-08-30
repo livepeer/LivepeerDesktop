@@ -51,7 +51,6 @@ export default class VideoStore {
       this.timer = 0;
 
       clearTimer = setInterval(() => {
-          console.log('timer interval +1s');
           const seconds = pad(++sec % 60);
           const minutes = pad(parseInt(sec / 60, 10));
           self.timer = `${minutes}:${seconds}`;
@@ -69,7 +68,7 @@ export default class VideoStore {
       }, 200);
   }
 
-  @action toggleBroadcasting = (strmID) => {
+  @action toggleBroadcasting = () => {
       !this.broadcasting && this.loader.updateLoading({ type: 'add', key: 3 });
       ipcRenderer.send('broadcast', { fromState: this.broadcasting });
   }
