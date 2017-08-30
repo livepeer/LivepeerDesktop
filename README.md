@@ -1,4 +1,4 @@
-![alt text](https://github.com/buildog/LivepeerDesktop/raw/master/resources/github/logoWithPunchline.png)
+![alt text](https://github.com/buildog/LivepeerDesktop/raw/release/react/resources/github/logoWithPunchline.png)
 This application connects to the **[Livepeer Toynet](https://github.com/livepeer/wiki/wiki/Toynet)**, and showcases the basic functionalities of the **[Livepeer network](https://livepeer.org)**.
 
 ## Electron (Node.js)
