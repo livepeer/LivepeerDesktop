@@ -1,0 +1,37 @@
+.loader {
+    position: relative;
+    padding-bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 2000;
+    pointer-events: none;
+    font-size: 1.4em
+}
+
+
+.loader::before {
+    content:" ";
+    background: url(./static/circles.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 300px;
+    height: 80px;
+    background-size: 60px;
+    border-radius: 50%;
+}
+
+
+.loader ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    list-style: none;
+    animation: pulse 2s ease-in-out infinite alternate;
+
+}

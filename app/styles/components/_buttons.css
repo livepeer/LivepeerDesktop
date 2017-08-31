@@ -1,0 +1,64 @@
+@import '../_variables';
+
+/*
+  Input Styling Component ✏️
+  ----
+  - Stylesheet Partial, for inclusion where inputs are used
+  - Any extensions to input styling should go in this file
+*/
+
+button {
+    font-family: 'Lato';
+    font-size: inherit;
+    outline: none;
+    background: transparent;
+    border: none;
+    color: inherit;
+    color: #FFF;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button,
+button svg {
+    transition: all .12s ease-in-out;
+    will-change: all;
+}
+
+button svg { fill: #FFF }
+
+button:hover { transform: scale(1.05) }
+button:hover:active { transform: scale(.99) }
+button:hover svg { fill: $blue }
+
+button.withBorder {
+    border: 1px solid $blue;
+    padding: 5px 10px 5px 5px;
+    border-radius: 3px;
+}
+
+button.withBorder:hover {
+    border-color: transparent
+}
+
+button.withBorder-light {
+    border-color: #04050A
+}
+
+button.withBorder-light svg { fill: #04050A }
+button.withBorder-light:hover svg { fill: #04050A }
+
+.Clipboard,
+.Openexternal {
+    display: flex;
+    align-items: center;
+    font-size: .8em;
+}
+
+
+button svg {
+    width: 22px;
+    height: 22px;
+}
+
+.Openexternal-icon { margin-right: 5px }

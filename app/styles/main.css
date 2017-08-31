@@ -1,0 +1,76 @@
+/*
+  LivePeer main styling
+*/
+
+/* Imports */
+
+@import '_variables';
+@import '_helpers';
+@import '_animations';
+@import '_base';
+@import 'components/_window-controls';
+@import 'components/_window-header';
+@import 'components/_window-footer';
+@import 'components/_loader';
+@import 'components/_notifier';
+@import 'components/_inputs';
+@import 'components/_buttons';
+@import 'components/_forms';
+@import 'components/_progress';
+@import 'components/_toggler';
+@import 'components/_placeholder';
+@import 'components/_controls';
+@import 'components/_video';
+@import 'components/_modal';
+
+
+body {
+  transition: all .2s ease;
+  background-color: $background-primary;
+  font-family: Lato;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+* { box-sizing: border-box }
+
+.content-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.app.content-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.app.content-container .Placeholder { flex: 1 }
+.app.content-container .app-actions {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    height: 280px;
+    width: 100%;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(4, 4, 4, 1) 100%);
+}
+
+.app.content-container .app-actions > * {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    pointer-events: all;
+}
+
+.app.content-container .window-footer { z-index: 0 }
+
+/* states */
+.app.recording.content-container,
+.app.playing.content-container  { justify-content: flex-end }
+
+.app:not(.recording) .player-container { display: none }
