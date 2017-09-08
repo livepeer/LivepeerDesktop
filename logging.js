@@ -77,4 +77,4 @@ const sendBugReport = () => new Promise((resolve) => {
     })
 })
 
-export default { windowLogging: { setLogging, sendBugReport } }
+export default { Logging: { setLogging, sendBugReport } }

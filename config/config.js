@@ -12,7 +12,8 @@ const frameConfig = [
 ];
 const rtmpPort = '1935';
 const httpPort = '8935';
+const env = process.env.NODE_ENV;
 
 export default {
-    main: { homeDir, frameConfig, rtmpPort, httpPort, appRootDir }
+    main: { homeDir, frameConfig, rtmpPort, httpPort, appRootDir, env }
 }

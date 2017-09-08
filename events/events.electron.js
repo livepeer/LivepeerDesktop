@@ -6,14 +6,15 @@
 import { ipcMain } from 'electron';
 import log from 'electron-log';
 import request from 'request';
-import { windowFFMpeg, windowLivepeer, windowLogging } from './';
+import { apiFFMpeg, apiLivepeer } from './';
+import Logging from '../logging';
 import { main } from '../config/config';
 
 const { httpPort } = main;
 
-export const listener = (app, mainWindow) => {
+export const electronEvents = (app, mainWindow, api) => {
     // Start logging
-    windowLogging.setLogging();
+    Logging.setLogging();
 
     const checkIfRunning = setInterval(
     () => {
@@ -35,47 +36,13 @@ export const listener = (app, mainWindow) => {
         // to stay active until the user quits explicitly with Cmd + Q
         log.info('All windows closed.  Shutting down FFMpeg and Livepeer...')
 
-        windowFFMpeg.stopFFMpeg().then(() => {
-            windowLivepeer.stopLivepeer().then(() => {
+        api.stopFFMpeg().then(() => {
+            api.stopLivepeer().then(() => {
                 clearInterval(checkIfRunning);
                 mainWindow.close();
             })
         });
     }
-
-    /*
-        Toggle the broadcaster state
-    */
-    ipcMain.on('broadcast', (event, arg) => {
-        const { fromState } = arg;
-        const sender = event.sender;
-        if (!fromState) {
-            // create a stream, then startFFMpeg
-            windowFFMpeg.startFFMpeg(sender).then(() => {
-                windowLivepeer.getHlsStrmID(sender);
-            }).catch((err) => console.error(err));
-        } else if (fromState) {
-            windowFFMpeg.stopFFMpeg();
-            event.sender.send('broadcast', 0);
-        }
-    })
-
-    /*
-        Toggle the player state
-    */
-    ipcMain.on('play', (event, arg) => {
-        const { strmID } = arg;
-        if (strmID) {
-            // create a stream, then startFFMpeg
-            windowLivepeer.getVideo({ strmID }).then(() => {
-                const videoURL = `http://localhost:${httpPort}/stream/${strmID}.m3u8`;
-                event.sender.send('play', { videoURL });
-                /**/
-            }).catch((err) => event.sender.send('notifier', err));
-        } else if (!strmID) {
-            event.sender.send('play', { strmID: 0 });
-        }
-    })
 
     /*
         Send bug report
@@ -84,19 +51,6 @@ export const listener = (app, mainWindow) => {
         // windowLogging.sendBugReport()
     })
 
-    /*
-        Start LivePeer
-    */
-    ipcMain.on('startLivepeer', (event) => {
-        windowLivepeer.startLivepeer(event.sender)
-    })
-
-    /*
-        Reset LivePeer
-    */
-    ipcMain.on('resetLivepeer', (event) => {
-        windowLivepeer.resetLivepeer(event.sender)
-    })
 
     /*
         Forward loading from the app to the LoaderStore

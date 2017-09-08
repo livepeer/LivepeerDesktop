@@ -4,31 +4,19 @@
 
 import { app, BrowserWindow, Menu } from 'electron';
 import log from 'electron-log';
-import { windowMenu, windowFFMpeg, windowLivepeer, listener } from './electron';
+import api from './api';
+import { menu } from './menu';
+import { main } from './config/config';
 
-/* Handle binaries paths */
-const livepeer = require('livepeer-static').path;
-const ffmpeg = require('ffmpeg-static').path;
+import { electronEvents, ffmpegEvents, livepeerEvents } from './api';
 
-const paths = { livepeer, ffmpeg };
-const transformBinaryPath = (name) => paths[name].replace('bin', `node_modules/${name}-static/bin`).replace('app.asar', 'app.asar.unpacked')
+
+const emitter = new LivepeerEmitter({ config: main });
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null
 let menu
-
-// global shared object
-global.sharedObj = { ffmpegProc: null, livepeerProc: null };
-
-// add binaries path
-if (process.env.NODE_ENV === 'development') {
-    global.livepeerPath = paths.livepeer;
-    global.ffmpegPath = paths.ffmpeg;
-} else {
-    global.livepeerPath = transformBinaryPath('livepeer');
-    global.ffmpegPath = transformBinaryPath('ffmpeg');
-}
 
 const installExtensions = async () => {
     if (process.env.NODE_ENV === 'development') {
@@ -77,7 +65,11 @@ app.on('ready', async () => {
         mainWindow.webContents.send('fullscreen-toggled', false);
     });
 
-    listener(app, mainWindow);
+    const eventsConfig = { api, emitter: mainWindow.webContents };
+
+    electronEvents(app, mainWindow, api);
+    livepeerEvents(eventsConfig);
+    ffmpegEvents(eventsConfig);
 
     if (process.env.NODE_ENV === 'development') {
         mainWindow.openDevTools()

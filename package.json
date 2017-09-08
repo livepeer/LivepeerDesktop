@@ -109,10 +109,9 @@
     }
   },
   "dependencies": {
+    "LivepeerEmitter": "https://github.com/livepeer/LivepeerEmitter.git",
     "app-root-dir": "^1.0.2",
     "electron-log": "^2.2.7",
-    "ffmpeg-static": "^2.0.0",
-    "livepeer-static": "https://github.com/livepeer/livepeer-static.git",
     "mailgun-js": "^0.11.3",
     "mobx": "^2.4.4",
     "mobx-react": "^3.5.5",
