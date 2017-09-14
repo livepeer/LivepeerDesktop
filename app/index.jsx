@@ -26,7 +26,12 @@ const stores = {
     win: new WinStore()
 };
 
-stores.win.startLivePeer();
+
+setTimeout(() => {
+    /* let the app bootstrap and events beeing registered... */
+    stores.win.startLivePeer();
+}, 1000);
+
 
 const App = ({ children }) => (
   <Provider {...stores}>
