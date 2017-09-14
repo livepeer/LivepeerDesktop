@@ -2,7 +2,7 @@
     Electron menu
 */
 
-const Menu = {
+const ElectronMenu = {
     darwin: [{
         label: 'Electron',
         submenu: [
@@ -200,4 +200,4 @@ const Menu = {
     ]
 }
 
-export default Menu;
+export default ElectronMenu;

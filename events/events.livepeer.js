@@ -3,28 +3,26 @@
     @return a events received in the stores
 */
 
-import { ipcMain } from 'electron';
-import { apiLivepeer } from '../api';
-
-export const livepperEvents = (api, emitter) => {
+export const livepeerEvents = ({ api, emitter, listener, config }) => {
+    const { httpPort } = config;
     /*
         Start LivePeer
     */
-    ipcMain.on('startLivepeer', () => {
+    listener.on('startLivepeer', () => {
         api.startLivepeer()
     })
 
     /*
         Reset LivePeer
     */
-    ipcMain.on('resetLivepeer', () => {
+    listener.on('resetLivepeer', () => {
         api.resetLivepeer()
     })
 
     /*
         Toggle the player state
     */
-    ipcMain.on('play', (event, arg) => {
+    listener.on('play', (event, arg) => {
         const { strmID } = arg;
         if (strmID) {
             // create a stream, then startFFMpeg

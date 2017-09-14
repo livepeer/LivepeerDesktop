@@ -3,21 +3,18 @@
     @return a events received in the stores
 */
 
-import { ipcMain } from 'electron';
-import { apiLivepeer } from '../api';
 
-
-export const ffmpegEvents = (api, emitter) => {
+export const ffmpegEvents = ({ api, emitter, listener }) => {
     /*
         Toggle the broadcaster state
     */
-    ipcMain.on('broadcast', (event, arg) => {
+    listener.on('broadcast', (event, arg) => {
         const { fromState } = arg;
         const sender = event.sender;
         if (!fromState) {
                 // create a stream, then startFFMpeg
-            api.startFFMpeg(sender).then(() => {
-                api.getHlsStrmID(sender);
+            api.startFFMpeg().then(() => {
+                api.getHlsStrmID();
             }).catch((err) => console.error(err));
         } else if (fromState) {
             api.stopFFMpeg();

@@ -6,7 +6,7 @@ import log from 'electron-log';
 import shell from 'shelljs';
 import fs from 'fs';
 import os from 'os';
-import { main } from '../config/config';
+import { main } from './config/config';
 
 const { homeDir } = main;
 const ifaces = os.networkInterfaces();

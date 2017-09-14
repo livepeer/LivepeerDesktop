@@ -1,17 +1,13 @@
 /*
     Bootstrap of Electron 🚀
 */
-
-import { app, BrowserWindow, Menu } from 'electron';
-import log from 'electron-log';
-import api from './api';
-import { menu } from './menu';
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { ElectronMenu } from './menu';
+import { LivePeerAPI } from './api';
+import { electronEvents, ffmpegEvents, livepeerEvents } from './events';
 import { main } from './config/config';
 
-import { electronEvents, ffmpegEvents, livepeerEvents } from './api';
-
-
-const emitter = new LivepeerEmitter({ config: main });
+const api = new LivePeerAPI();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -51,6 +47,14 @@ app.on('ready', async () => {
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show()
         mainWindow.focus()
+
+        // Bootstrap listeners
+        const eventsConfig = { api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
+        const eventsElectron = { app, mainWindow, api, config: main, listener: ipcMain };
+
+        electronEvents(eventsElectron);
+        livepeerEvents(eventsConfig);
+        ffmpegEvents(eventsConfig);
     });
 
     mainWindow.on('closed', () => { mainWindow = null })
@@ -64,12 +68,6 @@ app.on('ready', async () => {
       // Send async message to renderer process to update the store
         mainWindow.webContents.send('fullscreen-toggled', false);
     });
-
-    const eventsConfig = { api, emitter: mainWindow.webContents };
-
-    electronEvents(app, mainWindow, api);
-    livepeerEvents(eventsConfig);
-    ffmpegEvents(eventsConfig);
 
     if (process.env.NODE_ENV === 'development') {
         mainWindow.openDevTools()
@@ -85,7 +83,7 @@ app.on('ready', async () => {
         });
     }
 
-    menu = Menu.buildFromTemplate(windowMenu);
+    menu = Menu.buildFromTemplate(ElectronMenu);
 
     if (process.platform === 'darwin') {
         Menu.setApplicationMenu(menu)

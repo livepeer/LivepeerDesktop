@@ -1,6 +1,5 @@
 import log from 'electron-log';
-import { main } from '../config/config';
 import LivepeerEmitter from 'LivepeerEmitter';
+import { main } from './config/config';
 
-const api = new LivepeerEmitter({ config: main, log });
-export default api;
+export const LivePeerAPI = () => new LivepeerEmitter({ config: main, log });

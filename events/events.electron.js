@@ -3,32 +3,21 @@
     @return a events received in the stores
 */
 
-import { ipcMain } from 'electron';
 import log from 'electron-log';
-import request from 'request';
-import { apiFFMpeg, apiLivepeer } from './';
-import Logging from '../logging';
-import { main } from '../config/config';
+import { Logging } from '../logging';
 
-const { httpPort } = main;
-
-export const electronEvents = (app, mainWindow, api) => {
+export const electronEvents = ({ app, mainWindow, api, listener }) => {
     // Start logging
     Logging.setLogging();
 
-    const checkIfRunning = setInterval(
-    () => {
-        request(`http://localhost:${httpPort}/peersCount`, (err, res, body) => {
-            if (err != null) {
-                err.code === 'ECONNREFUSED' && mainWindow.webContents.send('loading', { type: 'add', key: 1 });
-                return
-            }
-            const peerCount = JSON.parse(body).count;
-            mainWindow.webContents.send('loading', { type: 'delete', key: 1 });
-            mainWindow.webContents.send('peerCount', { peerCount });
-        })
-    }, 1500);
+    // Listen API emitter
+    api.on('loading', (args) => {
+        mainWindow.webContents.send('loading', args);
+    })
 
+    api.on('peerCount', (args) => {
+        mainWindow.webContents.send('peerCount', args);
+    })
 
     // Close properly
     const close = () => {
@@ -38,7 +27,7 @@ export const electronEvents = (app, mainWindow, api) => {
 
         api.stopFFMpeg().then(() => {
             api.stopLivepeer().then(() => {
-                clearInterval(checkIfRunning);
+                api.stopEmitter();
                 mainWindow.close();
             })
         });
@@ -47,29 +36,29 @@ export const electronEvents = (app, mainWindow, api) => {
     /*
         Send bug report
     */
-    ipcMain.on('sendBugReport', () => {
-        // windowLogging.sendBugReport()
+    listener.on('sendBugReport', () => {
+        Logging.sendBugReport()
     })
 
 
     /*
         Forward loading from the app to the LoaderStore
     */
-    ipcMain.on('loading', (event, arg) => event.sender.send('loading', arg));
+    listener.on('loading', (event, arg) => event.sender.send('loading', arg));
 
 
     /*
         Forward notifier from the app to the LoaderStore
     */
-    ipcMain.on('notifier', (event, arg) => event.sender.send('notifier', arg));
+    listener.on('notifier', (event, arg) => event.sender.send('notifier', arg));
 
 
     /*
         Refresh window
     */
 
-    ipcMain.on('criticalRefresh', () => {
-        windowLogging.sendBugReport().then(() => mainWindow.reload())
+    listener.on('criticalRefresh', () => {
+        Logging.sendBugReport().then(() => mainWindow.reload())
     });
 
 
@@ -78,7 +67,7 @@ export const electronEvents = (app, mainWindow, api) => {
     */
 
 
-    ipcMain.on('restart', () => {
+    listener.on('restart', () => {
         app.relaunch();
         app.exit();
     });
@@ -86,7 +75,7 @@ export const electronEvents = (app, mainWindow, api) => {
     /*
         Toggle the fullscreen mode
     */
-    ipcMain.on('toggle-fullscreen-editor-window', () => {
+    listener.on('toggle-fullscreen-editor-window', () => {
         mainWindow.setFullScreen(!mainWindow.isFullScreen())
     });
 
@@ -94,12 +83,12 @@ export const electronEvents = (app, mainWindow, api) => {
         Minimize window
     */
 
-    ipcMain.on('minimize', () => mainWindow.minimize());
+    listener.on('minimize', () => mainWindow.minimize());
 
     /*
         Close window
     */
 
-    ipcMain.on('close', () => close());
+    listener.on('close', () => close());
     app.on('will-quit', () => close());
 }
