@@ -5,6 +5,14 @@
 
 export const livepeerEvents = ({ api, emitter, listener, config }) => {
     const { httpPort } = config;
+
+    /*
+        Listen for API callbacks
+    */
+    api.on('notifier', (args) => {
+        emitter.send('notifier', args);
+    })
+
     /*
         Start LivePeer
     */
@@ -28,16 +36,11 @@ export const livepeerEvents = ({ api, emitter, listener, config }) => {
             // create a stream, then startFFMpeg
             api.getVideo({ strmID }).then(() => {
                 const videoURL = `http://localhost:${httpPort}/stream/${strmID}.m3u8`;
-                event.sender.send('play', { videoURL });
+                emitter.send('play', { videoURL });
                 /**/
             }).catch((err) => event.sender.send('notifier', err));
         } else if (!strmID) {
-            event.sender.send('play', { strmID: 0 });
+            emitter.send('play', { strmID: 0 });
         }
-    })
-
-
-    api.on('notifier', (args) => {
-        emitter.send('notifier', args);
     })
 }

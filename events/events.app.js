@@ -3,28 +3,14 @@
     @return a events received in the stores
 */
 
-import log from 'electron-log';
 import { Logging } from '../logging';
 
-export const electronEvents = ({ app, mainWindow, api, listener }) => {
-    // Start logging
-    Logging.setLogging();
 
-    // Listen API emitter
-    api.on('loading', (args) => {
-        mainWindow.webContents.send('loading', args);
-    })
-
-    api.on('peerCount', (args) => {
-        mainWindow.webContents.send('peerCount', args);
-    })
-
-    // Close properly
+export const appEvents = ({ app, mainWindow, api, listener, emitter }) => {
+    // Close properly process helper
     const close = () => {
         // On OS X it is common for applications and their menu bar
         // to stay active until the user quits explicitly with Cmd + Q
-        log.info('All windows closed.  Shutting down FFMpeg and Livepeer...')
-
         api.stopFFMpeg().then(() => {
             api.stopLivepeer().then(() => {
                 api.stopEmitter();
@@ -32,6 +18,24 @@ export const electronEvents = ({ app, mainWindow, api, listener }) => {
             })
         });
     }
+
+    // Start logging
+    Logging.setLogging();
+
+    /*
+        Listen for API callbacks
+    */
+    api.on('notifier', (args) => {
+        emitter.send('notifier', args);
+    })
+
+    api.on('loading', (args) => {
+        emitter.send('loading', args);
+    })
+
+    api.on('peerCount', (args) => {
+        emitter.send('peerCount', args);
+    })
 
     /*
         Send bug report
@@ -44,13 +48,13 @@ export const electronEvents = ({ app, mainWindow, api, listener }) => {
     /*
         Forward loading from the app to the LoaderStore
     */
-    listener.on('loading', (event, arg) => event.sender.send('loading', arg));
+    listener.on('loading', (event, arg) => emitter.send('loading', arg));
 
 
     /*
         Forward notifier from the app to the LoaderStore
     */
-    listener.on('notifier', (event, arg) => event.sender.send('notifier', arg));
+    listener.on('notifier', (event, arg) => emitter.send('notifier', arg));
 
 
     /*

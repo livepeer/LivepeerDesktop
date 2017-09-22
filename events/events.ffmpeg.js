@@ -6,21 +6,22 @@
 
 export const ffmpegEvents = ({ api, emitter, listener }) => {
     /*
+        Listen for API callbacks
+    */
+    api.on('broadcast', (args) => { emitter.send('broadcast', args) })
+
+    /*
         Toggle the broadcaster state
     */
     listener.on('broadcast', (event, arg) => {
         const { fromState } = arg;
-        const sender = event.sender;
         if (!fromState) {
-                // create a stream, then startFFMpeg
             api.startFFMpeg().then(() => {
                 api.getHlsStrmID();
             }).catch((err) => console.error(err));
         } else if (fromState) {
             api.stopFFMpeg();
-            event.sender.send('broadcast', 0);
+            emitter.send('broadcast', 0);
         }
     })
-
-    api.on('broadcast', (args) => { emitter.send('broadcast', args) })
 }

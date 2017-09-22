@@ -4,7 +4,7 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { ElectronMenu } from './menu';
 import { LivePeerAPI } from './api';
-import { electronEvents, ffmpegEvents, livepeerEvents } from './events';
+import { appEvents, ffmpegEvents, livepeerEvents } from './events';
 import { main } from './config/config';
 
 const api = new LivePeerAPI();
@@ -50,9 +50,9 @@ app.on('ready', async () => {
 
         // Bootstrap listeners
         const eventsConfig = { api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
-        const eventsElectron = { app, mainWindow, api, config: main, listener: ipcMain };
+        const eventsElectron = Object.assign({ app, mainWindow }, eventsConfig);
 
-        electronEvents(eventsElectron);
+        appEvents(eventsElectron);
         livepeerEvents(eventsConfig);
         ffmpegEvents(eventsConfig);
     });
