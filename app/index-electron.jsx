@@ -6,10 +6,21 @@ import { Home, Counter } from './containers';
 import { VideoStore, WinStore } from './stores';
 import './styles/main.css';
 
-const Events = require('events');
+const isDev = process.env.NODE_ENV !== 'production';
+const isWeb = process.env.WEB;
 
-const eventsHandler = new Events();
-eventsHandler.send = (eventName, arg) => eventsHandler.emit(eventName, arg)
+const eventsHandler = require('electron').ipcRenderer;
+
+/* CSS Entry point */
+
+if (module.hot && isDev && !isWeb) {
+    /* hotmodule replacement for extracted CSS */
+    const cssNode = document.getElementById('css-bundle');
+    const port = process.env.PORT || 3000;
+    cssNode.href = `http://localhost:${port}/dist/style.css?${Date.now()}`;
+    module.hot.accept();
+}
+
 
 const stores = {
     video: new VideoStore({ events: eventsHandler }),

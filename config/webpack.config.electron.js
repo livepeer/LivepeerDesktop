@@ -9,7 +9,8 @@ export default merge(baseConfig, {
 
     output: {
         path: __dirname,
-        filename: '../main.js'
+        filename: '../main.js',
+        libraryTarget: 'commonjs2'
     },
 
     plugins: [

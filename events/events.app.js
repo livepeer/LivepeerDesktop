@@ -70,7 +70,6 @@ export const appEvents = ({ app, mainWindow, api, listener, emitter }) => {
         App restart
     */
 
-
     listener.on('restart', () => {
         app.relaunch();
         app.exit();

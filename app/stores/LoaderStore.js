@@ -1,12 +1,13 @@
 import { observable } from 'mobx';
-import { ipcRenderer } from 'electron';
 
 export default class LoaderStore {
       @observable store = [2]; /* initial is video aquisition*/
 
-    constructor() {
+    constructor({ events }) {
           // listener for loading state change
-        ipcRenderer.on('loading', (e, arg) => {
+        this.events = events;
+
+        this.events.on('loading', (e, arg) => {
             this.updateLoading(arg);
         });
     }

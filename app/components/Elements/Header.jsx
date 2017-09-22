@@ -1,16 +1,16 @@
 import React from 'react'
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 import close from '../../static/traffic-light-close.svg';
 import minimize from '../../static/traffic-light-minimize.svg';
 
 
 class Header extends React.Component {
     closeWindow = (event) => {
-        ipcRenderer.send('close');
+        // ipcRenderer.send('close');
     }
 
     minimizeWindow = () => {
-        ipcRenderer.send('minimize');
+        // ipcRenderer.send('minimize');
     }
 
     render() {

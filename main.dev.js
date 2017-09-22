@@ -4,7 +4,7 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { ElectronMenu } from './menu';
 import { LivePeerAPI } from './api';
-import { appEvents, ffmpegEvents, livepeerEvents } from './events';
+import { events } from './events';
 import { main } from './config/config';
 
 const api = new LivePeerAPI();
@@ -42,19 +42,15 @@ app.on('ready', async () => {
         show: false
     })
 
-    mainWindow.loadURL(`file://${__dirname}/app/index.html`)
+    mainWindow.loadURL(`file://${__dirname}/app/index-electron.html`)
 
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show()
         mainWindow.focus()
 
         // Bootstrap listeners
-        const eventsConfig = { api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
-        const eventsElectron = Object.assign({ app, mainWindow }, eventsConfig);
-
-        appEvents(eventsElectron);
-        livepeerEvents(eventsConfig);
-        ffmpegEvents(eventsConfig);
+        const eventsConfig = { app, mainWindow, api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
+        events(eventsConfig);
     });
 
     mainWindow.on('closed', () => { mainWindow = null })

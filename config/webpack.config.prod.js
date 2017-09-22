@@ -6,8 +6,10 @@ import baseConfig from '../webpack.config.base'
 const config = merge(baseConfig, {
     devtool: 'cheap-module-source-map',
     debug: true,
-    entry: './app/index',
-
+    entry: './app/index-electron',
+    output: {
+        libraryTarget: 'commonjs2'
+    },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.DefinePlugin({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 import { observer, inject } from 'mobx-react';
 import { Video } from '../';
 
@@ -64,7 +64,7 @@ class VideoSwitcher extends React.Component {
             mediaStreamTrack.onended = () => { // for Chrome.
                 // busy camera
                 self.props.video.toggleCamera(false);
-                ipcRenderer.send('notifier', { error: 5 });
+                // ipcRenderer.send('notifier', { error: 5 });
             }
 
             this.setState({ url })

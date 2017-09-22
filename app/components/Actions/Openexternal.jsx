@@ -1,5 +1,5 @@
 import React from 'react'
-import { shell } from 'electron';
+// import { shell } from 'electron';
 import browser from '../../static/browser.svg';
 
 const defaultLabel = 'Open in browser';
@@ -11,7 +11,7 @@ class Openexternal extends React.Component {
     }
 
     openBrowser = () => {
-        shell.openExternal(this.props.url);
+        // shell.openExternal(this.props.url);
         this.setState({ openSuccess: 'Opening!' });
         setTimeout(() => this.setState({ openSuccess: defaultLabel }), 2000)
     }
