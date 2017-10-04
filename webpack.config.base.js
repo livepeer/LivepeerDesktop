@@ -34,15 +34,12 @@ export default {
     },
     plugins: [
         new CopyWebpackPlugin([
-            { from: './app/static', to: path.join(__dirname, './dist/static') },
-            { from: './app/static', to: path.join(__dirname, './web/static') },
-            { from: './app/index.html', to: path.join(__dirname, './web/index.html') }
+            { from: './app/static', to: path.join(__dirname, './dist/static') }
         ]),
         new ExtractTextPlugin('style.css', { allChunks: true }),
         new DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-                WEB: JSON.stringify(process.env.WEB)
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
             }
         })
     ]

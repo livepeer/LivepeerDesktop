@@ -1,6 +1,6 @@
 import React from 'react'
 
-// const { clipboard } = require('electron')
+const { clipboard } = require('electron')
 
 import copy from '../../static/copy.svg';
 
@@ -11,7 +11,7 @@ class Clipboard extends React.Component {
     }
 
     copyToClipboard = () => {
-        // clipboard.writeText(this.props.value);
+        clipboard.writeText(this.props.value);
         this.setState({ copySuccess: 'Copied!' });
         setTimeout(() => this.setState({ copySuccess: this.props.copyLabel || 'Copy' }), 2000)
     }

@@ -9013,7 +9013,7 @@ module.exports =
 	                        show: false
 	                    });
 	
-	                    mainWindow.loadURL('file://' + __dirname + '/app/index.html');
+	                    mainWindow.loadURL('file://' + __dirname + '/app/index-electron.html');
 	
 	                    mainWindow.webContents.on('did-finish-load', function () {
 	                        mainWindow.show();

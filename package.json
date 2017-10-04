@@ -13,7 +13,6 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./main.dev",
     "hot-server": "cross-env HOT=1 NODE_ENV=development node -r babel-register server.js",
     "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
-    "web": "cross-env WEB=1 HOT=1 node -r babel-register server.js",
     "release": "npm run dist && npm run package-all",
     "package-all": "build -mwl",
     "package-mac": "build -m",
