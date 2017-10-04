@@ -7,13 +7,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import path from 'path'
 
-let config;
-
-if (process.env.WEB) {
-    config = require('./config/webpack.config.web');
-} else {
-    config = require('./config/webpack.config.dev');
-}
+const config = require('./config/webpack.config.web');
 
 const app = express()
 const compiler = webpack(config)
