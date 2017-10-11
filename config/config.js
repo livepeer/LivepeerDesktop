@@ -11,9 +11,11 @@ const frameConfig = [
     { framerate: 60, keyint: 300 }
 ];
 const rtmpPort = '1935';
+const host = 'http://localhost';
 const httpPort = '8935';
+const monitorHost = 'http://viz.livepeer.org:8081/metrics';
 const env = process.env.NODE_ENV;
 
 export default {
-    main: { homeDir, frameConfig, rtmpPort, httpPort, appRootDir, env }
+    main: { homeDir, frameConfig, rtmpPort, host, httpPort, monitorHost, appRootDir, env }
 }
