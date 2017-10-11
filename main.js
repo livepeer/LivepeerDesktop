@@ -25234,11 +25234,13 @@ module.exports =
 	
 	var frameConfig = [{ framerate: 15, keyint: 75 }, { framerate: 30, keyint: 150 }, { framerate: 60, keyint: 300 }];
 	var rtmpPort = '1935';
+	var host = 'http://localhost';
 	var httpPort = '8935';
+	var monitorHost = 'http://viz.livepeer.org:8081/metrics';
 	var env = ("production");
 	
 	exports.default = {
-	    main: { homeDir: homeDir, frameConfig: frameConfig, rtmpPort: rtmpPort, httpPort: httpPort, appRootDir: appRootDir, env: env }
+	    main: { homeDir: homeDir, frameConfig: frameConfig, rtmpPort: rtmpPort, host: host, httpPort: httpPort, monitorHost: monitorHost, appRootDir: appRootDir, env: env }
 	};
 	module.exports = exports['default'];
 
