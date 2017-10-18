@@ -86,4 +86,8 @@ export default class VideoStore {
       this.videoSource.push(source);
   }
 
+  @action onError = (params) => {
+      this.events.send('notifier', params);
+  }
+
 }
