@@ -34,11 +34,8 @@ export const livepeerEvents = ({ api, emitter, listener, config }) => {
         const { strmID } = arg;
         if (strmID) {
             // create a stream, then startFFMpeg
-            api.getVideo({ strmID }).then(() => {
-                const videoURL = `http://localhost:${httpPort}/stream/${strmID}.m3u8`;
-                emitter.send('play', { videoURL });
-                /**/
-            }).catch((err) => event.sender.send('notifier', err));
+            const videoURL = `http://localhost:${httpPort}/stream/${strmID}.m3u8`;
+            emitter.send('play', { videoURL });
         } else if (!strmID) {
             emitter.send('play', { strmID: 0 });
         }
