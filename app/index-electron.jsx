@@ -6,14 +6,14 @@ import { Home, Counter } from './containers';
 import { VideoStore, WinStore } from './stores';
 import './styles/main.css';
 
-const isDev = process.env.NODE_ENV !== 'production';
-const isWeb = process.env.WEB;
-
 const eventsHandler = require('electron').ipcRenderer;
+
+const isDev = process.env.NODE_ENV !== 'production';
+
 
 /* CSS Entry point */
 
-if (module.hot && isDev && !isWeb) {
+if (module.hot && isDev) {
     /* hotmodule replacement for extracted CSS */
     const cssNode = document.getElementById('css-bundle');
     const port = process.env.PORT || 3000;
