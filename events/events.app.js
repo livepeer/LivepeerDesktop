@@ -11,12 +11,13 @@ export const appEvents = ({ app, mainWindow, api, listener, emitter }) => {
     const close = () => {
         // On OS X it is common for applications and their menu bar
         // to stay active until the user quits explicitly with Cmd + Q
+
+        api.removeAllListeners('notifier');
+        api.stopEmitter();
         api.stopFFMpeg().then(() => {
-            api.stopLivepeer().then(() => {
-                api.stopEmitter();
-                mainWindow.close();
-            })
-        });
+            api.stopLivepeer();
+            mainWindow.close();
+        })
     }
 
     // Start logging
