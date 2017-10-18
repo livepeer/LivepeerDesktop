@@ -32,6 +32,7 @@ node_modules
 
 # App packaged
 main.js.map
+dist
 
 # Temp folder
 tmp
