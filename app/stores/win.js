@@ -11,6 +11,8 @@ export default class WinStore {
         this.events.on('fullscreen-toggled', (e, arg) => {
             this.fullscreen = arg;
         });
+
+        this.startLivePeer();
     }
 
   @action startLivePeer = () => {

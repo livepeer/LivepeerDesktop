@@ -44,13 +44,13 @@ app.on('ready', async () => {
 
     mainWindow.loadURL(`file://${__dirname}/app/index-electron.html`)
 
+    // Bootstrap listeners
+    const eventsConfig = { app, mainWindow, api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
+    events(eventsConfig);
+
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show()
         mainWindow.focus()
-
-        // Bootstrap listeners
-        const eventsConfig = { app, mainWindow, api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
-        events(eventsConfig);
     });
 
     mainWindow.on('closed', () => { mainWindow = null })
