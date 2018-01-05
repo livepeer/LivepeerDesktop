@@ -12,11 +12,12 @@ export default merge(baseConfig, {
 
     entry: [
         `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
-        './app/index'
+        './app/index-electron'
     ],
 
     output: {
-        publicPath: `http://localhost:${port}/dist/`
+        publicPath: `http://localhost:${port}/dist/`,
+        libraryTarget: 'commonjs2'
     },
 
     plugins: [

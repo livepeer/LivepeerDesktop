@@ -2,7 +2,7 @@ import path from 'path'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const DefinePlugin = require('webpack').DefinePlugin;
 
 export default {
     module: {
@@ -25,8 +25,7 @@ export default {
     },
     output: {
         path: path.join(__dirname, './dist'),
-        filename: 'bundle.js',
-        libraryTarget: 'commonjs2'
+        filename: 'bundle.js'
     },
     resolve: {
     // root:[],
@@ -37,6 +36,11 @@ export default {
         new CopyWebpackPlugin([
             { from: './app/static', to: path.join(__dirname, './dist/static') }
         ]),
-        new ExtractTextPlugin('style.css', { allChunks: true })
+        new ExtractTextPlugin('style.css', { allChunks: true }),
+        new DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
+        })
     ]
 }

@@ -31,7 +31,9 @@ node_modules
 .DS_Store
 
 # App packaged
+main.js
 main.js.map
+dist
 
 # Temp folder
 tmp

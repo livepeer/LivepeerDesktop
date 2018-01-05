@@ -28,7 +28,7 @@ const CONSTANTS = {
             critical: true
         }
     },
-    webURL: 'https://s3.amazonaws.com/livepeer/webplayer/player.html?strmID='
+    webURL: 'http://media.livepeer.org/player.html?strmID='
 };
 
 export default CONSTANTS;

@@ -5,8 +5,9 @@ import express from 'express'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
+import path from 'path'
 
-import config from './config/webpack.config.dev'
+const config = require('./config/webpack.config.dev');
 
 const app = express()
 const compiler = webpack(config)
@@ -18,12 +19,10 @@ const devMiddleware = webpackDevMiddleware(compiler, {
 })
 
 app.use(devMiddleware)
-
 app.use(webpackHotMiddleware(compiler))
 
 const server = app.listen(PORT, 'localhost', err => {
     if (err) return console.error(err)
-
     console.log(`Listening at http://localhost:${PORT}`)
 });
 

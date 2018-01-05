@@ -1,34 +1,18 @@
 /*
     Bootstrap of Electron 🚀
 */
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { ElectronMenu } from './menu';
+import { LivePeerAPI } from './api';
+import { events } from './events';
+import { main } from './config/config';
 
-import { app, BrowserWindow, Menu } from 'electron';
-import log from 'electron-log';
-import { windowMenu, windowFFMpeg, windowLivepeer, listener } from './electron';
-
-/* Handle binaries paths */
-const livepeer = require('livepeer-static').path;
-const ffmpeg = require('ffmpeg-static').path;
-
-const paths = { livepeer, ffmpeg };
-const transformBinaryPath = (name) => paths[name].replace('bin', `node_modules/${name}-static/bin`).replace('app.asar', 'app.asar.unpacked')
+const api = new LivePeerAPI();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null
 let menu
-
-// global shared object
-global.sharedObj = { ffmpegProc: null, livepeerProc: null };
-
-// add binaries path
-if (process.env.NODE_ENV === 'development') {
-    global.livepeerPath = paths.livepeer;
-    global.ffmpegPath = paths.ffmpeg;
-} else {
-    global.livepeerPath = transformBinaryPath('livepeer');
-    global.ffmpegPath = transformBinaryPath('ffmpeg');
-}
 
 const installExtensions = async () => {
     if (process.env.NODE_ENV === 'development') {
@@ -58,7 +42,11 @@ app.on('ready', async () => {
         show: false
     })
 
-    mainWindow.loadURL(`file://${__dirname}/app/index.html`)
+    mainWindow.loadURL(`file://${__dirname}/app/index-electron.html`)
+
+    // Bootstrap listeners
+    const eventsConfig = { app, mainWindow, api, emitter: mainWindow.webContents, listener: ipcMain, config: main };
+    events(eventsConfig);
 
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show()
@@ -77,8 +65,6 @@ app.on('ready', async () => {
         mainWindow.webContents.send('fullscreen-toggled', false);
     });
 
-    listener(app, mainWindow);
-
     if (process.env.NODE_ENV === 'development') {
         mainWindow.openDevTools()
         mainWindow.webContents.on('context-menu', (e, props) => {
@@ -93,7 +79,7 @@ app.on('ready', async () => {
         });
     }
 
-    menu = Menu.buildFromTemplate(windowMenu);
+    menu = Menu.buildFromTemplate(ElectronMenu);
 
     if (process.platform === 'darwin') {
         Menu.setApplicationMenu(menu)

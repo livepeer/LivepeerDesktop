@@ -1,5 +1,4 @@
 import { observable, action } from 'mobx';
-import { ipcRenderer } from 'electron';
 import LoaderStore from './LoaderStore';
 import NotifierStore from './NotifierStore';
 import { pad } from '../helpers';
@@ -23,24 +22,25 @@ export default class VideoStore {
   @observable broadcasting = 0;
   @observable playing = 0;
 
-    constructor() {
-        this.notifier = new NotifierStore();
-        this.loader = new LoaderStore();
+    constructor({ events }) {
+        this.events = events;
+        this.notifier = new NotifierStore({ events });
+        this.loader = new LoaderStore({ events });
 
-        ipcRenderer.on('broadcast', (e, { hlsStrmID }) => {
+        this.events.on('broadcast', (e, { hlsStrmID }) => {
             this.timer = hlsStrmID ? this.startTimer() : clearInterval(clearTimer);
             this.broadcasting = hlsStrmID || 0;
 
             hlsStrmID && this.loader.updateLoading({ type: 'delete', key: 3 });
         });
 
-        ipcRenderer.on('play', (e, { videoURL }) => {
+        this.events.on('play', (e, { videoURL }) => {
             videoURL && this.loader.updateLoading({ type: 'delete', key: 4 });
             this.broadcasting = 0;
             this.playing = videoURL || 0;
         });
 
-        ipcRenderer.on('peerCount', (e, { peerCount }) => {
+        this.events.on('peerCount', (e, { peerCount }) => {
             this.peerCount = peerCount;
         });
     }
@@ -70,12 +70,12 @@ export default class VideoStore {
 
   @action toggleBroadcasting = () => {
       !this.broadcasting && this.loader.updateLoading({ type: 'add', key: 3 });
-      ipcRenderer.send('broadcast', { fromState: this.broadcasting });
+      this.events.send('broadcast', { fromState: this.broadcasting });
   }
 
   @action togglePlayer = (strmID) => {
       strmID && this.loader.updateLoading({ type: 'add', key: 4 });
-      ipcRenderer.send('play', { strmID });
+      this.events.send('play', { strmID });
   }
 
   @action setVideoUrl = (url) => {
@@ -84,6 +84,10 @@ export default class VideoStore {
 
   @action newVideoSource = (source) => {
       this.videoSource.push(source);
+  }
+
+  @action onError = (params) => {
+      this.events.send('notifier', params);
   }
 
 }

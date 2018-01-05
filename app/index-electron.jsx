@@ -2,13 +2,14 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import { Provider } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
-
 import { Home, Counter } from './containers';
 import { VideoStore, WinStore } from './stores';
 import './styles/main.css';
 
+const eventsHandler = require('electron').ipcRenderer;
+
 const isDev = process.env.NODE_ENV !== 'production';
+
 
 /* CSS Entry point */
 
@@ -22,11 +23,9 @@ if (module.hot && isDev) {
 
 
 const stores = {
-    video: new VideoStore(),
-    win: new WinStore()
+    video: new VideoStore({ events: eventsHandler }),
+    win: new WinStore({ events: eventsHandler })
 };
-
-stores.win.startLivePeer();
 
 const App = ({ children }) => (
   <Provider {...stores}>

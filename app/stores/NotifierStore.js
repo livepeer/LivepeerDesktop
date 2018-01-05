@@ -1,14 +1,14 @@
 import { observable } from 'mobx';
-import { ipcRenderer } from 'electron';
 import CONSTANTS from '../constants';
 
 export default class NotifierStore {
   @observable errors = [];
 
 
-    constructor() {
+    constructor({ events }) {
       // listener for loading state change
-        ipcRenderer.on('notifier', (e, args) => {
+        this.events = events;
+        events.on('notifier', (e, args) => {
             if (args.error) {
                 this.updateErrors(args);
             }
@@ -23,6 +23,7 @@ export default class NotifierStore {
     }
 
     clearAllErrors = () => {
+        const self = this;
         this.errors.forEach((e) => {
           /*
             Check if there is some loading state linked with the currents errors stack
@@ -30,7 +31,7 @@ export default class NotifierStore {
           */
             if (CONSTANTS.error[e].loadingKeys) {
                 CONSTANTS.error[e].loadingKeys.forEach((loadingKey) => {
-                    ipcRenderer.send('loading', { type: 'delete', key: loadingKey });
+                    self.events.send('loading', { type: 'delete', key: loadingKey });
                 });
             }
         });
@@ -39,7 +40,7 @@ export default class NotifierStore {
     }
 
     refreshApp = () => {
-        ipcRenderer.send('criticalRefresh');
+        this.events.send('criticalRefresh');
     }
 
 

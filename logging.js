@@ -6,7 +6,7 @@ import log from 'electron-log';
 import shell from 'shelljs';
 import fs from 'fs';
 import os from 'os';
-import { main } from '../config/config';
+import { main } from './config/config';
 
 const { homeDir } = main;
 const ifaces = os.networkInterfaces();
@@ -77,4 +77,4 @@ const sendBugReport = () => new Promise((resolve) => {
     })
 })
 
-export default { windowLogging: { setLogging, sendBugReport } }
+export default { Logging: { setLogging, sendBugReport } }
